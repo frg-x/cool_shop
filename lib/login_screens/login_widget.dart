@@ -1,8 +1,9 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_literals_to_create_immutables
 
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/login_screens/cubit/cubit/login_cubit.dart';
+import 'package:cool_shop/login_screens/cubit/login_cubit.dart';
 import 'package:cool_shop/login_screens/forgot_password_screen.dart';
+import 'package:cool_shop/tabs_screen.dart';
 import 'package:cool_shop/widgets/big_button.dart';
 import 'package:cool_shop/widgets/big_text_field.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,8 @@ class _LoginState extends State<Login> {
             BigButton(
               text: 'LOGIN',
               onPress: context.read<LoginCubit>().verifiedTwo
-                  ? () => print('Navigate to MainScreen()')
+                  ? () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (ctx) => const TabsScreen()))
                   : null,
             ),
           ],

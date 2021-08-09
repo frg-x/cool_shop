@@ -1,5 +1,5 @@
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/login_screens/cubit/cubit/login_cubit.dart';
+import 'package:cool_shop/login_screens/cubit/login_cubit.dart';
 import 'package:cool_shop/widgets/big_button.dart';
 import 'package:cool_shop/widgets/big_text_field.dart';
 import 'package:flutter/material.dart';

@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/login_screens/cubit/login_cubit.dart';
 import 'package:cool_shop/widgets/big_button.dart';
 import 'package:cool_shop/widgets/big_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'cubit/cubit/login_cubit.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -41,7 +39,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                //mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 10),
