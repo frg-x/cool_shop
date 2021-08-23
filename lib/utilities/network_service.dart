@@ -52,9 +52,9 @@ class NetworkService {
             print('Trying to update refreshToken: #$tokenUpdateRetries');
             if (tokenUpdateRetries == tokenUpdateLimit) {
               //SecureStorageService.deleteAll();
-              throw Exception(err.response!.statusCode);
+              //throw Exception(err.response!.statusCode);
               //print(err);
-              //return handler.reject(err);
+              return handler.reject(err);
             } else {
               Response updatedTokens = await _dio.post(
                   GlobalUrls.refreshTokenEndpoint,
@@ -92,8 +92,6 @@ class NetworkService {
                   queryParameters: err.requestOptions.queryParameters,
                 );
                 return handler.resolve(cloneReq);
-              } else if (tokenUpdateRetries == tokenUpdateLimit) {
-                return handler.reject(err);
               }
             }
           } else {
