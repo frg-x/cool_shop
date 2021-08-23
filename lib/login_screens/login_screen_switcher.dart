@@ -3,7 +3,7 @@ import 'package:cool_shop/login_screens/login_screen_navbar.dart';
 import 'package:cool_shop/login_screens/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'login_widget.dart';
+import 'sign_in_widget.dart';
 
 class LoginScreenSwitcher extends StatefulWidget {
   const LoginScreenSwitcher({Key? key}) : super(key: key);
@@ -22,8 +22,8 @@ class _LoginScreenSwitcherState extends State<LoginScreenSwitcher> {
   }
 
   List<Widget> get startPage => [
+        const SignIn(),
         SignUp(callback: selectPage),
-        const Login(),
       ];
 
   @override
@@ -34,16 +34,13 @@ class _LoginScreenSwitcherState extends State<LoginScreenSwitcher> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      //! old file without Scaffold
-      child: Scaffold(
-        backgroundColor: AllColors.appBackgroundColor,
-        bottomNavigationBar: const LoginScreenNavBar(),
-        body: BodySwitcher(
-          callback: selectPage,
-          currentPageIndex: currentPageIndex,
-          renderLoginWidget: startPage[currentPageIndex],
-        ),
+    return Scaffold(
+      backgroundColor: AllColors.appBackgroundColor,
+      bottomNavigationBar: const LoginScreenNavBar(),
+      body: BodySwitcher(
+        callback: selectPage,
+        currentPageIndex: currentPageIndex,
+        renderLoginWidget: startPage[currentPageIndex],
       ),
     );
   }
@@ -64,14 +61,38 @@ class BodySwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //! old value padding: const EdgeInsets.fromLTRB(14, 106, 14, 0),
-      padding: const EdgeInsets.fromLTRB(14, 46, 14, 0),
+      padding: const EdgeInsets.fromLTRB(14, 106, 14, 0),
+      //! padding: const EdgeInsets.fromLTRB(14, 46, 14, 0),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Spacer(flex: 1),
+              GestureDetector(
+                onTap: () => callback(PageTypes.signIn.index),
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: currentPageIndex == PageTypes.signIn.index
+                          ? const BorderSide(
+                              color: AllColors.primary,
+                              width: 2.0,
+                              style: BorderStyle.solid,
+                            )
+                          : BorderSide.none,
+                    ),
+                  ),
+                  child: Text(
+                    'Sign In',
+                    style: currentPageIndex == PageTypes.signIn.index
+                        ? AllStyles.headlineActive
+                        : AllStyles.headlineNotActive,
+                  ),
+                ),
+              ),
+              const Spacer(flex: 2),
               GestureDetector(
                 onTap: () => callback(PageTypes.signUp.index),
                 child: Container(
@@ -88,32 +109,8 @@ class BodySwitcher extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Sign up',
+                    'Sign Up',
                     style: currentPageIndex == PageTypes.signUp.index
-                        ? AllStyles.headlineActive
-                        : AllStyles.headlineNotActive,
-                  ),
-                ),
-              ),
-              const Spacer(flex: 2),
-              GestureDetector(
-                onTap: () => callback(PageTypes.login.index),
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: currentPageIndex == PageTypes.login.index
-                          ? const BorderSide(
-                              color: AllColors.primary,
-                              width: 2.0,
-                              style: BorderStyle.solid,
-                            )
-                          : BorderSide.none,
-                    ),
-                  ),
-                  child: Text(
-                    'Login',
-                    style: currentPageIndex == PageTypes.login.index
                         ? AllStyles.headlineActive
                         : AllStyles.headlineNotActive,
                   ),

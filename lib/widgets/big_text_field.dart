@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/login_screens/login_widget.dart';
+import 'package:cool_shop/login_screens/sign_in_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,6 +62,7 @@ class BigTextField extends StatelessWidget {
           child: TextFormField(
             controller: _controller,
             onChanged: (value) => onChanged(value),
+            onFieldSubmitted: (value) => onChanged(value),
             keyboardType: _textInputType,
             obscureText:
                 _textInputType == TextInputType.visiblePassword ? true : false,
@@ -109,12 +110,21 @@ class BigTextField extends StatelessWidget {
           ),
         ),
         Positioned(
-            left: 18,
-            top: 16,
-            child: Text(
-              labelText,
-              style: AllStyles.bigTextFieldLabel,
-            ))
+          left: 18,
+          top: 16,
+          child: Text(
+            labelText,
+            style: AllStyles.bigTextFieldLabel,
+          ),
+        ),
+        // Positioned(
+        //   left: 18,
+        //   top: 80,
+        //   child: Text(
+        //     errorText,
+        //     style: AllStyles.bigTextFieldError,
+        //   ),
+        // ),
       ],
     );
   }

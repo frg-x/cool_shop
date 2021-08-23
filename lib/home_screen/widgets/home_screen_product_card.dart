@@ -7,39 +7,39 @@ import 'package:cool_shop/widgets/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class MainScreenProductCard extends StatefulWidget {
-  const MainScreenProductCard({
+class HomeScreenProductCard extends StatefulWidget {
+  const HomeScreenProductCard({
     Key? key,
     required this.imageURL,
-    required this.vendor,
+    required this.collection,
     required this.title,
     required this.price,
-    required this.priceDiscounted,
+    required this.discount,
     required this.rating,
-    required this.rewiewsNumber,
+    required this.ratingCount,
   }) : super(key: key);
 
   final String imageURL;
-  final String vendor;
+  final String collection;
   final String title;
   final double price;
-  final double priceDiscounted;
+  final double discount;
   final int rating;
-  final int rewiewsNumber;
+  final int ratingCount;
 
   @override
-  State<MainScreenProductCard> createState() => _MainScreenProductCardState();
+  State<HomeScreenProductCard> createState() => _HomeScreenProductCardState();
 }
 
-class _MainScreenProductCardState extends State<MainScreenProductCard> {
+class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
   bool isFav = false;
 
   @override
   Widget build(BuildContext context) {
-    final String percentText =
-        ((1 - widget.priceDiscounted / widget.price) * 100)
-            .floor()
-            .toStringAsFixed(0);
+    final String discountText =
+        (widget.discount * 100).floor().toStringAsFixed(0);
+    final String discountPrice =
+        (widget.price * (1 - widget.discount)).floor().toStringAsFixed(0);
     return Stack(children: [
       Container(
         width: 150,
@@ -67,7 +67,7 @@ class _MainScreenProductCardState extends State<MainScreenProductCard> {
                 Positioned(
                   left: 9,
                   top: 8,
-                  child: DiscountLabel(percentText: "-$percentText%"),
+                  child: DiscountLabel(percentText: "-$discountText%"),
                 ),
               ],
             ),
@@ -80,12 +80,12 @@ class _MainScreenProductCardState extends State<MainScreenProductCard> {
                 children: [
                   RatingStars(count: widget.rating),
                   const SizedBox(width: 3),
-                  Text('(${widget.rewiewsNumber})', style: AllStyles.gray10),
+                  Text('(${widget.ratingCount})', style: AllStyles.gray10),
                 ],
               ),
             ),
             const SizedBox(height: 7),
-            Text(widget.vendor, style: AllStyles.gray11),
+            Text(widget.collection, style: AllStyles.gray11),
             const SizedBox(height: 7),
             Text(
               widget.title,
@@ -102,7 +102,7 @@ class _MainScreenProductCardState extends State<MainScreenProductCard> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  '${widget.priceDiscounted.toStringAsFixed(0)}\$',
+                  '$discountPrice\$',
                   style: AllStyles.primary14w400,
                 ),
               ],

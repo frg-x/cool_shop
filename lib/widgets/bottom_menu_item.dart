@@ -1,19 +1,19 @@
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BottomMenuItem extends StatefulWidget {
   const BottomMenuItem({
     Key? key,
     required this.assetName,
-    required this.callback,
     required this.title,
     required this.screenNumber,
     required this.activeScreen,
   }) : super(key: key);
 
   final String assetName;
-  final Function callback;
   final String title;
   final int screenNumber;
   final int activeScreen;
@@ -26,9 +26,9 @@ class _BottomMenuItemState extends State<BottomMenuItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.callback(widget.screenNumber);
-      },
+      onTap: () => context
+          .read<TabSwitchingCubit>()
+          .setActiveTabNumber(widget.screenNumber),
       child: SizedBox(
         //! old value width: 50,
         child: Column(

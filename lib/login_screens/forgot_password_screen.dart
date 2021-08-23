@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/login_screens/cubit/login_cubit.dart';
+import 'package:cool_shop/cubit/login/login_cubit.dart';
 import 'package:cool_shop/widgets/big_button.dart';
 import 'package:cool_shop/widgets/big_text_field.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const SizedBox(height: 16),
               BlocBuilder<LoginCubit, LoginState>(
                 builder: (context, state) {
-                  if (state is LoginData) {
+                  if (state is LoginStatus) {
                     email = state.data['email'];
                     password = state.data['password'];
                     isEmailValid = state.data['isEmailValid'];
@@ -82,9 +82,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       const SizedBox(height: 70),
                       BigButton(
                         text: 'SEND',
-                        onPress: context.read<LoginCubit>().verifiedOne
-                            ? () => print('SEND')
-                            : null,
+                        onPress: () => print('SEND'),
                       ),
                     ],
                   );

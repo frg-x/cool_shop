@@ -3,11 +3,8 @@ import 'package:cool_shop/widgets/bottom_menu_item.dart';
 import 'package:flutter/material.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
-  const MyBottomNavigationBar(
-      {Key? key, required this.callback, required this.activeScreen})
+  const MyBottomNavigationBar({Key? key, required this.activeScreen})
       : super(key: key);
-
-  final Function callback;
   final int activeScreen;
 
   @override
@@ -18,13 +15,15 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          blurRadius: 20,
-          color: AllColors.black.withOpacity(0.06),
-          offset: const Offset(0, -4),
-        ),
-      ]),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 20,
+            color: AllColors.black.withOpacity(0.06),
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(12),
@@ -38,35 +37,30 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               BottomMenuItem(
-                callback: widget.callback,
                 screenNumber: 0,
                 title: 'Home',
                 assetName: 'home',
                 activeScreen: widget.activeScreen,
               ),
               BottomMenuItem(
-                callback: widget.callback,
                 screenNumber: 1,
                 title: 'Shop',
                 assetName: 'shop',
                 activeScreen: widget.activeScreen,
               ),
               BottomMenuItem(
-                callback: widget.callback,
                 screenNumber: 2,
                 title: 'Bag',
                 assetName: 'bag',
                 activeScreen: widget.activeScreen,
               ),
               BottomMenuItem(
-                callback: widget.callback,
                 screenNumber: 3,
                 title: 'Favorites',
                 assetName: 'fav',
                 activeScreen: widget.activeScreen,
               ),
               BottomMenuItem(
-                callback: widget.callback,
                 screenNumber: 4,
                 title: 'Profile',
                 assetName: 'profile',

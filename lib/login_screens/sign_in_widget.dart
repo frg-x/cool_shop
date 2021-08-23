@@ -1,35 +1,53 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_literals_to_create_immutables
 
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/login_screens/cubit/login_cubit.dart';
+import 'package:cool_shop/cubit/login/login_cubit.dart';
 import 'package:cool_shop/login_screens/forgot_password_screen.dart';
-import 'package:cool_shop/tabs_screen.dart';
 import 'package:cool_shop/widgets/big_button.dart';
 import 'package:cool_shop/widgets/big_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Login extends StatefulWidget {
-  const Login({
+class SignIn extends StatefulWidget {
+  const SignIn({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _LoginState extends State<Login> {
+class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
   bool isEmailValid = false;
   bool isPasswordValid = false;
+  bool isLogged = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
+      // listener: (context, state) {
+      //   if (state is LoginStatus) {
+      //     if (state.messageType == MessageType.error) {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         SnackBar(
+      //           content: Text(
+      //             state.message,
+      //             softWrap: true,
+      //           ),
+      //           behavior: SnackBarBehavior.floating,
+      //           margin: const EdgeInsets.fromLTRB(20, 0, 20, 75),
+      //           shape: RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(8)),
+      //         ),
+      //       );
+      //     }
+      //   }
+      // },
       builder: (context, state) {
-        if (state is LoginData) {
+        if (state is LoginStatus) {
           email = state.data['email'];
           password = state.data['password'];
           isEmailValid = state.data['isEmailValid'];
@@ -84,8 +102,9 @@ class _LoginState extends State<Login> {
             BigButton(
               text: 'LOGIN',
               onPress: context.read<LoginCubit>().verifiedTwo
-                  ? () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) => const TabsScreen()))
+                  ? () {
+                      context.read<LoginCubit>().signInWithEmailPassword();
+                    }
                   : null,
             ),
           ],
