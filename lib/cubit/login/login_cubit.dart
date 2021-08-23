@@ -107,7 +107,6 @@ class LoginCubit extends Cubit<LoginState> {
         }
       } else {
         signOutYouWasHacked();
-        isRunning = false;
         print('Signed out by protecting system');
       }
       await Future.delayed(const Duration(seconds: 5));
@@ -127,6 +126,7 @@ class LoginCubit extends Cubit<LoginState> {
       verifiedTwo = false;
       verifiedThree = false;
       isLogged = null;
+      isRunning = false;
       data.addAll({
         'name': userName,
         'email': email,
@@ -142,30 +142,30 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void signOut() async {
-    SecureStorageService.deleteAll().then((_) {
-      userId = '';
-      userName = '';
-      email = '';
-      password = '';
-      isNameValid = false;
-      isEmailValid = false;
-      isPasswordValid = false;
-      verifiedOne = false;
-      verifiedTwo = false;
-      verifiedThree = false;
-      isLogged = false;
-      isRunning = true;
-      data.addAll({
-        'name': userName,
-        'email': email,
-        'password': password,
-        'isNameValid': isNameValid,
-        'isEmailValid': isEmailValid,
-        'isPasswordValid': isPasswordValid,
-        'isLogged': isLogged,
-      });
-      emit(LoginStatus(data, MessageType.error, 'You\'ve signed out'));
+    SecureStorageService.deleteAll();
+    SecureStorageService.write(SecureStorageKey.isLogged, 'false');
+    userId = '';
+    userName = '';
+    email = '';
+    password = '';
+    isNameValid = false;
+    isEmailValid = false;
+    isPasswordValid = false;
+    verifiedOne = false;
+    verifiedTwo = false;
+    verifiedThree = false;
+    isLogged = false;
+    isRunning = true;
+    data.addAll({
+      'name': userName,
+      'email': email,
+      'password': password,
+      'isNameValid': isNameValid,
+      'isEmailValid': isEmailValid,
+      'isPasswordValid': isPasswordValid,
+      'isLogged': isLogged,
     });
+    emit(LoginStatus(data, MessageType.error, 'You\'ve signed out'));
   }
 
   // void signOut() async {

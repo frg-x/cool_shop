@@ -51,7 +51,7 @@ class NetworkService {
             tokenUpdateRetries++;
             print('Trying to update refreshToken: #$tokenUpdateRetries');
             if (tokenUpdateRetries == tokenUpdateLimit) {
-              //SecureStorageService.deleteAll();
+              SecureStorageService.deleteAll();
               //throw Exception(err.response!.statusCode);
               //print(err);
               return handler.reject(err);
@@ -132,10 +132,13 @@ class NetworkService {
       if (response.statusCode == 200) {
         checkedAccessToken = response.data['accessToken'] ?? '';
         checkedRefreshToken = response.data['refreshToken'] ?? '';
-        DateTime now = DateTime.now();
-        String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
-        print('$formattedDate refreshToken: $checkedRefreshToken');
-        print('$formattedDate accessToken: $checkedAccessToken');
+        if (checkedAccessToken.isNotEmpty && checkedRefreshToken.isNotEmpty) {
+          DateTime now = DateTime.now();
+          String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+          print(
+              '$formattedDate Received new refreshToken: $checkedRefreshToken');
+          print('$formattedDate Received new accessToken: $checkedAccessToken');
+        }
         return response.data;
       } else {
         return null;
