@@ -27,10 +27,10 @@ class LoginCubit extends Cubit<LoginState> {
   bool verifiedTwo = false;
   bool verifiedThree = false;
 
-  bool isLogged = false;
+  bool? isLogged = false;
   final Map<String, dynamic> data;
 
-  bool normalInitalLoginScreen = true;
+  bool isRunning = true;
 
   void validateFields() {
     isNameValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!-_]+").hasMatch(userName) &&
@@ -91,19 +91,24 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> getLoginState() async {
-    while (true) {
-      bool isLogged = toBoolean(
-          await SecureStorageService.read(SecureStorageKey.isLogged) ??
-              "false");
-      if (!isLogged) {
-        if (!normalInitalLoginScreen) {
-          signOutYouWasHacked();
-          print('Signed out by protecting system');
+    while (isRunning) {
+      var tmpIsLogged =
+          await SecureStorageService.read(SecureStorageKey.isLogged);
+      if (tmpIsLogged != null) {
+        isLogged = toBoolean(tmpIsLogged);
+      } else {
+        isLogged = null;
+      }
+      if (isLogged != null) {
+        if (isLogged!) {
+          print('Logged!');
         } else {
           print('Signed out by user');
         }
       } else {
-        print('Logged!');
+        signOutYouWasHacked();
+        isRunning = false;
+        print('Signed out by protecting system');
       }
       await Future.delayed(const Duration(seconds: 5));
     }
@@ -121,7 +126,7 @@ class LoginCubit extends Cubit<LoginState> {
       verifiedOne = false;
       verifiedTwo = false;
       verifiedThree = false;
-      isLogged = false;
+      isLogged = null;
       data.addAll({
         'name': userName,
         'email': email,
@@ -149,7 +154,7 @@ class LoginCubit extends Cubit<LoginState> {
       verifiedTwo = false;
       verifiedThree = false;
       isLogged = false;
-      normalInitalLoginScreen = true;
+      isRunning = true;
       data.addAll({
         'name': userName,
         'email': email,
@@ -187,7 +192,6 @@ class LoginCubit extends Cubit<LoginState> {
           userId = responseData['userId'];
           userName = responseData['userName'];
           isLogged = true;
-          normalInitalLoginScreen = false;
           // await SecureStorageService.write(SecureStorageKey.email, email);
           // await SecureStorageService.write(SecureStorageKey.password, password);
           await SecureStorageService.write(

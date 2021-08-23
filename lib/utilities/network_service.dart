@@ -12,7 +12,7 @@ class NetworkService {
   String checkedRefreshToken = '';
 
   int tokenUpdateRetries = 0;
-  int tokenUpdateLimit = 10;
+  int tokenUpdateLimit = 5;
 
   NetworkService() {
     SecureStorageService.readAll().then((allKeys) {
@@ -47,15 +47,14 @@ class NetworkService {
         },
         onError: (err, handler) async {
           //print(err);
-          if (err.type == DioErrorType.connectTimeout) {
-            //return Future.error(Exception(err.response));
-            throw Exception("Connection Timeout Exception");
-          }
           if (err.response?.statusCode == 401) {
             tokenUpdateRetries++;
+            print('Trying to update refreshToken: #$tokenUpdateRetries');
             if (tokenUpdateRetries == tokenUpdateLimit) {
-              SecureStorageService.deleteAll();
-              throw Exception('User was hacked');
+              //SecureStorageService.deleteAll();
+              throw Exception(err.response!.statusCode);
+              //print(err);
+              //return handler.reject(err);
             } else {
               Response updatedTokens = await _dio.post(
                   GlobalUrls.refreshTokenEndpoint,
@@ -64,13 +63,16 @@ class NetworkService {
                 checkedAccessToken = updatedTokens.data['accessToken'] ?? '';
                 checkedRefreshToken = updatedTokens.data['refreshToken'] ?? '';
 
-                DateTime now = DateTime.now();
-                String formattedDate =
-                    DateFormat('yyyy-MM-dd – kk:mm').format(now);
-                print(
-                    '$formattedDate Received new refreshToken: $checkedRefreshToken');
-                print(
-                    '$formattedDate Received new accessToken: $checkedAccessToken');
+                if (checkedAccessToken.isNotEmpty &&
+                    checkedRefreshToken.isNotEmpty) {
+                  DateTime now = DateTime.now();
+                  String formattedDate =
+                      DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                  print(
+                      '$formattedDate Received new refreshToken: $checkedRefreshToken');
+                  print(
+                      '$formattedDate Received new accessToken: $checkedAccessToken');
+                }
 
                 await SecureStorageService.write(
                     SecureStorageKey.accessToken, checkedAccessToken);
@@ -90,12 +92,13 @@ class NetworkService {
                   queryParameters: err.requestOptions.queryParameters,
                 );
                 return handler.resolve(cloneReq);
+              } else if (tokenUpdateRetries == tokenUpdateLimit) {
+                return handler.reject(err);
               }
             }
           } else {
             return handler.reject(err);
           }
-          print('++++++++++++++++++++$tokenUpdateRetries+++++++++++++++++++');
         },
       ),
     );
@@ -141,7 +144,9 @@ class NetworkService {
       }
     } on DioError catch (e) {
       //throw Exception('${e.response!.statusCode} ${e.response!.statusMessage!}');
-      throw Exception(e.response);
+      throw Exception(e.message);
+    } catch (err) {
+      throw Exception(err); // Catches all types of `Exception` and `Error`.
     }
   }
 
@@ -165,9 +170,15 @@ class NetworkService {
         throw Exception(response.statusMessage);
       }
       return response.data;
-    } on DioError catch (e) {
+    } on DioError catch (err) {
       //throw Exception('${e.response!.statusCode} ${e.response!.statusMessage!}');
-      throw Exception(e.response);
+      if (err.type == DioErrorType.connectTimeout) {
+        throw Exception("Connection Timeout Exception");
+      } else {
+        throw Exception(err.response);
+      }
+    } catch (e) {
+      //throw Exception(e);
     }
   }
 }
