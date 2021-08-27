@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
-import 'package:cool_shop/categories_screen/sub_sub_category_screen.dart';
+import 'package:cool_shop/categories_screen/sub_category_2_screen.dart';
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/models/sub_category.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +11,11 @@ class SubCategoryScreen extends StatelessWidget {
   const SubCategoryScreen({
     Key? key,
     required this.id,
-    required this.navigatorKey,
   }) : super(key: key);
 
   final int id;
-  final GlobalKey<NavigatorState> navigatorKey;
 
-  List<Widget> getContent(int id, BuildContext context) {
+  List<Widget> renderCategories(int id, BuildContext context) {
     final category = categories.firstWhere((element) => element.id == id);
     final subCategories = category.subCategories;
     List<Widget> list = [];
@@ -29,18 +27,12 @@ class SubCategoryScreen extends StatelessWidget {
           CategoryBigCard(
             image: (element as SubCategory).image!,
             title: (element.title),
-            onPress: () => navigatorKey.currentState!.push(
+            onPress: () => CONSTANTS.categoryNavigatorKey.currentState!.push(
               MaterialPageRoute(
-                builder: (context) => const SubSubCategoryScreen(),
+                builder: (context) => SubCategory_2_Screen(id: id),
                 settings: RouteSettings(arguments: element.subSubCategories),
               ),
             ),
-            // onPress: () => Navigator.of(context).pushReplacement(
-            //   MaterialPageRoute(
-            //     builder: (ctx) => const SubSubCategoryScreen(),
-            //     settings: RouteSettings(arguments: element.subSubCategories),
-            //   ),
-            // ),
           ),
         );
       }
@@ -53,7 +45,7 @@ class SubCategoryScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        children: getContent(id, context),
+        children: renderCategories(id, context),
       ),
     );
   }

@@ -15,7 +15,6 @@ class VerifyAuthStatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isLogged;
-    //context.read<LoginCubit>().getLoginState();
     //print('VerifyAuthStatusScreen Builded!');
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
@@ -24,10 +23,10 @@ class VerifyAuthStatusScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        print(state);
         if (state is LoginStatus) {
           isLogged = state.data['isLogged'] ?? false;
           if (isLogged) {
-            //return const TestWidget();
             return const TabsScreen();
           } else {
             return const LoginScreenSwitcher();
@@ -39,26 +38,6 @@ class VerifyAuthStatusScreen extends StatelessWidget {
           );
         }
       },
-    );
-  }
-}
-
-class TestWidget extends StatelessWidget {
-  const TestWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Container(
-        padding: const EdgeInsets.all(20),
-        child: ElevatedButton(
-          child: const Text('SignOut'),
-          onPressed: () => context.read<LoginCubit>().signOut(),
-        ),
-      )),
     );
   }
 }

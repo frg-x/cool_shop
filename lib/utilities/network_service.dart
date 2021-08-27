@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:cool_shop/cubit/login/login_cubit.dart';
+import 'package:cool_shop/main.dart';
 import 'package:intl/intl.dart';
 
 import 'package:cool_shop/constants.dart';
@@ -12,7 +14,7 @@ class NetworkService {
   String checkedRefreshToken = '';
 
   int tokenUpdateRetries = 0;
-  int tokenUpdateLimit = 5;
+  int tokenUpdateLimit = 3;
 
   NetworkService() {
     SecureStorageService.readAll().then((allKeys) {
@@ -51,14 +53,13 @@ class NetworkService {
             tokenUpdateRetries++;
             print('Trying to update refreshToken: #$tokenUpdateRetries');
             if (tokenUpdateRetries == tokenUpdateLimit) {
-              SecureStorageService.deleteAll();
-              //throw Exception(err.response!.statusCode);
-              //print(err);
-              return handler.reject(err);
-            } else {
-              Response updatedTokens = await _dio.post(
-                  GlobalUrls.refreshTokenEndpoint,
-                  data: jsonEncode({'refreshToken': checkedRefreshToken}));
+              getIt<LoginCubit>().signOutYouWasHacked();
+              return;
+            }
+            _dio
+                .post(GlobalUrls.refreshTokenEndpoint,
+                    data: jsonEncode({'refreshToken': checkedRefreshToken}))
+                .then((updatedTokens) async {
               if (updatedTokens.statusCode == 200) {
                 checkedAccessToken = updatedTokens.data['accessToken'] ?? '';
                 checkedRefreshToken = updatedTokens.data['refreshToken'] ?? '';
@@ -74,12 +75,13 @@ class NetworkService {
                       '$formattedDate Received new accessToken: $checkedAccessToken');
                 }
 
-                await SecureStorageService.write(
+                SecureStorageService.write(
                     SecureStorageKey.accessToken, checkedAccessToken);
-                await SecureStorageService.write(
+                SecureStorageService.write(
                     SecureStorageKey.refreshToken, checkedRefreshToken);
                 err.requestOptions.headers['Authorization'] =
                     'Bearer $checkedAccessToken';
+
                 //create request with new access token
                 final opts = Options(
                   method: err.requestOptions.method,
@@ -93,7 +95,7 @@ class NetworkService {
                 );
                 return handler.resolve(cloneReq);
               }
-            }
+            });
           } else {
             return handler.reject(err);
           }
@@ -174,12 +176,10 @@ class NetworkService {
     } on DioError catch (err) {
       //throw Exception('${e.response!.statusCode} ${e.response!.statusMessage!}');
       if (err.type == DioErrorType.connectTimeout) {
-        throw Exception("Connection Timeout Exception");
+        throw Exception("Connection timeout");
       } else {
-        throw Exception(err.response);
+        throw err.response!.data;
       }
-    } catch (e) {
-      //throw Exception(e);
     }
   }
 }

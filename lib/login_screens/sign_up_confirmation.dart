@@ -55,11 +55,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Row(
                       children: [
                         const Text(
-                          'Reset ',
+                          'Verify ',
                           style: AllStyles.headlineNotActive,
                         ),
                         const Text(
-                          'Password',
+                          'Email',
                           style: AllStyles.headlineActive,
                         ),
                       ],

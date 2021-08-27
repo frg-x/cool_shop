@@ -9,11 +9,19 @@ import 'package:flutter/widgets.dart';
 // ignore: unused_import
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:get_it/get_it.dart';
 import 'verify_auth_status_screen.dart';
 
+GetIt getIt = GetIt.instance;
+
 void main() {
+  registerDependencies();
   runApp(const CoolShop());
+}
+
+void registerDependencies() {
+  //getIt.registerFactory<LoginCubit>(() => LoginCubit({}));
+  getIt.registerLazySingleton<LoginCubit>(() => LoginCubit({}));
 }
 
 class CoolShop extends StatelessWidget {
@@ -24,7 +32,8 @@ class CoolShop extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => TabSwitchingCubit()),
-        BlocProvider(create: (context) => LoginCubit({})),
+        //BlocProvider(create: (context) => getIt<LoginCubit>()),
+        BlocProvider.value(value: getIt<LoginCubit>()),
         BlocProvider(create: (context) => ProductsCubit()),
       ],
       child: MaterialApp(
@@ -36,11 +45,7 @@ class CoolShop extends StatelessWidget {
                 primary: AllColors.primary,
               ),
         ),
-        initialRoute: VerifyAuthStatusScreen.namedRoute,
-        routes: {
-          VerifyAuthStatusScreen.namedRoute: (ctx) =>
-              const VerifyAuthStatusScreen(),
-        },
+        home: VerifyAuthStatusScreen(),
       ),
     );
   }

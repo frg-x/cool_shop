@@ -2,7 +2,7 @@ import 'package:cool_shop/categories_screen/widgets/sub_category_banner.dart';
 import 'package:cool_shop/models/category.dart';
 import 'package:cool_shop/models/product.dart';
 import 'package:cool_shop/models/sub_category.dart';
-import 'package:cool_shop/models/sub_sub_category.dart';
+import 'package:cool_shop/models/sub_category_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,7 +17,10 @@ class GlobalUrls {
   static const String loginEndpoint = '/api/Person/Login';
   static const String refreshTokenEndpoint = '/api/Person/RefreshToken';
   static const String createUserEndpoint = '/api/Person/CreateUser';
+  static const String sendEmailToResetPassword =
+      '/api/Person/SendEmailToRecoverPassword';
   static const String getAllProducts = '/api/Product/GetAll';
+  static const String getUserById = '/api/Person/GetPersonById/4';
   //static const String recoverPasswordEndpoint = '/api/Person/ResetPassword';
   //static const String sendEmailToRecoverEndpoint = '/api/Person/SendEmailToRecoverPassword';
 }
@@ -25,6 +28,7 @@ class GlobalUrls {
 class CONSTANTS {
   static const showRequestDebugging = false;
   static const requestTimeoutSeconds = 3;
+  static final categoryNavigatorKey = GlobalKey<NavigatorState>();
 }
 
 class AllColors {
@@ -78,6 +82,12 @@ class AllStyles {
     color: AllColors.dark,
     fontSize: 14,
     fontWeight: FontWeight.w400,
+  );
+
+  static const dark15w700 = TextStyle(
+    color: AllColors.dark,
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
   );
 
   static const gray14w400 = TextStyle(
@@ -256,17 +266,24 @@ List<Category> categories = [
         title: 'Clothes',
         image: 'assets/images/women/clothes.png',
         subSubCategories: [
-          SubSubCategory(id: 0, title: 'Tops'),
-          SubSubCategory(id: 1, title: 'Shirts & Blouses'),
-          SubSubCategory(id: 2, title: 'Cardigans & Sweaters'),
-          SubSubCategory(id: 3, title: 'Knitwear'),
-          SubSubCategory(id: 4, title: 'Blazers'),
-          SubSubCategory(id: 5, title: 'Outerwear'),
-          SubSubCategory(id: 6, title: 'Pants'),
-          SubSubCategory(id: 7, title: 'Jeans'),
-          SubSubCategory(id: 8, title: 'Shorts'),
-          SubSubCategory(id: 9, title: 'Skirts'),
-          SubSubCategory(id: 10, title: 'Dresses'),
+          SubCategory_2(id: 0, title: 'Tops', internalTitle: 'Women\s tops'),
+          SubCategory_2(
+              id: 1, title: 'Shirts & Blouses', internalTitle: 'Women\s tops'),
+          SubCategory_2(
+              id: 2,
+              title: 'Cardigans & Sweaters',
+              internalTitle: 'Women\s tops'),
+          SubCategory_2(
+              id: 3, title: 'Knitwear', internalTitle: 'Women\s tops'),
+          SubCategory_2(id: 4, title: 'Blazers', internalTitle: 'Women\s tops'),
+          SubCategory_2(
+              id: 5, title: 'Outerwear', internalTitle: 'Women\s tops'),
+          SubCategory_2(id: 6, title: 'Pants', internalTitle: 'Women\s tops'),
+          SubCategory_2(id: 7, title: 'Jeans', internalTitle: 'Women\s tops'),
+          SubCategory_2(id: 8, title: 'Shorts', internalTitle: 'Women\s tops'),
+          SubCategory_2(id: 9, title: 'Skirts', internalTitle: 'Women\s tops'),
+          SubCategory_2(
+              id: 10, title: 'Dresses', internalTitle: 'Women\s tops'),
         ],
       ),
       SubCategory(

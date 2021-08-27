@@ -85,6 +85,7 @@ class _SignInState extends State<SignIn> {
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) => const ForgotPassword(),
+                  fullscreenDialog: false,
                 ),
               ),
               child: Row(

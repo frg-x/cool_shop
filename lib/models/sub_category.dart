@@ -1,4 +1,4 @@
-import 'sub_sub_category.dart';
+import 'sub_category_2.dart';
 
 class SubCategory {
   SubCategory(
@@ -9,5 +9,5 @@ class SubCategory {
   int id;
   String title;
   String? image;
-  List<SubSubCategory> subSubCategories;
+  List<SubCategory_2> subSubCategories;
 }

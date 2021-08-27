@@ -112,7 +112,7 @@ class _SignUpState extends State<SignUp> {
               ),
               const SizedBox(height: 16),
               GestureDetector(
-                onTap: () => widget.callback(1),
+                onTap: () => widget.callback(0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

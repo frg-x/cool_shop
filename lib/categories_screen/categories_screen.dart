@@ -14,47 +14,45 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Categories',
-          style: AllStyles.dark18w600,
-        ),
-        backgroundColor: AllColors.appBackgroundColor,
-        elevation: 8,
-        shadowColor: AllColors.black.withOpacity(0.25),
-        brightness: Brightness.light,
-        iconTheme: const IconThemeData(color: AllColors.dark),
-        leading: GestureDetector(
-          onTap: () =>
-              _navigatorKey.currentState!.popUntil(ModalRoute.withName('/')),
-          child: const SizedBox(
-            width: 24,
-            height: 24,
-            child: Icon(CupertinoIcons.back),
-          ),
-        ),
-        actions: [
-          const Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Icon(
-              Icons.search,
-              color: AllColors.dark,
-              size: 26,
+    return Navigator(
+      key: CONSTANTS.categoryNavigatorKey,
+      onGenerateRoute: (route) => MaterialPageRoute(
+        settings: route,
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Categories',
+              style: AllStyles.dark18w600,
             ),
+            backgroundColor: AllColors.appBackgroundColor,
+            elevation: 8,
+            shadowColor: AllColors.black.withOpacity(0.25),
+            brightness: Brightness.light,
+            iconTheme: const IconThemeData(color: AllColors.dark),
+            leading: GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 24,
+                height: 24,
+                child: Icon(CupertinoIcons.back),
+              ),
+            ),
+            leadingWidth: 40,
+            actions: [
+              const Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.search,
+                  color: AllColors.dark,
+                  size: 26,
+                ),
+              ),
+            ],
+            centerTitle: true,
           ),
-        ],
-        centerTitle: true,
-      ),
-      body: Navigator(
-        key: _navigatorKey,
-        onGenerateRoute: (route) => MaterialPageRoute(
-          settings: route,
-          builder: (context) => CategoryBody(navigatorKey: _navigatorKey),
+          body: CategoryBody(),
         ),
       ),
     );
@@ -62,9 +60,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 }
 
 class CategoryBody extends StatefulWidget {
-  const CategoryBody({Key? key, required this.navigatorKey}) : super(key: key);
-
-  final GlobalKey<NavigatorState> navigatorKey;
+  const CategoryBody({Key? key}) : super(key: key);
 
   @override
   State<CategoryBody> createState() => _CategoryBodyState();
@@ -105,7 +101,6 @@ class _CategoryBodyState extends State<CategoryBody> {
           padding: const EdgeInsets.all(16),
           child: SubCategoryScreen(
             id: currentTabNumber,
-            navigatorKey: widget.navigatorKey,
           ),
         ),
       ],

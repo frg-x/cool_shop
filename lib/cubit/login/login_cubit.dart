@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:cool_shop/constants.dart';
@@ -10,7 +9,6 @@ part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this.data) : super(LoginInitial()) {
-    getLoginState();
     checkLoginState();
   }
 
@@ -29,8 +27,6 @@ class LoginCubit extends Cubit<LoginState> {
 
   bool? isLogged = false;
   final Map<String, dynamic> data;
-
-  bool isRunning = true;
 
   void validateFields() {
     isNameValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!-_]+").hasMatch(userName) &&
@@ -90,60 +86,8 @@ class LoginCubit extends Cubit<LoginState> {
     });
   }
 
-  Future<void> getLoginState() async {
-    while (isRunning) {
-      var tmpIsLogged =
-          await SecureStorageService.read(SecureStorageKey.isLogged);
-      if (tmpIsLogged != null) {
-        isLogged = toBoolean(tmpIsLogged);
-      } else {
-        isLogged = null;
-      }
-      if (isLogged != null) {
-        if (isLogged!) {
-          print('Logged!');
-        } else {
-          print('Signed out by user');
-        }
-      } else {
-        signOutYouWasHacked();
-        print('Signed out by protecting system');
-      }
-      await Future.delayed(const Duration(seconds: 5));
-    }
-  }
-
-  void signOutYouWasHacked() async {
-    SecureStorageService.deleteAll().then((_) {
-      userId = '';
-      userName = '';
-      email = '';
-      password = '';
-      isNameValid = false;
-      isEmailValid = false;
-      isPasswordValid = false;
-      verifiedOne = false;
-      verifiedTwo = false;
-      verifiedThree = false;
-      isLogged = null;
-      isRunning = false;
-      data.addAll({
-        'name': userName,
-        'email': email,
-        'password': password,
-        'isNameValid': isNameValid,
-        'isEmailValid': isEmailValid,
-        'isPasswordValid': isPasswordValid,
-        'isLogged': isLogged,
-      });
-      emit(LoginStatus(data, MessageType.error,
-          'Sorry... Something went wrong\nPlease, try to Sign In again'));
-    });
-  }
-
-  void signOut() async {
+  void clearUserInfo() {
     SecureStorageService.deleteAll();
-    SecureStorageService.write(SecureStorageKey.isLogged, 'false');
     userId = '';
     userName = '';
     email = '';
@@ -155,7 +99,6 @@ class LoginCubit extends Cubit<LoginState> {
     verifiedTwo = false;
     verifiedThree = false;
     isLogged = false;
-    isRunning = true;
     data.addAll({
       'name': userName,
       'email': email,
@@ -165,7 +108,17 @@ class LoginCubit extends Cubit<LoginState> {
       'isPasswordValid': isPasswordValid,
       'isLogged': isLogged,
     });
+  }
+
+  void signOut() async {
+    clearUserInfo();
     emit(LoginStatus(data, MessageType.error, 'You\'ve signed out'));
+  }
+
+  void signOutYouWasHacked() async {
+    clearUserInfo();
+    emit(LoginStatus(data, MessageType.error,
+        'Sorry... Something went wrong\nPlease, try to Sign In again'));
   }
 
   // void signOut() async {
@@ -176,11 +129,25 @@ class LoginCubit extends Cubit<LoginState> {
 
   void readAllSettings() {
     SecureStorageService.readAll().then((settings) {
-      //print(settings);
-      data.addAll(settings as Map<String, dynamic>);
-      //print(data);
-      emit(LoginStatus(data, MessageType.empty, ''));
+      print(settings);
     });
+  }
+
+  void clearAccessToken() {
+    SecureStorageService.write(SecureStorageKey.accessToken, '')
+        .then((_) => print('Done!'));
+  }
+
+  void clearRefreshToken() {
+    SecureStorageService.write(SecureStorageKey.refreshToken, '')
+        .then((_) => print('Done!'));
+  }
+
+  void testGetRequest() async {
+    final _networkService = NetworkService();
+    Map? responseData =
+        await _networkService.getRequest(GlobalUrls.getUserById);
+    print(responseData);
   }
 
   void signInWithEmailPassword() async {
@@ -192,8 +159,6 @@ class LoginCubit extends Cubit<LoginState> {
           userId = responseData['userId'];
           userName = responseData['userName'];
           isLogged = true;
-          // await SecureStorageService.write(SecureStorageKey.email, email);
-          // await SecureStorageService.write(SecureStorageKey.password, password);
           await SecureStorageService.write(
               SecureStorageKey.userName, responseData['userName']);
           await SecureStorageService.write(
@@ -214,6 +179,29 @@ class LoginCubit extends Cubit<LoginState> {
           });
           emit(
             LoginStatus(data, MessageType.success, ''),
+          );
+        } else {
+          emit(LoginStatus(data, MessageType.error, responseData['message']));
+        }
+      }
+    } on Exception catch (e) {
+      emit(LoginStatus(data, MessageType.error, e.toString()));
+    }
+  }
+
+  void sendEmailToResetPassword() async {
+    final _networkService = NetworkService();
+    try {
+      Map? responseData = await _networkService.postRequest(
+        GlobalUrls.sendEmailToResetPassword,
+        jsonEncode({
+          "email": email,
+        }),
+      );
+      if (responseData != null) {
+        if (responseData['success']) {
+          emit(
+            LoginStatus(data, MessageType.success, responseData['message']),
           );
         } else {
           emit(LoginStatus(data, MessageType.error, responseData['message']));

@@ -26,9 +26,11 @@ class _BottomMenuItemState extends State<BottomMenuItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context
-          .read<TabSwitchingCubit>()
-          .setActiveTabNumber(widget.screenNumber),
+      onTap: () {
+        context
+            .read<TabSwitchingCubit>()
+            .setActiveTabNumber(widget.screenNumber);
+      },
       child: SizedBox(
         //! old value width: 50,
         child: Column(
