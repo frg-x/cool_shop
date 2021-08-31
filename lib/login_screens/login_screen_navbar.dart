@@ -9,7 +9,7 @@ class LoginScreenNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       //! old value height: 200,
-      height: 130,
+      height: 120,
       child: Column(
         children: [
           const Text(

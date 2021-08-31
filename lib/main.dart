@@ -5,6 +5,7 @@ import 'package:cool_shop/cubit/login/login_cubit.dart';
 import 'package:cool_shop/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 // ignore: unused_import
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -16,7 +17,11 @@ GetIt getIt = GetIt.instance;
 
 void main() {
   registerDependencies();
-  runApp(const CoolShop());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const CoolShop());
+  });
 }
 
 void registerDependencies() {

@@ -29,6 +29,7 @@ class CONSTANTS {
   static const showRequestDebugging = false;
   static const requestTimeoutSeconds = 3;
   static final categoryNavigatorKey = GlobalKey<NavigatorState>();
+  static final tabsNavigatorKey = GlobalKey<NavigatorState>();
 }
 
 class AllColors {
@@ -46,6 +47,8 @@ class AllColors {
   static const bigTextFieldTextColor = Color(0xFF2D2D2D);
 
   static const gray = Color(0xFF9B9B9B);
+
+  static const modalSheetLine = Color(0xFF9B9B9B);
 }
 
 class AllStyles {
@@ -83,6 +86,16 @@ class AllStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
   );
+  static const dark14w500 = TextStyle(
+    color: AllColors.dark,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
+  static const dark11w400 = TextStyle(
+    color: AllColors.dark,
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+  );
 
   static const dark15w700 = TextStyle(
     color: AllColors.dark,
@@ -100,6 +113,17 @@ class AllStyles {
     color: AllColors.white,
     fontSize: 14,
     fontWeight: FontWeight.w500,
+  );
+  static const white16w600 = TextStyle(
+    color: AllColors.white,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+
+  static const white14w400 = TextStyle(
+    color: AllColors.white,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
   );
 
   static const primary14w400 = TextStyle(

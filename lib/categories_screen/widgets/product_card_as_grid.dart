@@ -7,10 +7,10 @@ import 'package:cool_shop/widgets/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class HomeScreenProductCard extends StatefulWidget {
-  const HomeScreenProductCard({
+class ProductCardAsGrid extends StatefulWidget {
+  const ProductCardAsGrid({
     Key? key,
-    required this.imageURL,
+    required this.imageUrl,
     required this.collection,
     required this.title,
     required this.price,
@@ -19,7 +19,7 @@ class HomeScreenProductCard extends StatefulWidget {
     required this.ratingCount,
   }) : super(key: key);
 
-  final String imageURL;
+  final String imageUrl;
   final String collection;
   final String title;
   final double price;
@@ -28,10 +28,10 @@ class HomeScreenProductCard extends StatefulWidget {
   final int ratingCount;
 
   @override
-  State<HomeScreenProductCard> createState() => _HomeScreenProductCardState();
+  State<ProductCardAsGrid> createState() => _ProductCardAsGridState();
 }
 
-class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
+class _ProductCardAsGridState extends State<ProductCardAsGrid> {
   bool isFav = false;
 
   @override
@@ -43,8 +43,8 @@ class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
     return Stack(
       children: [
         Container(
-          width: 150,
-          height: 270,
+          // width: 150,
+          // height: 270,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,11 +55,11 @@ class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.network(
-                        widget.imageURL,
+                        widget.imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
-                    width: 150,
+                    width: 180,
                     height: 190,
                   ),
                   widget.discount > 0
@@ -116,7 +116,7 @@ class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
           ),
         ),
         Positioned(
-          top: 175,
+          top: 164,
           right: 0,
           child: GestureDetector(
             onTap: () {

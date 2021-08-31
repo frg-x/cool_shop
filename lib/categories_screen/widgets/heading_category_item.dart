@@ -40,7 +40,7 @@ class HeadingCategoryItem extends StatelessWidget {
               : const Border(
                   bottom: BorderSide(
                     width: 3.0,
-                    color: AllColors.white,
+                    color: AllColors.appBackgroundColor,
                   ),
                 ),
         ),

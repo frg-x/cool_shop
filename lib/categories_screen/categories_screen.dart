@@ -26,7 +26,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               'Categories',
               style: AllStyles.dark18w600,
             ),
-            backgroundColor: AllColors.appBackgroundColor,
+            backgroundColor: AllColors.white,
             elevation: 8,
             shadowColor: AllColors.black.withOpacity(0.25),
             brightness: Brightness.light,
@@ -97,12 +97,7 @@ class _CategoryBodyState extends State<CategoryBody> {
                 .toList(),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: SubCategoryScreen(
-            id: currentTabNumber,
-          ),
-        ),
+        SubCategoryScreen(id: currentTabNumber),
       ],
     );
   }

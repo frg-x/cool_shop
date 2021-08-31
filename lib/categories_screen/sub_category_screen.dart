@@ -15,7 +15,8 @@ class SubCategoryScreen extends StatelessWidget {
 
   final int id;
 
-  List<Widget> renderCategories(int id, BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final category = categories.firstWhere((element) => element.id == id);
     final subCategories = category.subCategories;
     List<Widget> list = [];
@@ -37,15 +38,17 @@ class SubCategoryScreen extends StatelessWidget {
         );
       }
     }
-    return list;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: renderCategories(id, context),
+    return Expanded(
+      //height: 450,
+      child: ListView.builder(
+        itemBuilder: (_, index) {
+          return list.elementAt(index);
+        },
+        itemCount: list.length,
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
       ),
     );
   }
