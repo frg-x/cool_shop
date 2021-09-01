@@ -38,18 +38,15 @@ class SubCategoryScreen extends StatelessWidget {
         );
       }
     }
-    return Expanded(
-      //height: 450,
-      child: ListView.builder(
-        itemBuilder: (_, index) {
-          return list.elementAt(index);
-        },
-        itemCount: list.length,
-        scrollDirection: Axis.vertical,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-        physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
-      ),
+    return ListView.builder(
+      itemBuilder: (_, index) {
+        return list.elementAt(index);
+      },
+      itemCount: list.length,
+      scrollDirection: Axis.vertical,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
     );
   }
 }

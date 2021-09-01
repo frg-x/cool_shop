@@ -21,7 +21,6 @@ class _TabsScreenState extends State<TabsScreen> {
       builder: (context, state) {
         activeScreenNumber = (state as TabsSwitch).activeScreenNumber;
         return Scaffold(
-          key: CONSTANTS.tabsNavigatorKey,
           backgroundColor: AllColors.appBackgroundColor,
           bottomNavigationBar:
               MyBottomNavigationBar(activeScreen: activeScreenNumber),

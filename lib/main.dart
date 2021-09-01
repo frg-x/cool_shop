@@ -42,6 +42,7 @@ class CoolShop extends StatelessWidget {
         BlocProvider(create: (context) => ProductsCubit()),
       ],
       child: MaterialApp(
+        navigatorKey: CONSTANTS.globalNavigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Cool Shop',
         theme: ThemeData(

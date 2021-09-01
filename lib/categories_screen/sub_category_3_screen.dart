@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'filters_screen.dart';
 import 'widgets/category_small_badge.dart';
 import 'widgets/product_card_as_grid.dart';
 
@@ -194,16 +195,22 @@ class _SubCategory_3_ScreenState extends State<SubCategory_3_Screen> {
                           children: [
                             Flexible(
                               flex: 3,
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/icons/filter_list.svg'),
-                                  SizedBox(width: 7),
-                                  Text(
-                                    'Filters',
-                                    style: AllStyles.dark11w400,
-                                  ),
-                                ],
+                              child: GestureDetector(
+                                onTap: () => CONSTANTS
+                                    .globalNavigatorKey.currentState!
+                                    .push(MaterialPageRoute(
+                                        builder: (context) => FiltersScreen())),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/icons/filter_list.svg'),
+                                    SizedBox(width: 7),
+                                    Text(
+                                      'Filters',
+                                      style: AllStyles.dark11w400,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Flexible(

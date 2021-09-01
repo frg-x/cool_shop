@@ -80,10 +80,24 @@ class _CategoryBodyState extends State<CategoryBody> {
   @override
   Widget build(BuildContext context) {
     //int activeScreenNumber = (state as TabsSwitch).activeScreenNumber;
-    return Column(
+    return Stack(
       children: [
-        SizedBox(
+        Padding(
+          padding: const EdgeInsets.only(top: 44),
+          child: SubCategoryScreen(id: currentTabNumber),
+        ),
+        Container(
           height: 44,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0, 4),
+                blurRadius: 25,
+                color: AllColors.black.withOpacity(0.08),
+              )
+            ],
+            color: AllColors.white,
+          ),
           child: Row(
             children: categories
                 .map(
@@ -97,7 +111,6 @@ class _CategoryBodyState extends State<CategoryBody> {
                 .toList(),
           ),
         ),
-        SubCategoryScreen(id: currentTabNumber),
       ],
     );
   }

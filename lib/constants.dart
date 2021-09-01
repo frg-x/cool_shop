@@ -29,7 +29,7 @@ class CONSTANTS {
   static const showRequestDebugging = false;
   static const requestTimeoutSeconds = 3;
   static final categoryNavigatorKey = GlobalKey<NavigatorState>();
-  static final tabsNavigatorKey = GlobalKey<NavigatorState>();
+  static final globalNavigatorKey = GlobalKey<NavigatorState>();
 }
 
 class AllColors {
