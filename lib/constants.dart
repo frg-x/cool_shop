@@ -1,3 +1,4 @@
+import 'package:cool_shop/categories_screen/filters_screen/models/filter_brand.dart';
 import 'package:cool_shop/categories_screen/widgets/sub_category_banner.dart';
 import 'package:cool_shop/models/category.dart';
 import 'package:cool_shop/models/product.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'categories_screen/categories_screen.dart';
+import 'categories_screen/category_screen.dart';
 import 'home_screen/home_screen.dart';
 import 'profile_screen/profile_screen.dart';
 
@@ -30,6 +31,7 @@ class CONSTANTS {
   static const requestTimeoutSeconds = 3;
   static final categoryNavigatorKey = GlobalKey<NavigatorState>();
   static final globalNavigatorKey = GlobalKey<NavigatorState>();
+  static final filterNavigatorKey = GlobalKey<NavigatorState>();
 }
 
 class AllColors {
@@ -154,6 +156,12 @@ class AllStyles {
     color: AllColors.dark,
     fontSize: 16,
     fontWeight: FontWeight.w400,
+  );
+
+  static const primary16w600 = TextStyle(
+    color: AllColors.primary,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
   );
 
   static const discountLabel = TextStyle(
@@ -364,3 +372,11 @@ List<Widget> get screensList => [
       const ProfileScreen(),
       //const SubCategoryScreen(),
     ];
+
+List<FilterBrand> copyList(List<FilterBrand> list) {
+  List<FilterBrand> newList = [];
+  for (FilterBrand brand in list) {
+    newList.add(brand.copyWith());
+  }
+  return newList;
+}

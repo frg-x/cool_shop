@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/heading_category_item.dart';
-import 'sub_category_screen.dart';
+import 'widgets/caregories_list.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
@@ -84,7 +84,7 @@ class _CategoryBodyState extends State<CategoryBody> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 44),
-          child: SubCategoryScreen(id: currentTabNumber),
+          child: CaregoriesList(id: currentTabNumber),
         ),
         Container(
           height: 44,

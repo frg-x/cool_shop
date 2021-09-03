@@ -28,7 +28,10 @@ class FiltersBottomNavBar extends StatelessWidget {
             text: 'Discard',
             color: AllColors.white,
           ),
-          MediumButton(onPress: () {}, text: 'Apply', color: AllColors.primary),
+          MediumButton(
+              onPress: () => print('Apply'),
+              text: 'Apply',
+              color: AllColors.primary),
         ],
       ),
     );

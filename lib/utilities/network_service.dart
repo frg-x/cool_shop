@@ -177,8 +177,10 @@ class NetworkService {
       //throw Exception('${e.response!.statusCode} ${e.response!.statusMessage!}');
       if (err.type == DioErrorType.connectTimeout) {
         throw Exception("Connection timeout");
-      } else {
+      } else if (err.response!.statusCode! < 500) {
         throw err.response!.data;
+      } else {
+        throw err.message;
       }
     }
   }

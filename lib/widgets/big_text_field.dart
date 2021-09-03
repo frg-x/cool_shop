@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BigTextField extends StatelessWidget {
+class BigTextField extends StatefulWidget {
   BigTextField({
     Key? key,
     required this.labelText,
@@ -24,25 +24,36 @@ class BigTextField extends StatelessWidget {
   final String text;
   final bool isValid;
 
+  @override
+  _BigTextFieldState createState() => _BigTextFieldState();
+}
+
+class _BigTextFieldState extends State<BigTextField> {
   final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final TextInputType _textInputType;
 
-    if (type == TextFieldType.email) {
+    if (widget.type == TextFieldType.email) {
       _textInputType = TextInputType.emailAddress;
-    } else if (type == TextFieldType.name) {
+    } else if (widget.type == TextFieldType.name) {
       _textInputType = TextInputType.text;
     } else {
       _textInputType = TextInputType.visiblePassword;
     }
 
     _controller.value = TextEditingValue(
-      text: text,
+      text: widget.text,
       selection: TextSelection(
-        baseOffset: text.length,
-        extentOffset: text.length,
+        baseOffset: widget.text.length,
+        extentOffset: widget.text.length,
       ),
     );
 
@@ -61,32 +72,34 @@ class BigTextField extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4),
           child: TextFormField(
             controller: _controller,
-            onChanged: (value) => onChanged(value),
-            onFieldSubmitted: (value) => onChanged(value),
+            onChanged: (value) => widget.onChanged(value),
+            onFieldSubmitted: (value) => widget.onChanged(value),
             keyboardType: _textInputType,
             obscureText:
                 _textInputType == TextInputType.visiblePassword ? true : false,
             decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
               alignLabelWithHint: true,
-              errorText: text.isEmpty ? '' : (isValid ? '' : errorText),
+              errorText: widget.text.isEmpty
+                  ? ''
+                  : (widget.isValid ? '' : widget.errorText),
               errorStyle: AllStyles.bigTextFieldError,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: text.isEmpty
+                borderSide: widget.text.isEmpty
                     ? BorderSide.none
-                    : (isValid
+                    : (widget.isValid
                         ? BorderSide.none
                         : const BorderSide(color: AllColors.error, width: 1.0)),
               ),
               fillColor: AllColors.white,
               filled: true,
-              suffixIcon: text.isEmpty
+              suffixIcon: widget.text.isEmpty
                   ? const Icon(
                       Icons.clear,
                       color: Colors.transparent,
                     )
-                  : (isValid
+                  : (widget.isValid
                       ? const Icon(
                           Icons.check_outlined,
                           color: AllColors.success,
@@ -113,7 +126,7 @@ class BigTextField extends StatelessWidget {
           left: 18,
           top: 16,
           child: Text(
-            labelText,
+            widget.labelText,
             style: AllStyles.bigTextFieldLabel,
           ),
         ),

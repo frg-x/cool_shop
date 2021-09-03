@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'filters_screen.dart';
+import 'filters_screen/filters_screen.dart';
 import 'widgets/category_small_badge.dart';
 import 'widgets/product_card_as_grid.dart';
 
@@ -22,17 +22,17 @@ enum SortingTypes {
   priceHighToLow,
 }
 
-class SubCategory_3_Screen extends StatefulWidget {
+class SubSubCategoryScreen extends StatefulWidget {
   static const namedRoute = '/subcat3';
 
-  const SubCategory_3_Screen({
+  const SubSubCategoryScreen({
     Key? key,
   }) : super(key: key);
   @override
-  _SubCategory_3_ScreenState createState() => _SubCategory_3_ScreenState();
+  _SubSubCategoryScreenState createState() => _SubSubCategoryScreenState();
 }
 
-class _SubCategory_3_ScreenState extends State<SubCategory_3_Screen> {
+class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
   bool isGrid = false;
   SortingTypes sortingType = SortingTypes.priceLowToHigh;
   String sortingTypeValue = '';
@@ -198,8 +198,11 @@ class _SubCategory_3_ScreenState extends State<SubCategory_3_Screen> {
                               child: GestureDetector(
                                 onTap: () => CONSTANTS
                                     .globalNavigatorKey.currentState!
-                                    .push(MaterialPageRoute(
-                                        builder: (context) => FiltersScreen())),
+                                    .push(
+                                  MaterialPageRoute(
+                                    builder: (context) => FiltersScreen(),
+                                  ),
+                                ),
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(

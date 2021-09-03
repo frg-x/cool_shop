@@ -1,13 +1,15 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
-import 'package:cool_shop/categories_screen/sub_category_2_screen.dart';
+import 'package:cool_shop/categories_screen/sub_sub_category_screen.dart';
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/models/sub_category.dart';
+import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
+import 'package:cool_shop/models/sub_category_2.dart';
+import 'package:cool_shop/widgets/big_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widgets/sub_category_banner.dart';
-
-class SubCategoryScreen extends StatelessWidget {
+class SubCategoryScreen extends StatefulWidget {
   const SubCategoryScreen({
     Key? key,
     required this.id,
@@ -16,121 +18,122 @@ class SubCategoryScreen extends StatelessWidget {
   final int id;
 
   @override
+  _SubCategoryScreenState createState() => _SubCategoryScreenState();
+}
+
+class _SubCategoryScreenState extends State<SubCategoryScreen> {
+  @override
   Widget build(BuildContext context) {
-    final category = categories.firstWhere((element) => element.id == id);
-    final subCategories = category.subCategories;
-    List<Widget> list = [];
-    for (var element in subCategories) {
-      if (element.runtimeType == SubCategoryBanner) {
-        list.add(element as SubCategoryBanner);
-      } else {
-        list.add(
-          CategoryBigCard(
-            image: (element as SubCategory).image!,
-            title: (element.title),
-            onPress: () => CONSTANTS.categoryNavigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => SubCategory_2_Screen(id: id),
-                settings: RouteSettings(arguments: element.subSubCategories),
+    final subSubCategories =
+        ModalRoute.of(context)!.settings.arguments as List<SubCategory_2>;
+    return BlocBuilder<TabSwitchingCubit, TabSwitchingState>(
+      builder: (context, state) {
+        //activeScreenNumber = (state as TabsSwitch).activeScreenNumber;
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Categories',
+              style: AllStyles.dark18w600,
+            ),
+            backgroundColor: AllColors.appBackgroundColor,
+            elevation: 8,
+            shadowColor: AllColors.black.withOpacity(0.25),
+            brightness: Brightness.light,
+            iconTheme: const IconThemeData(color: AllColors.dark),
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                width: 24,
+                height: 24,
+                child: Icon(CupertinoIcons.back),
               ),
             ),
+            leadingWidth: 40,
+            actions: [
+              const Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.search,
+                  color: AllColors.dark,
+                  size: 26,
+                ),
+              ),
+            ],
+            centerTitle: true,
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BigButton(
+                      text: 'VIEW ALL ITEMS',
+                      onPress: () {},
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Choose category',
+                      style: AllStyles.gray14,
+                    ),
+                  ],
+                ),
+              ),
+              //const SizedBox(height: 18),
+              Expanded(
+                child: ListView.separated(
+                    itemBuilder: (cxt, index) {
+                      return SubSubCatItem(
+                        title: subSubCategories[index].title,
+                        onPress: () =>
+                            CONSTANTS.categoryNavigatorKey.currentState!.push(
+                          MaterialPageRoute(
+                            builder: (ctx) => SubSubCategoryScreen(),
+                            settings: RouteSettings(
+                              arguments: subSubCategories[index].title,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (ctx, _) {
+                      return const Divider();
+                    },
+                    itemCount: subSubCategories.length),
+              ),
+            ],
           ),
         );
-      }
-    }
-    return ListView.builder(
-      itemBuilder: (_, index) {
-        return list.elementAt(index);
       },
-      itemCount: list.length,
-      scrollDirection: Axis.vertical,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-      physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
     );
   }
 }
 
-class CategoryBigCard extends StatelessWidget {
-  const CategoryBigCard({
-    Key? key,
-    required this.title,
-    required this.image,
-    required this.onPress,
-  }) : super(key: key);
-
+class SubSubCatItem extends StatelessWidget {
+  const SubSubCatItem({Key? key, required this.title, required this.onPress})
+      : super(key: key);
   final String title;
-  final String image;
   final Function onPress;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 16),
-        GestureDetector(
-          onTap: () => onPress(),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 1),
-                  blurRadius: 25,
-                  color: AllColors.black.withOpacity(0.08),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: 100,
-                    padding: const EdgeInsets.only(left: 23),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      title,
-                      style: AllStyles.dark18w600,
-                    ),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        bottomLeft: Radius.circular(8),
-                      ),
-                      color: AllColors.white,
-                    ),
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: 100,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
-                      child: Image.asset(
-                        image,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
-                      color: AllColors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return GestureDetector(
+      onTap: () => onPress(),
+      child: Container(
+        padding: const EdgeInsets.only(left: 40),
+        height: 47,
+        width: double.infinity,
+        color: Colors.transparent,
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: AllStyles.dark16w400,
         ),
-      ],
+      ),
     );
   }
 }
