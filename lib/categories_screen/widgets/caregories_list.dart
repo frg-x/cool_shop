@@ -28,7 +28,7 @@ class CaregoriesList extends StatelessWidget {
           CategoryBigCard(
             image: (element as SubCategory).image!,
             title: (element.title),
-            onPress: () => CONSTANTS.categoryNavigatorKey.currentState!.push(
+            onPress: () => Constants.categoryNavigatorKey.currentState!.push(
               MaterialPageRoute(
                 builder: (context) => SubCategoryScreen(id: id),
                 settings: RouteSettings(arguments: element.subSubCategories),

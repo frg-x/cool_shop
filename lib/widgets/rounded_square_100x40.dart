@@ -1,8 +1,8 @@
 import 'package:cool_shop/constants.dart';
 import 'package:flutter/material.dart';
 
-class RoundedSquareCategory extends StatelessWidget {
-  RoundedSquareCategory({
+class RoundedSquare100x40 extends StatelessWidget {
+  RoundedSquare100x40({
     Key? key,
     required this.title,
     required this.isSelected,

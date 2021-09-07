@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/profile_screen/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/profile_item.dart';
@@ -99,9 +100,10 @@ class ProfileScreen extends StatelessWidget {
             ProfileItem(
               title: 'Settings',
               subtitle: 'Notifications, password',
-              onPress: () {
-                print('Settings action');
-              },
+              onPress: () => Navigator.of(context, rootNavigator: true)
+                  .push(MaterialPageRoute(
+                builder: (context) => SettingsScreen(),
+              )),
             ),
           ],
         ),

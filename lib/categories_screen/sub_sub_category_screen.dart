@@ -5,6 +5,7 @@ import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/products/products_cubit.dart';
 import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/models/sub_category.dart';
+import 'package:cool_shop/widgets/modal_sheet_divider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -112,6 +113,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                       itemCount: productsList.length,
                       itemBuilder: (ctx, int index) {
                         return ProductCardAsGrid(
+                          id: productsList.elementAt(index).id,
                           title: productsList.elementAt(index).title,
                           imageUrl: productsList.elementAt(index).imageUrl,
                           //onPress: () {},
@@ -136,6 +138,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                       itemCount: productsList.length,
                       itemBuilder: (ctx, int index) {
                         return ProductCardAsList(
+                          id: productsList.elementAt(index).id,
                           title: productsList.elementAt(index).title,
                           imageUrl: productsList.elementAt(index).imageUrl,
                           onPress: () {},
@@ -196,7 +199,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                             Flexible(
                               flex: 3,
                               child: GestureDetector(
-                                onTap: () => CONSTANTS
+                                onTap: () => Constants
                                     .globalNavigatorKey.currentState!
                                     .push(
                                   MaterialPageRoute(
@@ -219,7 +222,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                             Flexible(
                               flex: 6,
                               child: GestureDetector(
-                                onTap: () => SelectSortingTypeSheet(
+                                onTap: () => sortingTypeSheet(
                                     context,
                                     sortingTypesMap,
                                     sortingType,
@@ -265,18 +268,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
   }
 }
 
-Widget modalSheetDivider() {
-  return Container(
-    height: 6.0,
-    width: 60.0,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(3)),
-      color: AllColors.modalSheetLine,
-    ),
-  );
-}
-
-void SelectSortingTypeSheet(
+void sortingTypeSheet(
     BuildContext context,
     Map<SortingTypes, String> sortingTypesMap,
     SortingTypes currentSortingType,
@@ -299,7 +291,7 @@ void SelectSortingTypeSheet(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              modalSheetDivider(),
+              ModalSheetDivider(),
               const SizedBox(height: 16),
               const Text(
                 'Sort by',
@@ -355,20 +347,3 @@ class SelectView extends StatelessWidget {
     );
   }
 }
-
-// class SelectSorting extends StatelessWidget {
-//   const SelectSorting({Key? key, required this.sortingType}) : super(key: key);
-
-//   final sortingType;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 24,
-//       width: 24,
-//       child: isGrid
-//           ? SvgPicture.asset('assets/icons/list.svg')
-//           : SvgPicture.asset('assets/icons/grid.svg'),
-//     );
-//   }
-// }

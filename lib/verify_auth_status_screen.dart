@@ -23,7 +23,7 @@ class VerifyAuthStatusScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        print(state);
+        //print(state);
         if (state is LoginStatus) {
           isLogged = state.data['isLogged'] ?? false;
           if (isLogged) {

@@ -11,7 +11,7 @@ import 'filters_bottom_nav_bar.dart';
 import 'models/filter_brand.dart';
 import 'widgets/colored_circle_36x36.dart';
 import 'widgets/rounded_square_40x40.dart';
-import 'widgets/rounded_square_category.dart';
+import '../../widgets/rounded_square_100x40.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({
@@ -332,7 +332,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       .map(
                         (index, element) => MapEntry(
                           index,
-                          RoundedSquareCategory(
+                          RoundedSquare100x40(
                             title: element.title,
                             isSelected: element.isSelected,
                             onPress: () => selectCategory(index),

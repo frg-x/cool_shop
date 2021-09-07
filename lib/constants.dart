@@ -26,7 +26,7 @@ class GlobalUrls {
   //static const String sendEmailToRecoverEndpoint = '/api/Person/SendEmailToRecoverPassword';
 }
 
-class CONSTANTS {
+class Constants {
   static const showRequestDebugging = false;
   static const requestTimeoutSeconds = 3;
   static final categoryNavigatorKey = GlobalKey<NavigatorState>();
@@ -51,6 +51,8 @@ class AllColors {
   static const gray = Color(0xFF9B9B9B);
 
   static const modalSheetLine = Color(0xFF9B9B9B);
+
+  static const sizeOptionRedBorder = Color(0xFFF01F0E);
 }
 
 class AllStyles {
@@ -93,6 +95,14 @@ class AllStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
+  static const productDescriprtion = TextStyle(
+    color: AllColors.dark,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    letterSpacing: -0.15,
+  );
+
   static const dark11w400 = TextStyle(
     color: AllColors.dark,
     fontSize: 11,
@@ -173,6 +183,11 @@ class AllStyles {
   static const dark18w600 = TextStyle(
     color: AllColors.dark,
     fontSize: 18,
+    fontWeight: FontWeight.w600,
+  );
+  static const dark24w600 = TextStyle(
+    color: AllColors.dark,
+    fontSize: 24,
     fontWeight: FontWeight.w600,
   );
 

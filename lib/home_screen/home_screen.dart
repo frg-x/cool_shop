@@ -95,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 280,
                         child: BlocBuilder<ProductsCubit, ProductsState>(
                           builder: (context, state) {
+                            //print(state);
                             if (state is ProductsLoaded) {
                               List<Product> productsList = state.products;
                               return ListView.separated(
@@ -107,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const SizedBox(width: 20.0),
                                 itemBuilder: (ctx, int index) {
                                   return HomeScreenProductCard(
+                                    id: productsList.elementAt(index).id,
                                     imageURL:
                                         productsList.elementAt(index).imageUrl,
                                     price: productsList.elementAt(index).price,
@@ -188,6 +190,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const SizedBox(width: 20.0),
                                 itemBuilder: (ctx, int index) {
                                   return HomeScreenProductCard(
+                                    id: reversedProductsList
+                                        .elementAt(index)
+                                        .id,
                                     imageURL: reversedProductsList
                                         .elementAt(index)
                                         .imageUrl,

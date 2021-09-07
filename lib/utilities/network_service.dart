@@ -28,14 +28,14 @@ class NetworkService {
     BaseOptions options = BaseOptions(
       baseUrl: GlobalUrls.baseUrl,
       receiveDataWhenStatusError: true,
-      connectTimeout: CONSTANTS.requestTimeoutSeconds * 1000, // 3 seconds
-      receiveTimeout: CONSTANTS.requestTimeoutSeconds * 1000, // 3 seconds
+      connectTimeout: Constants.requestTimeoutSeconds * 1000, // 3 seconds
+      receiveTimeout: Constants.requestTimeoutSeconds * 1000, // 3 seconds
       headers: {'Authorization': 'Bearer $checkedAccessToken'},
     );
     _dio = Dio(options);
     _dio.interceptors.clear();
     //_dio.interceptors.add(LogInterceptor(responseBody: false));
-    if (CONSTANTS.showRequestDebugging) {
+    if (Constants.showRequestDebugging) {
       _dio.interceptors.add(PrettyDioLogger());
     }
 

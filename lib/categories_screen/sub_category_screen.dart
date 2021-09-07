@@ -90,7 +90,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       return SubSubCatItem(
                         title: subSubCategories[index].title,
                         onPress: () =>
-                            CONSTANTS.categoryNavigatorKey.currentState!.push(
+                            Constants.categoryNavigatorKey.currentState!.push(
                           MaterialPageRoute(
                             builder: (ctx) => SubSubCategoryScreen(),
                             settings: RouteSettings(
