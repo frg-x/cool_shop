@@ -14,6 +14,8 @@ class Product {
     required this.discount,
     required this.rating,
     required this.ratingCount,
+    required this.sizes,
+    required this.colors,
   });
 
   int id;
@@ -24,16 +26,20 @@ class Product {
   int rating;
   int ratingCount;
   String collection;
+  List<dynamic> sizes;
+  List<dynamic> colors;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
-        title: json["title"],
-        imageUrl: json["imageUrl"],
-        price: json["price"].toDouble(),
-        discount: json["discount"].toDouble(),
-        rating: json["rating"],
-        ratingCount: json["ratingCount"],
-        collection: json["collection"],
+  factory Product.fromJson(Map<String, dynamic> jsonData) => Product(
+        id: jsonData["id"],
+        title: jsonData["title"],
+        imageUrl: jsonData["imageUrl"],
+        price: jsonData["price"].toDouble(),
+        discount: jsonData["discount"].toDouble(),
+        rating: jsonData["rating"],
+        ratingCount: jsonData["ratingCount"],
+        collection: jsonData["collection"],
+        sizes: json.decode(jsonData["size"].replaceAll('\'', '\"')),
+        colors: json.decode(jsonData["color"].replaceAll('\'', '\"')),
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,5 +51,7 @@ class Product {
         "rating": rating,
         "ratingCount": ratingCount,
         "collection": collection,
+        "size": sizes,
+        "color": colors,
       };
 }

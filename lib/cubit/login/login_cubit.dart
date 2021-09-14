@@ -146,9 +146,11 @@ class LoginCubit extends Cubit<LoginState> {
   void testGetRequest() async {
     final _networkService = NetworkService();
     Map? responseData =
-        await _networkService.getRequest(GlobalUrls.getUserById);
+        await _networkService.getRequest(GlobalUrls.getPersonById);
     print(responseData);
   }
+
+  void getUserInfo() async {}
 
   void signInWithEmailPassword() async {
     final _networkService = NetworkService();

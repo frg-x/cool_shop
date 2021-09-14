@@ -1,16 +1,17 @@
-import 'package:cool_shop/categories_screen/filters_screen/models/filter_brand.dart';
-import 'package:cool_shop/categories_screen/widgets/sub_category_banner.dart';
+import 'package:cool_shop/ui/bag_screen/bag_screen.dart';
+import 'package:cool_shop/ui/categories_screen/filters_screen/models/filter_brand.dart';
+import 'package:cool_shop/ui/categories_screen/widgets/sub_category_banner.dart';
 import 'package:cool_shop/models/category.dart';
-import 'package:cool_shop/models/product.dart';
 import 'package:cool_shop/models/sub_category.dart';
 import 'package:cool_shop/models/sub_category_2.dart';
+import 'package:cool_shop/ui/favorites_screen/favorites_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'categories_screen/category_screen.dart';
-import 'home_screen/home_screen.dart';
-import 'profile_screen/profile_screen.dart';
+import 'package:cool_shop/ui/categories_screen/category_screen.dart';
+import 'ui/home_screen/home_screen.dart';
+import 'package:cool_shop/ui/profile_screen/profile_screen.dart';
 
 class GlobalUrls {
   static const String baseUrl =
@@ -21,7 +22,9 @@ class GlobalUrls {
   static const String sendEmailToResetPassword =
       '/api/Person/SendEmailToRecoverPassword';
   static const String getAllProducts = '/api/Product/GetAll';
-  static const String getUserById = '/api/Person/GetPersonById/4';
+  static const String getPersonById = '/api/Person/GetPersonById';
+  static const String getProfile = 'api/Person/GetProfile';
+
   //static const String recoverPasswordEndpoint = '/api/Person/ResetPassword';
   //static const String sendEmailToRecoverEndpoint = '/api/Person/SendEmailToRecoverPassword';
 }
@@ -92,6 +95,11 @@ class AllStyles {
   );
   static const dark14w500 = TextStyle(
     color: AllColors.dark,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
+  static const gray14w500 = TextStyle(
+    color: AllColors.gray,
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
@@ -228,74 +236,74 @@ enum PageTypes {
   forgotPassword,
 }
 
-List<Product> mainScreenProducts = [
-  Product(
-    id: 1,
-    imageUrl:
-        'https://images.ua.prom.st/2469699748_w640_h640_zhenskoe-letnee-plate.jpg',
-    collection: 'Gucci',
-    title: 'Evening Dress',
-    price: 20,
-    discount: 0.19,
-    rating: 4,
-    ratingCount: 8,
-  ),
-  Product(
-    id: 2,
-    imageUrl:
-        'https://images.ua.prom.st/3201861516_w640_h640_zhenskoe-letnee-plate.jpg',
-    collection: 'D&G',
-    title: 'Sport Dress',
-    price: 25,
-    discount: 0.24,
-    rating: 2,
-    ratingCount: 16,
-  ),
-  Product(
-    id: 3,
-    imageUrl:
-        'https://images.ua.prom.st/3203616109_w700_h500_platya-i-sarafany.jpg',
-    collection: 'Armani',
-    title: 'Sport Dress',
-    price: 27,
-    discount: 0.18,
-    rating: 5,
-    ratingCount: 10,
-  ),
-  Product(
-    id: 4,
-    imageUrl:
-        'https://images.ua.prom.st/3262141439_w640_h640_plate-rubashka-zhenskoe-stilnoe.jpg',
-    collection: 'Gucci',
-    title: 'Women\'s Stylish Shirt Dress',
-    price: 42,
-    discount: 0.25,
-    rating: 4,
-    ratingCount: 8,
-  ),
-  Product(
-    id: 5,
-    imageUrl:
-        'https://images.ua.prom.st/2259092247_w640_h640_plate-krasivoe-shelkovoe.jpg',
-    collection: 'Bvlgari',
-    title: 'Beautiful Silk Wrap Dress',
-    price: 35,
-    discount: 0.31,
-    rating: 5,
-    ratingCount: 5,
-  ),
-  Product(
-    id: 6,
-    imageUrl:
-        'https://images.ua.prom.st/1175944793_w640_h640_sarafan-yubka.jpg',
-    collection: 'H&M',
-    title: 'Fashion Sundress',
-    price: 19,
-    discount: 0.10,
-    rating: 4,
-    ratingCount: 22,
-  ),
-];
+// List<Product> mainScreenProducts = [
+//   Product(
+//     id: 1,
+//     imageUrl:
+//         'https://images.ua.prom.st/2469699748_w640_h640_zhenskoe-letnee-plate.jpg',
+//     collection: 'Gucci',
+//     title: 'Evening Dress',
+//     price: 20,
+//     discount: 0.19,
+//     rating: 4,
+//     ratingCount: 8,
+//   ),
+//   Product(
+//     id: 2,
+//     imageUrl:
+//         'https://images.ua.prom.st/3201861516_w640_h640_zhenskoe-letnee-plate.jpg',
+//     collection: 'D&G',
+//     title: 'Sport Dress',
+//     price: 25,
+//     discount: 0.24,
+//     rating: 2,
+//     ratingCount: 16,
+//   ),
+//   Product(
+//     id: 3,
+//     imageUrl:
+//         'https://images.ua.prom.st/3203616109_w700_h500_platya-i-sarafany.jpg',
+//     collection: 'Armani',
+//     title: 'Sport Dress',
+//     price: 27,
+//     discount: 0.18,
+//     rating: 5,
+//     ratingCount: 10,
+//   ),
+//   Product(
+//     id: 4,
+//     imageUrl:
+//         'https://images.ua.prom.st/3262141439_w640_h640_plate-rubashka-zhenskoe-stilnoe.jpg',
+//     collection: 'Gucci',
+//     title: 'Women\'s Stylish Shirt Dress',
+//     price: 42,
+//     discount: 0.25,
+//     rating: 4,
+//     ratingCount: 8,
+//   ),
+//   Product(
+//     id: 5,
+//     imageUrl:
+//         'https://images.ua.prom.st/2259092247_w640_h640_plate-krasivoe-shelkovoe.jpg',
+//     collection: 'Bvlgari',
+//     title: 'Beautiful Silk Wrap Dress',
+//     price: 35,
+//     discount: 0.31,
+//     rating: 5,
+//     ratingCount: 5,
+//   ),
+//   Product(
+//     id: 6,
+//     imageUrl:
+//         'https://images.ua.prom.st/1175944793_w640_h640_sarafan-yubka.jpg',
+//     collection: 'H&M',
+//     title: 'Fashion Sundress',
+//     price: 19,
+//     discount: 0.10,
+//     rating: 4,
+//     ratingCount: 22,
+//   ),
+// ];
 
 List<Category> categories = [
   Category(
@@ -380,12 +388,11 @@ List<Category> categories = [
 ];
 
 List<Widget> get screensList => [
-      const HomeScreen(testScreenTitle: 'Home'),
+      const HomeScreen(),
       const CategoriesScreen(),
-      const HomeScreen(testScreenTitle: 'Bag'),
-      const HomeScreen(testScreenTitle: 'Favorites'),
+      const BagScreen(),
+      const FavoritesScreen(),
       const ProfileScreen(),
-      //const SubCategoryScreen(),
     ];
 
 List<FilterBrand> copyList(List<FilterBrand> list) {

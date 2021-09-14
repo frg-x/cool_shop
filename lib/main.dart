@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
+import 'package:cool_shop/cubit/cart/cart_cubit.dart';
 import 'package:cool_shop/cubit/products/products_cubit.dart';
 import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
@@ -7,17 +8,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+
 // ignore: unused_import
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'verify_auth_status_screen.dart';
+import 'package:cool_shop/ui/verify_auth_status_screen.dart';
 
 GetIt getIt = GetIt.instance;
 
 void main() {
   registerDependencies();
   WidgetsFlutterBinding.ensureInitialized();
+  //SystemChrome.setEnabledSystemUIOverlays([]);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const CoolShop());
@@ -40,6 +43,7 @@ class CoolShop extends StatelessWidget {
         //BlocProvider(create: (context) => getIt<LoginCubit>()),
         BlocProvider.value(value: getIt<LoginCubit>()),
         BlocProvider(create: (context) => ProductsCubit()),
+        BlocProvider(create: (context) => CartCubit()),
       ],
       child: MaterialApp(
         navigatorKey: Constants.globalNavigatorKey,
@@ -50,6 +54,7 @@ class CoolShop extends StatelessWidget {
           colorScheme: Theme.of(context).colorScheme.copyWith(
                 primary: AllColors.primary,
               ),
+          accentColor: AllColors.primary,
         ),
         home: VerifyAuthStatusScreen(),
       ),
