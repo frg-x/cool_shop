@@ -2,7 +2,7 @@ import 'package:cool_shop/constants.dart';
 import 'package:flutter/material.dart';
 
 class RoundedSquare40x40 extends StatelessWidget {
-  RoundedSquare40x40({
+  const RoundedSquare40x40({
     Key? key,
     required this.size,
     required this.isSelected,

@@ -51,12 +51,14 @@ class CoolShop extends StatelessWidget {
         title: 'Cool Shop',
         theme: ThemeData(
           fontFamily: AllStrings.fontFamily,
-          colorScheme: Theme.of(context).colorScheme.copyWith(
+          colorScheme: Theme.of(context)
+              .colorScheme
+              .copyWith(
                 primary: AllColors.primary,
-              ),
-          accentColor: AllColors.primary,
+              )
+              .copyWith(secondary: AllColors.primary),
         ),
-        home: VerifyAuthStatusScreen(),
+        home: const VerifyAuthStatusScreen(),
       ),
     );
   }

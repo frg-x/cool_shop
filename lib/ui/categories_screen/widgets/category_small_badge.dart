@@ -17,7 +17,7 @@ class CategorySmallBadge extends StatelessWidget {
         title,
         style: AllStyles.white14w400,
       ),
-      padding: EdgeInsets.fromLTRB(25, 8, 25, 7),
+      padding: const EdgeInsets.fromLTRB(25, 8, 25, 7),
       decoration: BoxDecoration(
         color: AllColors.dark,
         borderRadius: BorderRadius.circular(29),

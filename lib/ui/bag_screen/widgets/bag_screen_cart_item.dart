@@ -29,7 +29,7 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
       ),
       child: Container(
         height: 104,
-        margin: EdgeInsets.only(bottom: 24),
+        margin: const EdgeInsets.only(bottom: 24),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -89,7 +89,7 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Color: ',
                                       style: AllStyles.gray11,
                                     ),
@@ -102,7 +102,7 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                                 const SizedBox(width: 16),
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Size: ',
                                       style: AllStyles.gray11,
                                     ),

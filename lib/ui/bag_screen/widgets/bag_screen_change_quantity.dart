@@ -11,7 +11,7 @@ enum ChangeQuantityAction {
 }
 
 class ChangeQuantityButton extends StatelessWidget {
-  ChangeQuantityButton({
+  const ChangeQuantityButton({
     Key? key,
     required this.cartItem,
     required this.action,

@@ -4,6 +4,7 @@ import 'package:cool_shop/ui/widgets/big_button.dart';
 import 'package:cool_shop/ui/widgets/modal_sheet_divider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -47,10 +48,10 @@ class _BagScreenState extends State<BagScreen> {
         backgroundColor: AllColors.appBackgroundColor,
         elevation: 0,
         shadowColor: AllColors.black.withOpacity(0.25),
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: const IconThemeData(color: AllColors.dark),
-        actions: [
-          const Padding(
+        actions: const [
+          Padding(
             padding: EdgeInsets.only(right: 16.0),
             child: Icon(
               Icons.search,
@@ -75,8 +76,8 @@ class _BagScreenState extends State<BagScreen> {
               const SizedBox(height: 10),
               ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.only(top: 14),
-                physics: NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(top: 14),
+                physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 children: cartItems
                     .map((cartItem) => BagScreenCartItem(cartItem: cartItem))
@@ -95,7 +96,7 @@ class _BagScreenState extends State<BagScreen> {
                   ],
                   color: AllColors.white,
                   borderRadius: isPromoEmpty
-                      ? BorderRadius.only(
+                      ? const BorderRadius.only(
                           topLeft: Radius.circular(8),
                           bottomLeft: Radius.circular(8),
                           topRight: Radius.circular(35),
@@ -113,7 +114,7 @@ class _BagScreenState extends State<BagScreen> {
                         onChanged: (_) => validator(),
                         maxLength: 30,
                         cursorColor: AllColors.dark,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                           fillColor: AllColors.white,
                           border:
@@ -132,7 +133,7 @@ class _BagScreenState extends State<BagScreen> {
                             child: Container(
                               width: 36,
                               height: 36,
-                              padding: EdgeInsets.all(4),
+                              padding: const EdgeInsets.all(4),
                               child: SvgPicture.asset(
                                   'assets/icons/clear_promo.svg'),
                             ),
@@ -171,7 +172,7 @@ class _BagScreenState extends State<BagScreen> {
 void sortingTypeSheet(BuildContext context, Function onPress) {
   showModalBottomSheet(
       elevation: 8,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30.0),
           topRight: Radius.circular(30.0),
@@ -183,17 +184,17 @@ void sortingTypeSheet(BuildContext context, Function onPress) {
       builder: (context) {
         return Container(
           height: 352,
-          padding: EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 14),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: const [
               ModalSheetDivider(),
-              const SizedBox(height: 16),
-              const Text(
+              SizedBox(height: 16),
+              Text(
                 'Sort by',
                 style: AllStyles.dark18w600,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
             ],
           ),
         );

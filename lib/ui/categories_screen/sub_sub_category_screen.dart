@@ -9,6 +9,7 @@ import 'package:cool_shop/models/sub_category.dart';
 import 'package:cool_shop/ui/widgets/modal_sheet_divider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -79,13 +80,13 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
             backgroundColor: AllColors.white,
             elevation: 0,
             shadowColor: AllColors.black.withOpacity(0.25),
-            brightness: Brightness.light,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
             iconTheme: const IconThemeData(color: AllColors.dark),
             leading: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Container(
+              child: const SizedBox(
                 width: 24,
                 height: 24,
                 child: Icon(CupertinoIcons.back),
@@ -103,11 +104,11 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
               ),
             ],
             title: isGrid
-                ? Text(
+                ? const Text(
                     'Women\'s tops',
                     style: AllStyles.dark18w600,
                   )
-                : Text(''),
+                : const Text(''),
             centerTitle: true,
           ),
           body: Stack(
@@ -131,7 +132,8 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                           collection: productsList.elementAt(index).collection,
                         );
                       },
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisSpacing: 20,
                         crossAxisCount: 2,
                         mainAxisSpacing: 20,
@@ -162,7 +164,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                       blurRadius: 12,
                       color: AllColors.black.withOpacity(0.12),
                     )
@@ -175,8 +177,8 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
                       child: isGrid
-                          ? Text('')
-                          : Text(
+                          ? const Text('')
+                          : const Text(
                               'Women\'s tops',
                               style: AllStyles.headlineActive,
                             ),
@@ -191,77 +193,72 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                               title: (subcat.elementAt(index)).title);
                         },
                         separatorBuilder: (_, index) {
-                          return SizedBox(width: 7);
+                          return const SizedBox(width: 7);
                         },
                         itemCount: subcat.length,
                       ),
                     ),
                     const SizedBox(height: 18),
                     Container(
-                      child: Container(
-                        color: AllColors.appBackgroundColor,
-                        margin: EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 3,
-                              child: GestureDetector(
-                                onTap: () => Constants
-                                    .globalNavigatorKey.currentState!
-                                    .push(
-                                  MaterialPageRoute(
-                                    builder: (context) => FiltersScreen(),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/icons/filter_list.svg'),
-                                    SizedBox(width: 7),
-                                    Text(
-                                      'Filters',
-                                      style: AllStyles.dark11w400,
-                                    ),
-                                  ],
+                      color: AllColors.appBackgroundColor,
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            flex: 3,
+                            child: GestureDetector(
+                              onTap: () => Constants
+                                  .globalNavigatorKey.currentState!
+                                  .push(
+                                MaterialPageRoute(
+                                  builder: (context) => const FiltersScreen(),
                                 ),
                               ),
-                            ),
-                            Flexible(
-                              flex: 6,
-                              child: GestureDetector(
-                                onTap: () => sortingTypeSheet(
-                                    context,
-                                    sortingTypesMap,
-                                    sortingType,
-                                    selectSortingFunction),
-                                child: Container(
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/icons/sorting.svg'),
-                                      SizedBox(width: 7),
-                                      Text(
-                                        sortingTypeValue,
-                                        style: AllStyles.dark11w400,
-                                      ),
-                                    ],
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/icons/filter_list.svg'),
+                                  const SizedBox(width: 7),
+                                  const Text(
+                                    'Filters',
+                                    style: AllStyles.dark11w400,
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                            Flexible(
-                              flex: 2,
-                              child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isGrid = !isGrid;
-                                    });
-                                  },
-                                  child: SelectView(isGrid: isGrid)),
+                          ),
+                          Flexible(
+                            flex: 6,
+                            child: GestureDetector(
+                              onTap: () => sortingTypeSheet(
+                                  context,
+                                  sortingTypesMap,
+                                  sortingType,
+                                  selectSortingFunction),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/sorting.svg'),
+                                  const SizedBox(width: 7),
+                                  Text(
+                                    sortingTypeValue,
+                                    style: AllStyles.dark11w400,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isGrid = !isGrid;
+                                  });
+                                },
+                                child: SelectView(isGrid: isGrid)),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -283,7 +280,7 @@ void sortingTypeSheet(
     Function onPress) {
   showModalBottomSheet(
       elevation: 8,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30.0),
           topRight: Radius.circular(30.0),
@@ -295,11 +292,11 @@ void sortingTypeSheet(
       builder: (context) {
         return Container(
           height: 352,
-          padding: EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 14),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ModalSheetDivider(),
+              const ModalSheetDivider(),
               const SizedBox(height: 16),
               const Text(
                 'Sort by',
@@ -315,7 +312,7 @@ void sortingTypeSheet(
                     },
                     child: Container(
                       height: 48,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       color: currentSortingType == e.key
                           ? AllColors.primary
                           : AllColors.appBackgroundColor,
@@ -342,7 +339,7 @@ class SelectView extends StatelessWidget {
     required this.isGrid,
   }) : super(key: key);
 
-  final isGrid;
+  final bool isGrid;
 
   @override
   Widget build(BuildContext context) {

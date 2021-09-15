@@ -2,7 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class BigImage extends StatefulWidget {
-  BigImage({required this.imageUrl});
+  const BigImage({Key? key, required this.imageUrl}) : super(key: key);
 
   final String imageUrl;
 
@@ -22,7 +22,7 @@ class _BigImageState extends State<BigImage> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: GestureDetector(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Hero(

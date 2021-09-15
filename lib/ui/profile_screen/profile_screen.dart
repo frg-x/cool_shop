@@ -102,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
               subtitle: 'Notifications, password',
               onPress: () => Navigator.of(context, rootNavigator: true)
                   .push(MaterialPageRoute(
-                builder: (context) => SettingsScreen(),
+                builder: (context) => const SettingsScreen(),
               )),
             ),
           ],

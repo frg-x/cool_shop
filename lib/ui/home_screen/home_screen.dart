@@ -24,7 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocListener<ProductsCubit, ProductsState>(
       listener: (context, state) {
         if (state is ProductsError) {
-          CustomSnackbar(context: context, text: state.message, duration: 4);
+          showCustomSnackbar(
+              context: context, text: state.message, duration: 4);
         }
       },
       child: SingleChildScrollView(
@@ -72,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   'Sale',
                                   style: AllStyles.headlineActive,
                                 ),
@@ -133,9 +134,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               return SizedBox.expand(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  padding: EdgeInsets.all(20),
+                                  padding: const EdgeInsets.all(20),
                                   color: AllColors.white,
-                                  child: Text(
+                                  child: const Text(
                                     ':( Some thing went wrong!',
                                     style: AllStyles.dark16w500,
                                   ),
@@ -224,9 +225,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               return SizedBox.expand(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  padding: EdgeInsets.all(20),
+                                  padding: const EdgeInsets.all(20),
                                   color: AllColors.white,
-                                  child: Text(
+                                  child: const Text(
                                     ':( Some thing went wrong!',
                                     style: AllStyles.dark16w500,
                                   ),

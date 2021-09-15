@@ -2,7 +2,7 @@ import 'package:cool_shop/constants.dart';
 import 'package:flutter/material.dart';
 
 class ColoredCircle36x36 extends StatelessWidget {
-  ColoredCircle36x36({
+  const ColoredCircle36x36({
     Key? key,
     required this.color,
     required this.isSelected,

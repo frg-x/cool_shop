@@ -7,7 +7,7 @@ part 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitial());
 
-  List<CartItem> _items = [];
+  final List<CartItem> _items = [];
   double sum = 0;
 
   List<CartItem> get getItems => _items;
@@ -30,7 +30,7 @@ class CartCubit extends Cubit<CartState> {
 
     CartItem? foundCartElement;
 
-    if (_items.length > 0) {
+    if (_items.isNotEmpty) {
       try {
         foundCartElement = _items.firstWhere(((element) =>
             (element.id == cartItem.id &&
@@ -53,9 +53,9 @@ class CartCubit extends Cubit<CartState> {
 
   void calculate() {
     sum = 0;
-    _items.forEach((element) {
+    for (var element in _items) {
       sum += element.price * element.quantity;
-    });
+    }
     _printOutCartContent();
   }
 
@@ -88,10 +88,10 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void _printOutCartContent() {
-    _items.forEach((element) {
+    for (var element in _items) {
       print(
           '${element.id}, ${element.title}, ${element.price}*${element.quantity}=${element.price * element.quantity}, ${element.color}, ${element.size}');
       print(getTotalSum);
-    });
+    }
   }
 }

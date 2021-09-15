@@ -1,5 +1,5 @@
-class SubCategory_2 {
-  SubCategory_2({
+class SubCategory2 {
+  SubCategory2({
     required this.id,
     required this.title,
     required this.internalTitle,

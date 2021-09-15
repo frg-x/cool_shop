@@ -2,6 +2,7 @@
 import 'package:cool_shop/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'models/filter_brand.dart';
 import 'brand_bottom_nav_bar.dart';
 import 'widgets/brand_list_tile.dart';
@@ -58,13 +59,13 @@ class _BrandScreenState extends State<BrandScreen> {
         backgroundColor: AllColors.appBackgroundColor,
         elevation: 3,
         shadowColor: AllColors.black.withOpacity(0.3),
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: const IconThemeData(color: AllColors.dark),
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop(oldSelectedBrandList);
           },
-          child: Container(
+          child: const SizedBox(
             width: 24,
             height: 24,
             child: Icon(CupertinoIcons.back),
@@ -83,14 +84,14 @@ class _BrandScreenState extends State<BrandScreen> {
         children: [
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.fromLTRB(16, 21, 16, 0),
+            padding: const EdgeInsets.fromLTRB(16, 21, 16, 0),
             child: Container(
               height: 40,
               width: MediaQuery.of(context).size.width - 32,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 1),
+                    offset: const Offset(0, 1),
                     blurRadius: 8,
                     color: AllColors.black.withOpacity(0.05),
                   ),
@@ -98,7 +99,7 @@ class _BrandScreenState extends State<BrandScreen> {
               ),
               child: TextField(
                 onChanged: (value) => filterBrands(value),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: AllColors.appBackgroundColor,
                   contentPadding: EdgeInsets.fromLTRB(0, 9, 0, 9),
@@ -125,11 +126,11 @@ class _BrandScreenState extends State<BrandScreen> {
           Expanded(
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.only(left: 16, right: 16, top: 0),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 0),
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                     blurRadius: 2,
                     color: AllColors.black.withOpacity(0.05),
                   )

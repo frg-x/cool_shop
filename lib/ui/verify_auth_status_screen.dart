@@ -19,7 +19,8 @@ class VerifyAuthStatusScreen extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginStatus && state.messageType == MessageType.error) {
-          CustomSnackbar(context: context, text: state.message, duration: 4);
+          showCustomSnackbar(
+              context: context, text: state.message, duration: 4);
         }
       },
       builder: (context, state) {

@@ -54,7 +54,7 @@ class _CustomFABState extends State<CustomFAB> {
           )
         ],
       ),
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -64,9 +64,9 @@ class _CustomFABState extends State<CustomFAB> {
             style: AllStyles.dark15w700
                 .copyWith(decoration: TextDecoration.underline),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ElevatedButton(
-            child: Text('Sign Out'),
+            child: const Text('Sign Out'),
             onPressed: () => context.read<LoginCubit>().signOut(),
           ),
           // SizedBox(height: 10),

@@ -9,5 +9,5 @@ class SubCategory {
   int id;
   String title;
   String? image;
-  List<SubCategory_2> subSubCategories;
+  List<SubCategory2> subSubCategories;
 }

@@ -44,3 +44,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+ios/build/Pods.build/Release-iphonesimulator/Flutter.build/dgph
+ios/build/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph
+ios/build/Pods.build/Release-iphonesimulator/flutter_secure_storage.build/dgph
+ios/build/Pods.build/Release-iphonesimulator/path_provider.build/dgph

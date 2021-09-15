@@ -2,6 +2,7 @@
 import 'package:cool_shop/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'widgets/heading_category_item.dart';
 import 'widgets/caregories_list.dart';
@@ -29,7 +30,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             backgroundColor: AllColors.white,
             elevation: 8,
             shadowColor: AllColors.black.withOpacity(0.25),
-            brightness: Brightness.light,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
             iconTheme: const IconThemeData(color: AllColors.dark),
             // leading: GestureDetector(
             //   onTap: () {},
@@ -52,7 +53,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             ],
             centerTitle: true,
           ),
-          body: CategoryBody(),
+          body: const CategoryBody(),
         ),
       ),
     );
@@ -91,7 +92,7 @@ class _CategoryBodyState extends State<CategoryBody> {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
                 blurRadius: 25,
                 color: AllColors.black.withOpacity(0.08),
               )

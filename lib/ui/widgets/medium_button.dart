@@ -19,7 +19,7 @@ class MediumButton extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           color == AllColors.white
-              ? BoxShadow(color: Colors.transparent)
+              ? const BoxShadow(color: Colors.transparent)
               : BoxShadow(
                   color: AllColors.bigButtonShadow.withOpacity(0.25),
                   blurRadius: 8,
@@ -42,7 +42,7 @@ class MediumButton extends StatelessWidget {
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
                 side: color == AllColors.white
-                    ? BorderSide(
+                    ? const BorderSide(
                         width: 1,
                         color: AllColors.dark,
                       )

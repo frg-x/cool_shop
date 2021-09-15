@@ -38,7 +38,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           backgroundColor: AllColors.appBackgroundColor,
           leading: IconButton(
             onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(CupertinoIcons.back, color: AllColors.dark),
+            icon: const Icon(CupertinoIcons.back, color: AllColors.dark),
           ),
         ),
         backgroundColor: AllColors.appBackgroundColor,

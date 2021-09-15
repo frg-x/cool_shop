@@ -6,6 +6,7 @@ import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/ui/widgets/modal_sheet_divider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
@@ -17,8 +18,8 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   DateTime selectedDate = DateTime(1990);
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _notificationSales = false;
   bool _notificationNewArrivals = false;
@@ -45,10 +46,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: ctx,
       builder: (_) => Container(
         height: 500,
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: const Color.fromARGB(255, 255, 255, 255),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 400,
               child: CupertinoDatePicker(
                 initialDateTime: selectedDate.isAfter(DateTime(2007))
@@ -65,7 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             CupertinoButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 _dateController.text =
                     "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
@@ -86,13 +87,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: AllColors.appBackgroundColor,
         elevation: 0,
         shadowColor: AllColors.black.withOpacity(0.25),
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: const IconThemeData(color: AllColors.dark),
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Container(
+          child: const SizedBox(
             width: 24,
             height: 24,
             child: Icon(CupertinoIcons.back),
@@ -215,7 +216,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       textAlignVertical: TextAlignVertical.bottom,
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     left: 18,
                     top: 16,
                     child: Text(
@@ -281,7 +282,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       textAlignVertical: TextAlignVertical.bottom,
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     left: 18,
                     top: 16,
                     child: Text(
@@ -428,7 +429,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 void sortingTypeSheet(BuildContext context, Function onPress) {
   showModalBottomSheet(
       elevation: 8,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30.0),
           topRight: Radius.circular(30.0),
@@ -440,11 +441,11 @@ void sortingTypeSheet(BuildContext context, Function onPress) {
       builder: (context) {
         return Container(
           height: 352,
-          padding: EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 14),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ModalSheetDivider(),
+              const ModalSheetDivider(),
               const SizedBox(height: 16),
               const Text(
                 'Sort by',

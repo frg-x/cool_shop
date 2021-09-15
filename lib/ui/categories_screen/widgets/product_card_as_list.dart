@@ -104,7 +104,7 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
                           style: AllStyles.gray11,
                         ),
                         const SizedBox(height: 9),
-                        Container(
+                        SizedBox(
                           height: 12,
                           width: 100,
                           child: Row(

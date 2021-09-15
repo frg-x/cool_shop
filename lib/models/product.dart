@@ -38,8 +38,8 @@ class Product {
         rating: jsonData["rating"],
         ratingCount: jsonData["ratingCount"],
         collection: jsonData["collection"],
-        sizes: json.decode(jsonData["size"].replaceAll('\'', '\"')),
-        colors: json.decode(jsonData["color"].replaceAll('\'', '\"')),
+        sizes: json.decode(jsonData["size"].replaceAll('\'', '"')),
+        colors: json.decode(jsonData["color"].replaceAll('\'', '"')),
       );
 
   Map<String, dynamic> toJson() => {

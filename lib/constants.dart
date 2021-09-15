@@ -321,24 +321,24 @@ List<Category> categories = [
         title: 'Clothes',
         image: 'assets/images/women/clothes.png',
         subSubCategories: [
-          SubCategory_2(id: 0, title: 'Tops', internalTitle: 'Women\s tops'),
-          SubCategory_2(
-              id: 1, title: 'Shirts & Blouses', internalTitle: 'Women\s tops'),
-          SubCategory_2(
+          SubCategory2(id: 0, title: 'Tops', internalTitle: 'Women\'s tops'),
+          SubCategory2(
+              id: 1, title: 'Shirts & Blouses', internalTitle: 'Women\'s tops'),
+          SubCategory2(
               id: 2,
               title: 'Cardigans & Sweaters',
-              internalTitle: 'Women\s tops'),
-          SubCategory_2(
-              id: 3, title: 'Knitwear', internalTitle: 'Women\s tops'),
-          SubCategory_2(id: 4, title: 'Blazers', internalTitle: 'Women\s tops'),
-          SubCategory_2(
-              id: 5, title: 'Outerwear', internalTitle: 'Women\s tops'),
-          SubCategory_2(id: 6, title: 'Pants', internalTitle: 'Women\s tops'),
-          SubCategory_2(id: 7, title: 'Jeans', internalTitle: 'Women\s tops'),
-          SubCategory_2(id: 8, title: 'Shorts', internalTitle: 'Women\s tops'),
-          SubCategory_2(id: 9, title: 'Skirts', internalTitle: 'Women\s tops'),
-          SubCategory_2(
-              id: 10, title: 'Dresses', internalTitle: 'Women\s tops'),
+              internalTitle: 'Women\'s tops'),
+          SubCategory2(
+              id: 3, title: 'Knitwear', internalTitle: 'Women\'s tops'),
+          SubCategory2(id: 4, title: 'Blazers', internalTitle: 'Women\'s tops'),
+          SubCategory2(
+              id: 5, title: 'Outerwear', internalTitle: 'Women\'s tops'),
+          SubCategory2(id: 6, title: 'Pants', internalTitle: 'Women\'s tops'),
+          SubCategory2(id: 7, title: 'Jeans', internalTitle: 'Women\'s tops'),
+          SubCategory2(id: 8, title: 'Shorts', internalTitle: 'Women\'s tops'),
+          SubCategory2(id: 9, title: 'Skirts', internalTitle: 'Women\'s tops'),
+          SubCategory2(
+              id: 10, title: 'Dresses', internalTitle: 'Women\'s tops'),
         ],
       ),
       SubCategory(

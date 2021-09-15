@@ -19,13 +19,13 @@ class ProductBottomNavBar extends StatelessWidget {
         color: AllColors.appBackgroundColor,
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, -4),
+            offset: const Offset(0, -4),
             blurRadius: 8,
             color: AllColors.black.withOpacity(0.1),
           )
         ],
       ),
-      padding: EdgeInsets.fromLTRB(16, 20, 16, 44),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 44),
       child: BigButton(
         onPress: () => context.read<CartCubit>().addItem(cartItem),
         text: 'ADD TO CART',

@@ -22,13 +22,13 @@ class BrandBottomNavBar extends StatelessWidget {
         color: AllColors.appBackgroundColor,
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, -4),
+            offset: const Offset(0, -4),
             blurRadius: 8,
             color: AllColors.black.withOpacity(0.1),
           )
         ],
       ),
-      padding: EdgeInsets.fromLTRB(16, 20, 16, 48),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 48),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

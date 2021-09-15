@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BigTextField extends StatefulWidget {
-  BigTextField({
+  const BigTextField({
     Key? key,
     required this.labelText,
     required this.errorText,

@@ -7,6 +7,7 @@ import 'package:cool_shop/models/sub_category_2.dart';
 import 'package:cool_shop/ui/widgets/big_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SubCategoryScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     final subSubCategories =
-        ModalRoute.of(context)!.settings.arguments as List<SubCategory_2>;
+        ModalRoute.of(context)!.settings.arguments as List<SubCategory2>;
     return BlocBuilder<TabSwitchingCubit, TabSwitchingState>(
       builder: (context, state) {
         //activeScreenNumber = (state as TabsSwitch).activeScreenNumber;
@@ -38,13 +39,13 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
             backgroundColor: AllColors.appBackgroundColor,
             elevation: 8,
             shadowColor: AllColors.black.withOpacity(0.25),
-            brightness: Brightness.light,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
             iconTheme: const IconThemeData(color: AllColors.dark),
             leading: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Container(
+              child: const SizedBox(
                 width: 24,
                 height: 24,
                 child: Icon(CupertinoIcons.back),
@@ -92,7 +93,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         onPress: () =>
                             Constants.categoryNavigatorKey.currentState!.push(
                           MaterialPageRoute(
-                            builder: (ctx) => SubSubCategoryScreen(),
+                            builder: (ctx) => const SubSubCategoryScreen(),
                             settings: RouteSettings(
                               arguments: subSubCategories[index].title,
                             ),

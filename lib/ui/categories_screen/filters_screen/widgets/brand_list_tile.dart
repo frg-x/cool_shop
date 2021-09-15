@@ -41,7 +41,7 @@ class BrandListTile extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: AllColors.gray,
                     width: 2,
                   ),

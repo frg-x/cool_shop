@@ -5,6 +5,7 @@ import 'package:cool_shop/ui/categories_screen/filters_screen/models/filter_size
 import 'package:cool_shop/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'brand_screen.dart';
 import 'filters_bottom_nav_bar.dart';
@@ -23,20 +24,35 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  RangeValues _initialValues = RangeValues(75, 135);
+  RangeValues _initialValues = const RangeValues(75, 135);
   List<FilterColor> filterColors = [
     FilterColor(
-        id: 1, title: 'Dark Gray', color: Color(0xFF020202), isSelected: false),
+        id: 1,
+        title: 'Dark Gray',
+        color: const Color(0xFF020202),
+        isSelected: false),
     FilterColor(
-        id: 2, title: 'Gray', color: Color(0xFFF7F7F7), isSelected: false),
+        id: 2,
+        title: 'Gray',
+        color: const Color(0xFFF7F7F7),
+        isSelected: false),
     FilterColor(
-        id: 3, title: 'Red', color: Color(0xFFB82222), isSelected: false),
+        id: 3, title: 'Red', color: const Color(0xFFB82222), isSelected: false),
     FilterColor(
-        id: 4, title: 'Beige', color: Color(0xFFBEA9A9), isSelected: false),
+        id: 4,
+        title: 'Beige',
+        color: const Color(0xFFBEA9A9),
+        isSelected: false),
     FilterColor(
-        id: 5, title: 'Skin', color: Color(0xFFE2BB8D), isSelected: false),
+        id: 5,
+        title: 'Skin',
+        color: const Color(0xFFE2BB8D),
+        isSelected: false),
     FilterColor(
-        id: 6, title: 'Deep Blue', color: Color(0xFF151867), isSelected: false),
+        id: 6,
+        title: 'Deep Blue',
+        color: const Color(0xFF151867),
+        isSelected: false),
   ];
 
   List<FilterSize> filterSizes = [
@@ -94,11 +110,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
     selectedBrands = [];
     brandList = [];
     brandList = copyList(list);
-    list.forEach((element) {
+    for (var element in list) {
       if (element.isSelected) {
         selectedBrands.add(element.title);
       }
-    });
+    }
 
     setState(() {});
   }
@@ -114,13 +130,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
         backgroundColor: AllColors.appBackgroundColor,
         elevation: 3,
         shadowColor: AllColors.black.withOpacity(0.3),
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: const IconThemeData(color: AllColors.dark),
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Container(
+          child: const SizedBox(
             width: 24,
             height: 24,
             child: Icon(CupertinoIcons.back),
@@ -129,7 +145,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         leadingWidth: 40,
         centerTitle: true,
       ),
-      bottomNavigationBar: FiltersBottomNavBar(),
+      bottomNavigationBar: const FiltersBottomNavBar(),
       extendBody: true,
       body: SizedBox(
         height: MediaQuery.of(context).size.height - 104,
@@ -140,7 +156,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               const SizedBox(height: 2),
               Container(
                 height: 42,
-                padding: EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 16),
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
                 child: const Text(
@@ -154,7 +170,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                       blurRadius: 2,
                       color: AllColors.black.withOpacity(0.05),
                     )
@@ -170,7 +186,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         inactiveTrackColor: AllColors.gray,
                         thumbColor: AllColors.primary,
                         overlayColor: Colors.transparent,
-                        rangeThumbShape: RoundRangeSliderThumbShape(
+                        rangeThumbShape: const RoundRangeSliderThumbShape(
                           enabledThumbRadius: 11.0,
                         ),
                         showValueIndicator: ShowValueIndicator.never,
@@ -216,7 +232,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               const SizedBox(height: 2),
               Container(
                 height: 42,
-                padding: EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 16),
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
                 child: const Text(
@@ -227,11 +243,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ),
               Container(
                 height: 88,
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                       blurRadius: 2,
                       color: AllColors.black.withOpacity(0.05),
                     )
@@ -259,7 +275,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               const SizedBox(height: 2),
               Container(
                 height: 42,
-                padding: EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 16),
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
                 child: const Text(
@@ -270,11 +286,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ),
               Container(
                 height: 88,
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                       blurRadius: 2,
                       color: AllColors.black.withOpacity(0.05),
                     )
@@ -307,7 +323,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               const SizedBox(height: 2),
               Container(
                 height: 42,
-                padding: EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 16),
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
                 child: const Text(
@@ -318,11 +334,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                       blurRadius: 2,
                       color: AllColors.black.withOpacity(0.05),
                     )
@@ -364,7 +381,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 },
                 child: Container(
                   height: 56,
-                  padding: EdgeInsets.only(left: 16),
+                  padding: const EdgeInsets.only(left: 16),
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
                   color: AllColors.appBackgroundColor,
@@ -377,7 +394,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 12),
-                          Text(
+                          const Text(
                             'Brand',
                             style: AllStyles.dark16w600,
                           ),

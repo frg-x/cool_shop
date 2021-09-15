@@ -14,6 +14,7 @@ import 'package:cool_shop/ui/widgets/rating_stars.dart';
 import 'package:cool_shop/ui/widgets/rounded_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,22 +41,22 @@ class _ProductScreenState extends State<ProductScreen> {
         .productsList
         .firstWhere((element) => element.id == id);
     filterColors = [];
-    currentProduct.colors.forEach((element) {
+    for (var element in currentProduct.colors) {
       final filterColor = FilterColor(
           id: int.parse(element['id']),
           title: element['title'],
           color: _getColorFromHex(element['color']),
           isSelected: false);
       filterColors.add(filterColor);
-    });
+    }
     filterSizes = [];
-    currentProduct.sizes.forEach((element) {
+    for (var element in currentProduct.sizes) {
       final filterSize = FilterSize(
           id: int.parse(element['id']),
           title: element['title'],
           isSelected: false);
       filterSizes.add(filterSize);
-    });
+    }
     return currentProduct;
   }
 
@@ -98,7 +99,7 @@ class _ProductScreenState extends State<ProductScreen> {
   void selectSizeSheet(BuildContext context, String index, Function onPress) {
     showModalBottomSheet(
         elevation: 8,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(34.0),
             topRight: Radius.circular(34.0),
@@ -110,11 +111,11 @@ class _ProductScreenState extends State<ProductScreen> {
         builder: (context) {
           return Container(
             height: 398,
-            padding: EdgeInsets.symmetric(vertical: 14, horizontal: 0),
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ModalSheetDivider(),
+                const ModalSheetDivider(),
                 const SizedBox(height: 16),
                 const Text(
                   'Select size',
@@ -152,14 +153,14 @@ class _ProductScreenState extends State<ProductScreen> {
                         .toList(),
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Container(
                   height: 48,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Size info',
                         style: AllStyles.dark16w400,
                       ),
@@ -169,7 +170,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     ],
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 const SizedBox(height: 28),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -207,13 +208,13 @@ class _ProductScreenState extends State<ProductScreen> {
         backgroundColor: AllColors.white,
         elevation: 8,
         shadowColor: AllColors.black.withOpacity(0.25),
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: const IconThemeData(color: AllColors.dark),
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Container(
+          child: const SizedBox(
             width: 24,
             height: 24,
             child: Icon(CupertinoIcons.back),
@@ -224,7 +225,7 @@ class _ProductScreenState extends State<ProductScreen> {
           GestureDetector(
             onTap: () => print('Sharing the URL'),
             child: Padding(
-              padding: EdgeInsets.only(right: 16.0),
+              padding: const EdgeInsets.only(right: 16.0),
               child: SvgPicture.asset('assets/icons/share.svg'),
             ),
           ),
@@ -263,7 +264,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
             const SizedBox(height: 12),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -289,28 +290,29 @@ class _ProductScreenState extends State<ProductScreen> {
                         hintStyle: AllStyles.dark14w500,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AllColors.sizeOptionRedBorder,
                             width: 0.4,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AllColors.sizeOptionRedBorder,
                             width: 0.4,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AllColors.sizeOptionRedBorder,
                             width: 0.4,
                           ),
                         ),
-                        contentPadding: EdgeInsets.fromLTRB(12, 10, 12, 10),
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(12, 10, 12, 10),
                         suffixIcon: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: SvgPicture.asset(
                             'assets/icons/option_arrow_down.svg',
                           ),
@@ -335,12 +337,13 @@ class _ProductScreenState extends State<ProductScreen> {
                         hintStyle: AllStyles.dark14w500,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AllColors.dark,
                             width: 0.4,
                           ),
                         ),
-                        contentPadding: EdgeInsets.fromLTRB(12, 10, 12, 10),
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(12, 10, 12, 10),
                       ),
                       items: filterColors
                           .asMap()
@@ -383,7 +386,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
             const SizedBox(height: 22),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -406,7 +409,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     style: AllStyles.gray11,
                   ),
                   const SizedBox(height: 9),
-                  Container(
+                  SizedBox(
                     height: 12,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -421,9 +424,9 @@ class _ProductScreenState extends State<ProductScreen> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, bottom: 16),
-                    child: const Text(
+                  const Padding(
+                    padding: EdgeInsets.only(top: 16, bottom: 16),
+                    child: Text(
                       'Short dress in soft cotton jersey with decorative buttons down the front and a wide, frill-trimmed square neckline with concealed elastication. Elasticated seam under the bust and short puff sleeves with a small frill trim.',
                       style: AllStyles.productDescriprtion,
                     ),
@@ -431,14 +434,14 @@ class _ProductScreenState extends State<ProductScreen> {
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
             Container(
               height: 48,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Shipping info',
                     style: AllStyles.dark16w400,
                   ),
@@ -448,14 +451,14 @@ class _ProductScreenState extends State<ProductScreen> {
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
             Container(
               height: 48,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Support',
                     style: AllStyles.dark16w400,
                   ),
@@ -465,7 +468,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
             BlocBuilder<ProductsCubit, ProductsState>(
               builder: (context, state) {
                 if (state is ProductsLoaded) {
@@ -475,7 +478,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     children: [
                       const SizedBox(height: 24),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -537,9 +540,9 @@ class _ProductScreenState extends State<ProductScreen> {
                   return SizedBox.expand(
                     child: Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       color: AllColors.white,
-                      child: Text(
+                      child: const Text(
                         ':( Some thing went wrong!',
                         style: AllStyles.dark16w500,
                       ),
