@@ -176,11 +176,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         //     //print(_selectedSize);
                         //   });
                         // },
-                        onTap: () => selectSizeSheet(
-                          context,
-                          'XS',
-                          () {},
-                        ),
+                        onTap: () => selectSizeSheet(context),
                         readOnly: true,
                         decoration: InputDecoration(
                           hintText: selectedSize,
@@ -470,7 +466,7 @@ class _ProductScreenState extends State<ProductScreen> {
     setState(() {});
   }
 
-  void selectSizeSheet(BuildContext context, String index, Function onPress) {
+  void selectSizeSheet(BuildContext context) {
     showModalBottomSheet(
         elevation: 8,
         shape: const RoundedRectangleBorder(
