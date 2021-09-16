@@ -20,7 +20,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'product_bottom_navbar.dart';
-import 'custom_transparent_page_route.dart';
+import '../widgets/custom_transparent_page_route.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key, required this.id}) : super(key: key);
@@ -467,7 +467,6 @@ class _ProductScreenState extends State<ProductScreen> {
       selectedSize = filterSizes[index].title;
       selectedSizeIndex = index;
     }
-    print(selectedSize);
     setState(() {});
   }
 

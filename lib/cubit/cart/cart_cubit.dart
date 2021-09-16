@@ -10,7 +10,9 @@ class CartCubit extends Cubit<CartState> {
   final List<CartItem> _items = [];
   double sum = 0;
 
-  List<CartItem> get getItems => _items;
+  // List<CartItem> get getItems => _items;
+
+  // double get _getTotalSum => sum;
 
   void addItem(CartItem cartItem) {
     if (cartItem.color == '' && cartItem.size == 'Size') {
@@ -46,20 +48,32 @@ class CartCubit extends Cubit<CartState> {
       _items.add(cartItem);
       //print('add2');
     }
-    calculate();
+    reCalculate();
+    emit(CartData(_items, sum));
   }
 
-  void deleteItem(int productId) {}
+  void deleteItem(CartItem cartItem) {
+    final elementIndexToDelete = _items.indexWhere((element) =>
+        (element.id == cartItem.id &&
+            element.color == cartItem.color &&
+            element.size == cartItem.size));
+    _items.removeAt(elementIndexToDelete);
+    emit(CartData(_items, sum));
+  }
 
-  void calculate() {
+  void deleteAll() {
+    _items.clear();
+    reCalculate();
+    emit(CartData(_items, sum));
+  }
+
+  void reCalculate() {
     sum = 0;
     for (var element in _items) {
       sum += element.price * element.quantity;
     }
-    _printOutCartContent();
+    //_printOutCartContent();
   }
-
-  double get getTotalSum => sum;
 
   void incrementCartItem(CartItem cartItem) {
     CartItem foundCartElement = _items.firstWhere(((element) =>
@@ -67,7 +81,8 @@ class CartCubit extends Cubit<CartState> {
             element.color == cartItem.color &&
             element.size == cartItem.size)));
     foundCartElement.quantity += 1;
-    calculate();
+    reCalculate();
+    emit(CartData(_items, sum));
   }
 
   void decrementCartItem(CartItem cartItem) {
@@ -84,14 +99,15 @@ class CartCubit extends Cubit<CartState> {
               element.size == cartItem.size));
       _items.removeAt(elementIndexToDelete);
     }
-    calculate();
+    reCalculate();
+    emit(CartData(_items, sum));
   }
 
   void _printOutCartContent() {
     for (var element in _items) {
       print(
           '${element.id}, ${element.title}, ${element.price}*${element.quantity}=${element.price * element.quantity}, ${element.color}, ${element.size}');
-      print(getTotalSum);
+      print(sum);
     }
   }
 }

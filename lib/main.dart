@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 import 'package:cool_shop/cubit/cart/cart_cubit.dart';
+import 'package:cool_shop/cubit/favorites/favorites_cubit.dart';
 import 'package:cool_shop/cubit/products/products_cubit.dart';
 import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
@@ -44,6 +45,7 @@ class CoolShop extends StatelessWidget {
         BlocProvider.value(value: getIt<LoginCubit>()),
         BlocProvider(create: (context) => ProductsCubit()),
         BlocProvider(create: (context) => CartCubit()),
+        BlocProvider(create: (context) => FavoritesCubit()),
       ],
       child: MaterialApp(
         navigatorKey: Constants.globalNavigatorKey,

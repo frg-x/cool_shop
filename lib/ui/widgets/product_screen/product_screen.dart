@@ -5,7 +5,7 @@ import 'package:cool_shop/cubit/products/products_cubit.dart';
 import 'package:cool_shop/ui/home_screen/widgets/home_screen_product_card.dart';
 import 'package:cool_shop/models/cart_item.dart';
 import 'package:cool_shop/models/product.dart';
-import 'package:cool_shop/ui/product_screen/custom_transparent_page_route.dart';
+import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:cool_shop/ui/product_screen/widgets/big_image.dart';
 import 'package:cool_shop/ui/widgets/big_button.dart';
 import 'package:cool_shop/ui/widgets/favorite_button.dart';
@@ -96,7 +96,7 @@ class _ProductScreenState extends State<ProductScreen> {
     });
   }
 
-  void selectSizeSheet(BuildContext context, String index, Function onPress) {
+  void selectSizeSheet(BuildContext context) {
     showModalBottomSheet(
         elevation: 8,
         shape: const RoundedRectangleBorder(
@@ -279,11 +279,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       //     //print(_selectedSize);
                       //   });
                       // },
-                      onTap: () => selectSizeSheet(
-                        context,
-                        'XS',
-                        () {},
-                      ),
+                      onTap: () => selectSizeSheet(context),
                       readOnly: true,
                       decoration: InputDecoration(
                         hintText: selectedSize,

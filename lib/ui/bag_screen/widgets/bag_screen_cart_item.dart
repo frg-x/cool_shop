@@ -1,8 +1,11 @@
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/cubit/cart/cart_cubit.dart';
+import 'package:cool_shop/cubit/favorites/favorites_cubit.dart';
 import 'package:cool_shop/models/cart_item.dart';
 import 'package:cool_shop/ui/product_screen/product_screen.dart';
+import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bag_screen_change_quantity.dart';
 
@@ -19,12 +22,53 @@ class BagScreenCartItem extends StatefulWidget {
 }
 
 class _BagScreenCartItemState extends State<BagScreenCartItem> {
+  List<PopupMenuEntry<Object>> list = [];
+
+  void initPopupMenu() {
+    list.add(
+      PopupMenuItem(
+        height: 40,
+        child: const Text(
+          'Add to favorites',
+          style: AllStyles.dark11w400,
+        ),
+        value: 'AddToFavorites',
+        onTap: () =>
+            context.read<FavoritesCubit>().addToFavorites(widget.cartItem.id),
+      ),
+    );
+    list.add(
+      const PopupMenuDivider(
+        height: 1,
+      ),
+    );
+    list.add(
+      PopupMenuItem(
+        height: 40,
+        child: const Text(
+          'Delete from the list',
+          style: AllStyles.dark11w400,
+        ),
+        onTap: () => context.read<CartCubit>().deleteItem(widget.cartItem),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    initPopupMenu();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Constants.globalNavigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (ctx) => ProductScreen(id: widget.cartItem.id),
+      onTap: () => Navigator.of(context).push(
+        CustomTransparentPageRoute(
+          pageBuilder: (context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return ProductScreen(id: widget.cartItem.id);
+          },
         ),
       ),
       child: Container(
@@ -50,9 +94,12 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                   topLeft: Radius.circular(8),
                   bottomLeft: Radius.circular(8),
                 ),
-                child: Image.network(
-                  widget.cartItem.imageUrl,
-                  fit: BoxFit.cover,
+                child: Hero(
+                  tag: widget.cartItem.imageUrl,
+                  child: Image.network(
+                    widget.cartItem.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               decoration: const BoxDecoration(
@@ -116,10 +163,33 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () => print('more'),
-                          child: SvgPicture.asset(
-                              'assets/icons/cart_item_more.svg'),
+                        // GestureDetector(
+                        //   //nTapDown: _showPopupMenu,
+                        //   child: SvgPicture.asset(
+                        //       'assets/icons/cart_item_more.svg'),
+                        // ),
+                        Container(
+                          width: 24,
+                          height: 24,
+                          margin: const EdgeInsets.all(9),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                            ),
+                            child: PopupMenuButton(
+                              icon: const Icon(
+                                Icons.more_vert,
+                                color: Color(0xFFC7C7C7),
+                                size: 24,
+                              ),
+                              offset: const Offset(-28, -20),
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              itemBuilder: (context) => list,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -136,9 +206,12 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                                 cartItem: widget.cartItem,
                               ),
                               const SizedBox(width: 16),
-                              Text(
-                                widget.cartItem.quantity.toString(),
-                                style: AllStyles.dark14w500,
+                              SizedBox(
+                                width: 10,
+                                child: Text(
+                                  widget.cartItem.quantity.toString(),
+                                  style: AllStyles.dark14w500,
+                                ),
                               ),
                               const SizedBox(width: 16),
                               ChangeQuantityButton(
