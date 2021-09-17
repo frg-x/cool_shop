@@ -23,9 +23,11 @@ import 'product_bottom_navbar.dart';
 import '../widgets/custom_transparent_page_route.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key, required this.id}) : super(key: key);
+  const ProductScreen({Key? key, required this.id, required this.heroTag})
+      : super(key: key);
 
   final int id;
+  final String heroTag;
 
   @override
   _ProductScreenState createState() => _ProductScreenState();
@@ -144,12 +146,15 @@ class _ProductScreenState extends State<ProductScreen> {
                         CustomTransparentPageRoute(
                           pageBuilder: (context, Animation<double> animation,
                               Animation<double> secondaryAnimation) {
-                            return BigImage(imageUrl: product.imageUrl);
+                            return BigImage(
+                              imageUrl: product.imageUrl,
+                              heroTag: widget.heroTag,
+                            );
                           },
                         ),
                       ),
                       child: Hero(
-                        tag: product.imageUrl,
+                        tag: widget.heroTag,
                         child: Image.network(
                           product.imageUrl,
                           fit: BoxFit.cover,
@@ -169,13 +174,6 @@ class _ProductScreenState extends State<ProductScreen> {
                       width: 138,
                       height: 40,
                       child: TextField(
-                        //value: 'M',
-                        // onChanged: (value) {
-                        //   setState(() {
-                        //     _selectedSize = value.toString();
-                        //     //print(_selectedSize);
-                        //   });
-                        // },
                         onTap: () => selectSizeSheet(context),
                         readOnly: true,
                         decoration: InputDecoration(

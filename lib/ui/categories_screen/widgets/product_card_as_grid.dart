@@ -2,11 +2,13 @@
 
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/ui/product_screen/product_screen.dart';
+import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:cool_shop/ui/widgets/discount_label.dart';
 import 'package:cool_shop/ui/widgets/favorite_button.dart';
 import 'package:cool_shop/ui/widgets/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductCardAsGrid extends StatefulWidget {
   const ProductCardAsGrid({
@@ -36,6 +38,7 @@ class ProductCardAsGrid extends StatefulWidget {
 
 class _ProductCardAsGridState extends State<ProductCardAsGrid> {
   bool isFav = false;
+  String uuid = const Uuid().v4();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +48,14 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
         (widget.price * (1 - widget.discount)).floor().toStringAsFixed(0);
     return GestureDetector(
       onTap: () => Constants.globalNavigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (ctx) => ProductScreen(id: widget.id),
+        CustomTransparentPageRoute(
+          pageBuilder: (context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return ProductScreen(
+              id: widget.id,
+              heroTag: uuid,
+            );
+          },
         ),
       ),
       child: Stack(
@@ -60,9 +69,12 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
                   SizedBox(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        widget.imageUrl,
-                        fit: BoxFit.cover,
+                      child: Hero(
+                        tag: uuid,
+                        child: Image.network(
+                          widget.imageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     width: 180,

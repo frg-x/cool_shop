@@ -1,12 +1,12 @@
-// ignore_for_file: sized_box_for_whitespace, prefer_const_literals_to_create_immutables
-
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/ui/product_screen/product_screen.dart';
+import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:cool_shop/ui/widgets/discount_label.dart';
 import 'package:cool_shop/ui/widgets/favorite_button.dart';
 import 'package:cool_shop/ui/widgets/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreenProductCard extends StatefulWidget {
   const HomeScreenProductCard({
@@ -36,6 +36,7 @@ class HomeScreenProductCard extends StatefulWidget {
 
 class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
   bool isFav = false;
+  String uuid = const Uuid().v4();
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +46,19 @@ class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
         (widget.price * (1 - widget.discount)).floor().toStringAsFixed(0);
     return GestureDetector(
       onTap: () => Constants.globalNavigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (ctx) => ProductScreen(id: widget.id),
+        CustomTransparentPageRoute(
+          pageBuilder: (context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return ProductScreen(
+              id: widget.id,
+              heroTag: uuid,
+            );
+          },
         ),
       ),
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             width: 150,
             height: 270,
             child: Column(
@@ -63,9 +70,12 @@ class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
                     SizedBox(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          widget.imageUrl,
-                          fit: BoxFit.cover,
+                        child: Hero(
+                          tag: uuid,
+                          child: Image.network(
+                            widget.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       width: 150,
@@ -82,7 +92,7 @@ class _HomeScreenProductCardState extends State<HomeScreenProductCard> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Container(
+                SizedBox(
                   height: 12,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

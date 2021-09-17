@@ -1,8 +1,10 @@
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/ui/product_screen/product_screen.dart';
+import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:cool_shop/ui/widgets/favorite_button.dart';
 import 'package:cool_shop/ui/widgets/rating_stars.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductCardAsList extends StatefulWidget {
   const ProductCardAsList({
@@ -34,6 +36,7 @@ class ProductCardAsList extends StatefulWidget {
 
 class _ProductCardAsListState extends State<ProductCardAsList> {
   bool isFav = false;
+  String uuid = const Uuid().v4();
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +47,14 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
 
     return GestureDetector(
       onTap: () => Constants.globalNavigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (ctx) => ProductScreen(id: widget.id),
+        CustomTransparentPageRoute(
+          pageBuilder: (context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return ProductScreen(
+              id: widget.id,
+              heroTag: uuid,
+            );
+          },
         ),
       ),
       child: Stack(
@@ -72,9 +81,12 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(8),
                     ),
-                    child: Image.network(
-                      widget.imageUrl,
-                      fit: BoxFit.cover,
+                    child: Hero(
+                      tag: uuid,
+                      child: Image.network(
+                        widget.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   decoration: const BoxDecoration(

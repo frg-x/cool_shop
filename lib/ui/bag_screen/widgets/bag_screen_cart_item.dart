@@ -6,6 +6,7 @@ import 'package:cool_shop/ui/product_screen/product_screen.dart';
 import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import 'bag_screen_change_quantity.dart';
 
@@ -23,6 +24,7 @@ class BagScreenCartItem extends StatefulWidget {
 
 class _BagScreenCartItemState extends State<BagScreenCartItem> {
   List<PopupMenuEntry<Object>> list = [];
+  String uuid = const Uuid().v4();
 
   void initPopupMenu() {
     list.add(
@@ -67,7 +69,10 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
         CustomTransparentPageRoute(
           pageBuilder: (context, Animation<double> animation,
               Animation<double> secondaryAnimation) {
-            return ProductScreen(id: widget.cartItem.id);
+            return ProductScreen(
+              id: widget.cartItem.id,
+              heroTag: uuid,
+            );
           },
         ),
       ),
@@ -95,7 +100,7 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                   bottomLeft: Radius.circular(8),
                 ),
                 child: Hero(
-                  tag: widget.cartItem.imageUrl,
+                  tag: uuid,
                   child: Image.network(
                     widget.cartItem.imageUrl,
                     fit: BoxFit.cover,
@@ -207,10 +212,11 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                               ),
                               const SizedBox(width: 16),
                               SizedBox(
-                                width: 10,
+                                width: 20,
                                 child: Text(
                                   widget.cartItem.quantity.toString(),
                                   style: AllStyles.dark14w500,
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                               const SizedBox(width: 16),

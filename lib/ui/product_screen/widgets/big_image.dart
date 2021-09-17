@@ -2,9 +2,14 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class BigImage extends StatefulWidget {
-  const BigImage({Key? key, required this.imageUrl}) : super(key: key);
+  const BigImage({
+    Key? key,
+    required this.imageUrl,
+    required this.heroTag,
+  }) : super(key: key);
 
   final String imageUrl;
+  final String heroTag;
 
   @override
   _BigImageState createState() => _BigImageState();
@@ -26,7 +31,7 @@ class _BigImageState extends State<BigImage> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Hero(
-              tag: widget.imageUrl,
+              tag: widget.heroTag,
               child: ExtendedImage.network(
                 widget.imageUrl,
                 fit: BoxFit.fitWidth,
