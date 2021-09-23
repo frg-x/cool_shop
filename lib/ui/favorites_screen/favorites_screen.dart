@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:cool_shop/cubit/favorites/favorites_cubit.dart';
 import 'package:cool_shop/ui/categories_screen/filters_screen/filters_screen.dart';
 import 'package:cool_shop/ui/categories_screen/widgets/category_small_badge.dart';
 import 'package:cool_shop/ui/categories_screen/widgets/product_card_as_grid.dart';
 import 'package:cool_shop/ui/categories_screen/widgets/product_card_as_list.dart';
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/cubit/products/products_cubit.dart';
 import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/models/sub_category.dart';
 import 'package:cool_shop/ui/widgets/modal_sheet_divider.dart';
@@ -24,8 +24,6 @@ enum SortingTypes {
 }
 
 class FavoritesScreen extends StatefulWidget {
-  static const namedRoute = '/favorites';
-
   const FavoritesScreen({
     Key? key,
   }) : super(key: key);
@@ -70,7 +68,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         (categories.elementAt(0).subCategories.elementAt(2) as SubCategory)
             .subSubCategories
             .reversed;
-    final productsList = context.read<ProductsCubit>().productsList;
+    final productsList = context.read<FavoritesCubit>().getFavProductsList;
     return BlocBuilder<TabSwitchingCubit, TabSwitchingState>(
       builder: (context, state) {
         return Scaffold(
@@ -108,16 +106,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       itemCount: productsList.length,
                       itemBuilder: (ctx, int index) {
                         return ProductCardAsGrid(
-                          id: productsList.elementAt(index).id,
-                          title: productsList.elementAt(index).title,
-                          imageUrl: productsList.elementAt(index).imageUrl,
-                          //onPress: () {},
-                          price: productsList.elementAt(index).price,
-                          discount: productsList.elementAt(index).discount,
-                          rating: productsList.elementAt(index).rating,
-                          ratingCount:
-                              productsList.elementAt(index).ratingCount,
-                          collection: productsList.elementAt(index).collection,
+                          product: productsList.elementAt(index),
                         );
                       },
                       gridDelegate:
@@ -134,16 +123,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       itemCount: productsList.length,
                       itemBuilder: (ctx, int index) {
                         return ProductCardAsList(
-                          id: productsList.elementAt(index).id,
-                          title: productsList.elementAt(index).title,
-                          imageUrl: productsList.elementAt(index).imageUrl,
-                          onPress: () {},
-                          price: productsList.elementAt(index).price,
-                          discount: productsList.elementAt(index).discount,
-                          rating: productsList.elementAt(index).rating,
-                          ratingCount:
-                              productsList.elementAt(index).ratingCount,
-                          collection: productsList.elementAt(index).collection,
+                          product: productsList.elementAt(index),
                         );
                       },
                     ),

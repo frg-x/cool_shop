@@ -1,124 +1,112 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/cubit/login/models/data.dart';
+import 'package:cool_shop/main.dart';
 import 'package:cool_shop/utilities/network_service.dart';
 import 'package:cool_shop/utilities/secure_storage.dart';
+import 'package:dio/dio.dart';
 import 'package:string_validator/string_validator.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this.data) : super(LoginInitial()) {
+  LoginCubit() : super(LoginInitial()) {
     checkLoginState();
   }
 
-  String userId = '';
-  String userName = '';
-  String email = '';
-  String password = '';
+  Data data = Data(
+    userId: '',
+    userName: '',
+    email: '',
+    password: '',
+    verifyCode: '',
+    isNameValid: false,
+    isEmailValid: false,
+    isPasswordValid: false,
+    verifiedOne: false,
+    verifiedTwo: false,
+    verifiedThree: false,
+    isCodeFilled: false,
+    isLogged: false,
+    isVerified: false,
+    currentLoginTab: 0,
+  );
 
-  bool isNameValid = false;
-  bool isEmailValid = false;
-  bool isPasswordValid = false;
+  final _networkService = getIt<NetworkService>();
 
-  bool verifiedOne = false;
-  bool verifiedTwo = false;
-  bool verifiedThree = false;
+  void setLoginTab(int page) {
+    data.currentLoginTab = page;
+    emit(LoginStatus(data, MessageType.empty, '', ShowOnScreen.byDefault));
+  }
 
-  bool? isLogged = false;
-  final Map<String, dynamic> data;
+  void setVerifyCode(String text) {
+    data.verifyCode = text;
+    emit(LoginStatus(data, MessageType.empty, '', ShowOnScreen.byDefault));
+  }
 
   void validateFields() {
-    isNameValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!-_]+").hasMatch(userName) &&
-        userName.length >= 6;
-    isEmailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(email);
-    isPasswordValid =
-        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&*]+").hasMatch(password) &&
-            password.length >= 6;
+    data.isNameValid =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!-_]+").hasMatch(data.userName) &&
+            data.userName.length >= 6;
+    data.isEmailValid =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(data.email);
+    data.isPasswordValid =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&*]+").hasMatch(data.password) &&
+            data.password.length >= 6;
 
-    if (isNameValid && isEmailValid && isPasswordValid) {
-      verifiedOne = true;
-      verifiedTwo = true;
-      verifiedThree = true;
-    } else if (isEmailValid && isPasswordValid) {
-      verifiedOne = true;
-      verifiedTwo = true;
-      verifiedThree = false;
-    } else if (isEmailValid) {
-      verifiedOne = true;
-      verifiedTwo = false;
-      verifiedThree = false;
+    if (data.isNameValid && data.isEmailValid && data.isPasswordValid) {
+      data.verifiedOne = true;
+      data.verifiedTwo = true;
+      data.verifiedThree = true;
+    } else if (data.isEmailValid && data.isPasswordValid) {
+      data.verifiedOne = true;
+      data.verifiedTwo = true;
+      data.verifiedThree = false;
+    } else if (data.isEmailValid) {
+      data.verifiedOne = true;
+      data.verifiedTwo = false;
+      data.verifiedThree = false;
     } else {
-      verifiedOne = false;
-      verifiedTwo = false;
-      verifiedThree = false;
+      data.verifiedOne = false;
+      data.verifiedTwo = false;
+      data.verifiedThree = false;
     }
-    data.addAll({
-      'name': userName,
-      'email': email,
-      'password': password,
-      'isNameValid': isNameValid,
-      'isEmailValid': isEmailValid,
-      'isPasswordValid': isPasswordValid,
-      'isLogged': isLogged,
-    });
-    emit(LoginStatus(data, MessageType.empty, ''));
+    emit(LoginStatus(data, MessageType.empty, '', ShowOnScreen.byDefault));
   }
 
   void checkLoginState() async {
     SecureStorageService.readAll().then((Map<dynamic, dynamic>? storageData) {
       String isLoggedStorage = toString(storageData!['isLogged']);
-      isLogged = toBoolean(isLoggedStorage);
-      userId = storageData['userId'] ?? '';
-      userName = storageData['userName'] ?? '';
-      data.addAll({
-        'name': userName,
-        'email': email,
-        'password': password,
-        'isNameValid': isNameValid,
-        'isEmailValid': isEmailValid,
-        'isPasswordValid': isPasswordValid,
-        'isLogged': isLogged,
-      });
+      String isVerifiedStorage = toString(storageData['isVerified']);
+      data.isLogged = toBoolean(isLoggedStorage);
+      data.isVerified = toBoolean(isVerifiedStorage);
+      data.userId = storageData['userId'] ?? '';
+      data.userName = storageData['userName'] ?? '';
       //print(storageData);
-      emit(LoginStatus(data, MessageType.empty, ''));
+      emit(LoginStatus(data, MessageType.empty, '', ShowOnScreen.byDefault));
     });
   }
 
   void clearUserInfo() {
     SecureStorageService.deleteAll();
-    userId = '';
-    userName = '';
-    email = '';
-    password = '';
-    isNameValid = false;
-    isEmailValid = false;
-    isPasswordValid = false;
-    verifiedOne = false;
-    verifiedTwo = false;
-    verifiedThree = false;
-    isLogged = false;
-    data.addAll({
-      'name': userName,
-      'email': email,
-      'password': password,
-      'isNameValid': isNameValid,
-      'isEmailValid': isEmailValid,
-      'isPasswordValid': isPasswordValid,
-      'isLogged': isLogged,
-    });
+    data.clear();
   }
 
   void signOut() async {
     clearUserInfo();
-    emit(LoginStatus(data, MessageType.error, 'You\'ve signed out'));
+    emit(LoginStatus(
+        data, MessageType.error, 'You\'ve signed out', ShowOnScreen.byDefault));
   }
 
   void signOutYouWasHacked() async {
     clearUserInfo();
-    emit(LoginStatus(data, MessageType.error,
-        'Sorry... Something went wrong\nPlease, try to Sign In again'));
+    emit(LoginStatus(
+        data,
+        MessageType.error,
+        'Sorry... Something went wrong\nPlease, try to Sign In again',
+        ShowOnScreen.byDefault));
   }
 
   // void signOut() async {
@@ -144,23 +132,22 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void testGetRequest() async {
-    final _networkService = NetworkService();
-    Map? responseData =
-        await _networkService.getRequest(GlobalUrls.getPersonById);
+    Map? responseData = await _networkService
+        .getRequest(GlobalUrls.getPersonById + '/${data.userId}');
     print(responseData);
   }
 
-  void getUserInfo() async {}
-
   void signInWithEmailPassword() async {
-    final _networkService = NetworkService();
     try {
-      Map? responseData = await _networkService.login(email, password);
+      Map? responseData =
+          await _networkService.login(data.email, data.password);
       if (responseData != null) {
         if (responseData['success']) {
-          userId = responseData['userId'];
-          userName = responseData['userName'];
-          isLogged = true;
+          data.userId = responseData['userId'];
+          data.userName = responseData['userName'];
+          data.isLogged = true;
+          data.isVerified = responseData['isVerify'];
+
           await SecureStorageService.write(
               SecureStorageKey.userName, responseData['userName']);
           await SecureStorageService.write(
@@ -170,73 +157,190 @@ class LoginCubit extends Cubit<LoginState> {
           await SecureStorageService.write(
               SecureStorageKey.refreshToken, responseData['refreshToken']);
           await SecureStorageService.write(SecureStorageKey.isLogged, 'true');
-          data.addAll({
-            'name': userName,
-            'email': email,
-            'password': password,
-            'isNameValid': isNameValid,
-            'isEmailValid': isEmailValid,
-            'isPasswordValid': isPasswordValid,
-            'isLogged': isLogged,
-          });
+          await SecureStorageService.write(
+              SecureStorageKey.isVerified, data.isVerified.toString());
+
           emit(
-            LoginStatus(data, MessageType.success, ''),
+            LoginStatus(data, MessageType.success, '', ShowOnScreen.signIn),
           );
         } else {
-          emit(LoginStatus(data, MessageType.error, responseData['message']));
+          emit(LoginStatus(data, MessageType.error, responseData['message'],
+              ShowOnScreen.signIn));
         }
       }
     } on Exception catch (e) {
-      emit(LoginStatus(data, MessageType.error, e.toString()));
+      emit(LoginStatus(
+          data, MessageType.error, e.toString(), ShowOnScreen.signIn));
     }
   }
 
-  void sendEmailToResetPassword() async {
-    final _networkService = NetworkService();
+  void sendCodeToResetPassword() async {
+    data.verifyCode = '';
     try {
       Map? responseData = await _networkService.postRequest(
         GlobalUrls.sendEmailToResetPassword,
         jsonEncode({
-          "email": email,
+          "email": data.email,
         }),
       );
       if (responseData != null) {
         if (responseData['success']) {
           emit(
-            LoginStatus(data, MessageType.success, responseData['message']),
+            LoginStatus(
+              data,
+              MessageType.success,
+              responseData['message'] ?? 'Success',
+              ShowOnScreen.resetPassword,
+            ),
           );
         } else {
-          emit(LoginStatus(data, MessageType.error, responseData['message']));
+          emit(LoginStatus(
+            data,
+            MessageType.error,
+            responseData['message'],
+            ShowOnScreen.resetPassword,
+          ));
         }
       }
     } on Exception catch (e) {
-      emit(LoginStatus(data, MessageType.error, e.toString()));
+      emit(LoginStatus(
+        data,
+        MessageType.error,
+        e.toString(),
+        ShowOnScreen.resetPassword,
+      ));
+    }
+  }
+
+  void verifyEmailByCode(String newPassword) async {
+    try {
+      Map? responseData = await _networkService.postRequest(
+        GlobalUrls.resetPassword,
+        jsonEncode({
+          "password": newPassword,
+          "confirmPassword": newPassword,
+          "resetPasswordToken": data.verifyCode,
+        }),
+      );
+      if (responseData != null) {
+        data.verifyCode = '';
+        data.password = newPassword;
+        data.isPasswordValid = true;
+        if (responseData['success'] == true) {
+          emit(
+            LoginStatus(
+              data,
+              MessageType.success,
+              responseData['message'],
+              ShowOnScreen.newPassword,
+            ),
+          );
+        } else {
+          emit(LoginStatus(
+            data,
+            MessageType.error,
+            responseData['message'],
+            ShowOnScreen.newPassword,
+          ));
+        }
+      }
+    } on Exception catch (e) {
+      emit(LoginStatus(
+        data,
+        MessageType.error,
+        e.toString(),
+        ShowOnScreen.newPassword,
+      ));
     }
   }
 
   void signUp() async {
-    final _networkService = NetworkService();
     try {
       Map? responseData = await _networkService.postRequest(
         GlobalUrls.createUserEndpoint,
         jsonEncode({
-          "userName": userName,
-          "email": email,
-          "password": password,
-          "confirmPassword": password,
+          "userName": data.userName,
+          "email": data.email,
+          "password": data.password,
+          "confirmPassword": data.password,
         }),
       );
       if (responseData != null) {
         if (responseData['success']) {
+          data.currentLoginTab = 0;
           emit(
-            LoginStatus(data, MessageType.success, responseData['message']),
+            LoginStatus(
+              data,
+              MessageType.success,
+              responseData['message'],
+              ShowOnScreen.signUp,
+            ),
           );
         } else {
-          emit(LoginStatus(data, MessageType.error, responseData['message']));
+          emit(LoginStatus(
+            data,
+            MessageType.error,
+            responseData['message'],
+            ShowOnScreen.signUp,
+          ));
         }
       }
     } on Exception catch (e) {
-      emit(LoginStatus(data, MessageType.error, e.toString()));
+      emit(LoginStatus(
+        data,
+        MessageType.error,
+        e.toString(),
+        ShowOnScreen.signUp,
+      ));
+    }
+  }
+
+  void verifyNewUser() async {
+    try {
+      Map? responseData = await _networkService.getRequest(
+          GlobalUrls.verifyNewUser +
+              '/UserId/${data.userId}/Token/${data.verifyCode}');
+      if (responseData != null) {
+        if (responseData['success']) {
+          data.isVerified = true;
+          await SecureStorageService.write(
+              SecureStorageKey.isVerified, data.isVerified.toString());
+          emit(
+            LoginStatus(
+              data,
+              MessageType.success,
+              responseData['message'],
+              ShowOnScreen.signUpConfirmation,
+            ),
+          );
+        } else {
+          emit(LoginStatus(
+            data,
+            MessageType.error,
+            responseData['message'],
+            ShowOnScreen.signUpConfirmation,
+          ));
+        }
+      }
+    } on DioError catch (e) {
+      Response<dynamic>? r = e.response;
+      Map<String, dynamic> responseData = jsonDecode(r!.data);
+      if (r.statusCode == 400) {
+        Map<String, dynamic> errors = responseData['errors'];
+        emit(LoginStatus(
+          data,
+          MessageType.error,
+          errors['token'][0],
+          ShowOnScreen.signUpConfirmation,
+        ));
+      }
+    } on Exception catch (e) {
+      emit(LoginStatus(
+        data,
+        MessageType.error,
+        e.toString(),
+        ShowOnScreen.signUpConfirmation,
+      ));
     }
   }
 }

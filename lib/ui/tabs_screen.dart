@@ -25,7 +25,7 @@ class _TabsScreenState extends State<TabsScreen> {
           bottomNavigationBar:
               MyBottomNavigationBar(activeScreen: activeScreenNumber),
           body: screensList[activeScreenNumber],
-          //floatingActionButton: CustomFAB(),
+          floatingActionButton: const CustomFAB(),
         );
       },
     );
@@ -69,11 +69,11 @@ class _CustomFABState extends State<CustomFAB> {
             child: const Text('Sign Out'),
             onPressed: () => context.read<LoginCubit>().signOut(),
           ),
-          // SizedBox(height: 10),
-          // ElevatedButton(
-          //   child: Text('Read All keys'),
-          //   onPressed: () => context.read<LoginCubit>().readAllSettings(),
-          // ),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            child: const Text('Read All keys'),
+            onPressed: () => context.read<LoginCubit>().readAllSettings(),
+          ),
           // SizedBox(height: 10),
           // ElevatedButton(
           //   child: Text('Clear accessToken'),
@@ -84,11 +84,11 @@ class _CustomFABState extends State<CustomFAB> {
           //   child: Text('Clear refreshToken'),
           //   onPressed: () => context.read<LoginCubit>().clearRefreshToken(),
           // ),
-          // SizedBox(height: 10),
-          // ElevatedButton(
-          //   child: Text('Get Request'),
-          //   onPressed: () => context.read<LoginCubit>().testGetRequest(),
-          // ),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            child: const Text('Get Request'),
+            onPressed: () => context.read<LoginCubit>().testGetRequest(),
+          ),
         ],
       ),
     );

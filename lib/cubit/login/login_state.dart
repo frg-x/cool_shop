@@ -8,17 +8,35 @@ enum MessageType {
   success,
 }
 
+enum ShowOnScreen {
+  byDefault,
+  signIn,
+  signUp,
+  resetPassword,
+  verifyEmail,
+  newPassword,
+  signUpConfirmation,
+}
+
 abstract class LoginState {}
 
 class LoginInitial extends LoginState {}
 
 class LoginExit extends LoginState {}
 
+class LoginLoading extends LoginState {}
+
 class LoginStatus extends LoginState {
-  LoginStatus(this.data, this.messageType, this.message);
+  LoginStatus(
+    this.data,
+    this.messageType,
+    this.message,
+    this.showOnScreen,
+  );
   final String message;
   final MessageType messageType;
-  final Map<String, dynamic> data;
+  final Data data;
+  final ShowOnScreen showOnScreen;
 
   // @override
   // List<Object?> get props => [data];

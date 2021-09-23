@@ -8,6 +8,7 @@ enum SecureStorageKey {
   userName,
   userId,
   isLogged,
+  isVerified,
 }
 
 class SecureStorageService {

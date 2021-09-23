@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:cool_shop/models/product.dart';
 import 'package:cool_shop/ui/categories_screen/filters_screen/filters_screen.dart';
 import 'package:cool_shop/ui/categories_screen/widgets/product_card_as_list.dart';
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/products/products_cubit.dart';
-import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/models/sub_category.dart';
 import 'package:cool_shop/ui/widgets/modal_sheet_divider.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,8 +25,6 @@ enum SortingTypes {
 }
 
 class SubSubCategoryScreen extends StatefulWidget {
-  static const namedRoute = '/subcat3';
-
   const SubSubCategoryScreen({
     Key? key,
   }) : super(key: key);
@@ -71,9 +69,14 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
         (categories.elementAt(0).subCategories.elementAt(2) as SubCategory)
             .subSubCategories
             .reversed;
-    final productsList = context.read<ProductsCubit>().productsList;
-    return BlocBuilder<TabSwitchingCubit, TabSwitchingState>(
+
+    List<Product> productsList = [];
+    return BlocBuilder<ProductsCubit, ProductsState>(
       builder: (context, state) {
+        if (state is ProductsLoaded) {
+          productsList = state.products;
+        }
+
         return Scaffold(
           backgroundColor: AllColors.appBackgroundColor,
           appBar: AppBar(
@@ -120,16 +123,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                       itemCount: productsList.length,
                       itemBuilder: (ctx, int index) {
                         return ProductCardAsGrid(
-                          id: productsList.elementAt(index).id,
-                          title: productsList.elementAt(index).title,
-                          imageUrl: productsList.elementAt(index).imageUrl,
-                          //onPress: () {},
-                          price: productsList.elementAt(index).price,
-                          discount: productsList.elementAt(index).discount,
-                          rating: productsList.elementAt(index).rating,
-                          ratingCount:
-                              productsList.elementAt(index).ratingCount,
-                          collection: productsList.elementAt(index).collection,
+                          product: productsList.elementAt(index),
                         );
                       },
                       gridDelegate:
@@ -146,16 +140,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                       itemCount: productsList.length,
                       itemBuilder: (ctx, int index) {
                         return ProductCardAsList(
-                          id: productsList.elementAt(index).id,
-                          title: productsList.elementAt(index).title,
-                          imageUrl: productsList.elementAt(index).imageUrl,
-                          onPress: () {},
-                          price: productsList.elementAt(index).price,
-                          discount: productsList.elementAt(index).discount,
-                          rating: productsList.elementAt(index).rating,
-                          ratingCount:
-                              productsList.elementAt(index).ratingCount,
-                          collection: productsList.elementAt(index).collection,
+                          product: productsList.elementAt(index),
                         );
                       },
                     ),

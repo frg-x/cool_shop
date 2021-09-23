@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/ui/login_screens/sign_in_widget.dart';
+import 'package:cool_shop/ui/login_screens/widgets/sign_in_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +44,8 @@ class _BigTextFieldState extends State<BigTextField> {
     if (widget.type == TextFieldType.email) {
       _textInputType = TextInputType.emailAddress;
     } else if (widget.type == TextFieldType.name) {
+      _textInputType = TextInputType.text;
+    } else if (widget.type == TextFieldType.code) {
       _textInputType = TextInputType.text;
     } else {
       _textInputType = TextInputType.visiblePassword;

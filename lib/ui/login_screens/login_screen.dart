@@ -1,62 +1,64 @@
 import 'package:cool_shop/constants.dart';
-import 'package:cool_shop/ui/login_screens/login_screen_navbar.dart';
-import 'package:cool_shop/ui/login_screens/sign_up_widget.dart';
+import 'package:cool_shop/cubit/login/login_cubit.dart';
+import 'package:cool_shop/ui/login_screens/widgets/login_screen_navbar.dart';
+import 'package:cool_shop/ui/login_screens/widgets/sign_up_widget.dart';
+import 'package:cool_shop/ui/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'sign_in_widget.dart';
+import 'widgets/sign_in_widget.dart';
 
-class LoginScreenSwitcher extends StatefulWidget {
-  const LoginScreenSwitcher({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenSwitcherState createState() => _LoginScreenSwitcherState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenSwitcherState extends State<LoginScreenSwitcher> {
+class _LoginScreenState extends State<LoginScreen> {
   late int currentPageIndex;
 
-  void selectPage(int page) {
-    setState(() {
-      currentPageIndex = page;
-    });
-  }
-
-  List<Widget> get startPage => [
-        const SignIn(),
-        SignUp(callback: selectPage),
-      ];
-
-  @override
-  void initState() {
-    currentPageIndex = 0;
-    super.initState();
-  }
+  List<Widget> loginTabs = [
+    const SignInWidget(),
+    const SignUpWidget(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AllColors.appBackgroundColor,
-      bottomNavigationBar: const LoginScreenNavBar(),
-      body: BodySwitcher(
-        callback: selectPage,
-        currentPageIndex: currentPageIndex,
-        renderLoginWidget: startPage[currentPageIndex],
-      ),
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (_, state) {
+        if (state is LoginStatus && state.messageType == MessageType.error) {
+          print(state.message);
+          print(state.messageType);
+          print(state.showOnScreen);
+          showCustomSnackbar(
+              context: context, text: state.message, duration: 3);
+        }
+      },
+      builder: (context, state) {
+        int currentPageIndex = context.read<LoginCubit>().data.currentLoginTab;
+        return Scaffold(
+          backgroundColor: AllColors.appBackgroundColor,
+          bottomNavigationBar: const LoginScreenNavBar(),
+          body: BodySwitcher(
+            body: loginTabs.elementAt(currentPageIndex),
+            index: currentPageIndex,
+          ),
+        );
+      },
     );
   }
 }
 
 class BodySwitcher extends StatelessWidget {
   const BodySwitcher({
+    required this.body,
+    required this.index,
     Key? key,
-    required this.callback,
-    required this.currentPageIndex,
-    required this.renderLoginWidget,
   }) : super(key: key);
 
-  final Function callback;
-  final int currentPageIndex;
-  final Widget renderLoginWidget;
+  final Widget body;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +73,14 @@ class BodySwitcher extends StatelessWidget {
               children: [
                 const Spacer(flex: 1),
                 GestureDetector(
-                  onTap: () => callback(PageTypes.signIn.index),
+                  onTap: () => context
+                      .read<LoginCubit>()
+                      .setLoginTab(PageTypes.signIn.index),
                   child: Container(
                     padding: const EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: currentPageIndex == PageTypes.signIn.index
+                        bottom: index == PageTypes.signIn.index
                             ? const BorderSide(
                                 color: AllColors.primary,
                                 width: 2.0,
@@ -87,7 +91,7 @@ class BodySwitcher extends StatelessWidget {
                     ),
                     child: Text(
                       'Sign In',
-                      style: currentPageIndex == PageTypes.signIn.index
+                      style: index == PageTypes.signIn.index
                           ? AllStyles.headlineActive
                           : AllStyles.headlineNotActive,
                     ),
@@ -95,12 +99,14 @@ class BodySwitcher extends StatelessWidget {
                 ),
                 const Spacer(flex: 2),
                 GestureDetector(
-                  onTap: () => callback(PageTypes.signUp.index),
+                  onTap: () => context
+                      .read<LoginCubit>()
+                      .setLoginTab(PageTypes.signUp.index),
                   child: Container(
                     padding: const EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: currentPageIndex == PageTypes.signUp.index
+                        bottom: index == PageTypes.signUp.index
                             ? const BorderSide(
                                 color: AllColors.primary,
                                 width: 2.0,
@@ -111,7 +117,7 @@ class BodySwitcher extends StatelessWidget {
                     ),
                     child: Text(
                       'Sign Up',
-                      style: currentPageIndex == PageTypes.signUp.index
+                      style: index == PageTypes.signUp.index
                           ? AllStyles.headlineActive
                           : AllStyles.headlineNotActive,
                     ),
@@ -122,7 +128,7 @@ class BodySwitcher extends StatelessWidget {
             ),
             //! old value const SizedBox(height: 73),
             const SizedBox(height: 33),
-            renderLoginWidget,
+            body,
             //! old value const SizedBox(height: 40),
           ],
         ),

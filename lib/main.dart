@@ -5,6 +5,7 @@ import 'package:cool_shop/cubit/products/products_cubit.dart';
 import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/utilities/network_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +31,8 @@ void main() {
 
 void registerDependencies() {
   //getIt.registerFactory<LoginCubit>(() => LoginCubit({}));
-  getIt.registerLazySingleton<LoginCubit>(() => LoginCubit({}));
+  getIt.registerLazySingleton<LoginCubit>(() => LoginCubit());
+  getIt.registerLazySingleton<NetworkService>(() => NetworkService());
 }
 
 class CoolShop extends StatelessWidget {

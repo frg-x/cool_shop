@@ -2,23 +2,24 @@
 
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
-import 'package:cool_shop/ui/login_screens/forgot_password_screen.dart';
+import 'package:cool_shop/ui/login_screens/reset_password_screen.dart';
+import 'package:cool_shop/ui/verify_auth_status_screen.dart';
 import 'package:cool_shop/ui/widgets/big_button.dart';
 import 'package:cool_shop/ui/widgets/big_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({
+class SignInWidget extends StatefulWidget {
+  const SignInWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignInWidget> createState() => _SignInWidgetState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignInWidgetState extends State<SignInWidget> {
   String email = '';
   String password = '';
   bool isEmailValid = false;
@@ -27,31 +28,22 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
-      // listener: (context, state) {
-      //   if (state is LoginStatus) {
-      //     if (state.messageType == MessageType.error) {
-      //       ScaffoldMessenger.of(context).showSnackBar(
-      //         SnackBar(
-      //           content: Text(
-      //             state.message,
-      //             softWrap: true,
-      //           ),
-      //           behavior: SnackBarBehavior.floating,
-      //           margin: const EdgeInsets.fromLTRB(20, 0, 20, 75),
-      //           shape: RoundedRectangleBorder(
-      //               borderRadius: BorderRadius.circular(8)),
-      //         ),
-      //       );
-      //     }
-      //   }
-      // },
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LoginStatus && state.messageType == MessageType.success) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const VerifyAuthStatusScreen(),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is LoginStatus) {
-          email = state.data['email'];
-          password = state.data['password'];
-          isEmailValid = state.data['isEmailValid'];
-          isPasswordValid = state.data['isPasswordValid'];
+          email = state.data.email;
+          password = state.data.password;
+          isEmailValid = state.data.isEmailValid;
+          isPasswordValid = state.data.isPasswordValid;
         }
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -64,7 +56,7 @@ class _SignInState extends State<SignIn> {
               errorText: 'Not a valid email address. Should be your@email.com',
               isValid: isEmailValid,
               onChanged: (value) {
-                context.read<LoginCubit>().email = value;
+                context.read<LoginCubit>().data.email = value;
                 context.read<LoginCubit>().validateFields();
               },
             ),
@@ -76,7 +68,7 @@ class _SignInState extends State<SignIn> {
                   'Password less 6 characters or contains wrong characters',
               isValid: isPasswordValid,
               onChanged: (value) {
-                context.read<LoginCubit>().password = value;
+                context.read<LoginCubit>().data.password = value;
                 context.read<LoginCubit>().validateFields();
               },
             ),
@@ -84,8 +76,7 @@ class _SignInState extends State<SignIn> {
             GestureDetector(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (ctx) => const ForgotPassword(),
-                  fullscreenDialog: false,
+                  builder: (ctx) => const ResetPasswordScreen(),
                 ),
               ),
               child: Row(
@@ -101,8 +92,11 @@ class _SignInState extends State<SignIn> {
             ),
             const SizedBox(height: 28),
             BigButton(
-              text: 'LOGIN',
-              onPress: context.read<LoginCubit>().verifiedTwo
+              child: const Text(
+                'LOGIN',
+                style: AllStyles.bigButton,
+              ),
+              onPress: context.read<LoginCubit>().data.verifiedTwo
                   ? () {
                       context.read<LoginCubit>().signInWithEmailPassword();
                     }

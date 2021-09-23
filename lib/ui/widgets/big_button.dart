@@ -5,11 +5,11 @@ class BigButton extends StatelessWidget {
   const BigButton({
     Key? key,
     required this.onPress,
-    required this.text,
+    required this.child,
   }) : super(key: key);
 
   final Function? onPress;
-  final String text;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,7 @@ class BigButton extends StatelessWidget {
             const BoxConstraints.tightFor(height: 48, width: double.infinity),
         child: ElevatedButton(
           onPressed: onPress != null ? () => onPress!() : null,
-          child: Text(
-            text,
-            style: AllStyles.bigButton,
-          ),
+          child: child,
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(

@@ -34,14 +34,17 @@ class NetworkService {
     );
     _dio = Dio(options);
     _dio.interceptors.clear();
-    //_dio.interceptors.add(LogInterceptor(responseBody: false));
-    if (Constants.showRequestDebugging) {
-      _dio.interceptors.add(PrettyDioLogger());
-    }
+    //_dio.interceptors.add(LogInterceptor(responseBody: true));
+
+    // _dio.interceptors.add(PrettyDioLogger(
+    //     //     requestBody: true,
+    //     //     requestHeader: true,
+    //     ));
 
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (request, handler) {
+          //print('ACCESS TOKEN: ' + checkedAccessToken);
           if (checkedAccessToken != '') {
             request.headers['Authorization'] = 'Bearer $checkedAccessToken';
           }
@@ -64,16 +67,24 @@ class NetworkService {
                 checkedAccessToken = updatedTokens.data['accessToken'] ?? '';
                 checkedRefreshToken = updatedTokens.data['refreshToken'] ?? '';
 
-                if (checkedAccessToken.isNotEmpty &&
-                    checkedRefreshToken.isNotEmpty) {
-                  DateTime now = DateTime.now();
-                  String formattedDate =
-                      DateFormat('yyyy-MM-dd – kk:mm').format(now);
-                  print(
-                      '$formattedDate Received new refreshToken: $checkedRefreshToken');
-                  print(
-                      '$formattedDate Received new accessToken: $checkedAccessToken');
-                }
+                // if (checkedAccessToken.isNotEmpty &&
+                //     checkedRefreshToken.isNotEmpty) {
+                //   DateTime now = DateTime.now();
+                //   String formattedDate =
+                //       DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                //   print(
+                //       '$formattedDate Received new refreshToken: $checkedRefreshToken');
+                //   print(
+                //       '$formattedDate Received new accessToken: $checkedAccessToken');
+                // }
+
+                DateTime now = DateTime.now();
+                String formattedDate =
+                    DateFormat('yyyy-MM-dd – HH:mm:ss').format(now);
+                print(
+                    '$formattedDate Received new refreshToken: $checkedRefreshToken');
+                print(
+                    '$formattedDate Received new accessToken: $checkedAccessToken');
 
                 SecureStorageService.write(
                     SecureStorageKey.accessToken, checkedAccessToken);
@@ -136,7 +147,8 @@ class NetworkService {
         checkedRefreshToken = response.data['refreshToken'] ?? '';
         if (checkedAccessToken.isNotEmpty && checkedRefreshToken.isNotEmpty) {
           DateTime now = DateTime.now();
-          String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+          String formattedDate =
+              DateFormat('yyyy-MM-dd – kk:mm:SS').format(now);
           print(
               '$formattedDate Received new refreshToken: $checkedRefreshToken');
           print('$formattedDate Received new accessToken: $checkedAccessToken');
@@ -165,23 +177,48 @@ class NetworkService {
     }
   }
 
-  Future<Map<dynamic, dynamic>?> getRequest(String endpoint) async {
-    try {
-      Response? response = await _dio.get(endpoint);
-      if (response.statusCode == 200) {
+  Future<Map?> deleteRequest(
+    String endpoint,
+    var data,
+  ) async {
+    Response? response = await _dio.post(endpoint, data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception(response.statusMessage);
+    }
+  }
+
+  Future<Map?> getRequest(String endpoint) async {
+    Response? response = await _dio.get(endpoint);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      if (response.statusCode == 400) {
+        throw Exception(response.data);
       } else {
         throw Exception(response.statusMessage);
       }
-      return response.data;
-    } on DioError catch (err) {
-      //throw Exception('${e.response!.statusCode} ${e.response!.statusMessage!}');
-      if (err.type == DioErrorType.connectTimeout) {
-        throw Exception("Connection timeout");
-      } else if (err.response!.statusCode! < 500) {
-        throw err.response!.data;
-      } else {
-        throw err.message;
-      }
     }
   }
+
+  // Future<Map<dynamic, dynamic>?> getRequest(String endpoint) async {
+  //   try {
+  //     Response? response = await _dio.get(endpoint);
+  //     if (response.statusCode == 200) {
+  //     } else {
+  //       throw Exception(response.statusMessage);
+  //     }
+  //     return response.data;
+  //   } on DioError catch (err) {
+  //     //throw Exception('${e.response!.statusCode} ${e.response!.statusMessage!}');
+  //     if (err.type == DioErrorType.connectTimeout) {
+  //       throw Exception("Connection timeout");
+  //     } else if (err.response!.statusCode! < 500) {
+  //       throw err.response!.data;
+  //     } else {
+  //       throw err.message;
+  //     }
+  //   }
+  // }
 }

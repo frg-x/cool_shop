@@ -167,7 +167,10 @@ class _BagScreenState extends State<BagScreen> {
                   ),
                   const SizedBox(height: 24),
                   BigButton(
-                    text: 'CHECK OUT',
+                    child: const Text(
+                      'CHECK OUT',
+                      style: AllStyles.bigButton,
+                    ),
                     onPress: () {},
                   ),
                   const SizedBox(height: 22),

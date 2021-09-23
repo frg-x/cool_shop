@@ -73,7 +73,10 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BigButton(
-                      text: 'VIEW ALL ITEMS',
+                      child: const Text(
+                        'VIEW ALL ITEMS',
+                        style: AllStyles.bigButton,
+                      ),
                       onPress: () {},
                     ),
                     const SizedBox(height: 16),

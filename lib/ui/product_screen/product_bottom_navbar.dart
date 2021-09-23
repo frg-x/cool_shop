@@ -30,7 +30,10 @@ class ProductBottomNavBar extends StatelessWidget {
         onPress: () {
           context.read<CartCubit>().addItem(cartItem);
         },
-        text: 'ADD TO CART',
+        child: const Text(
+          'ADD TO CART',
+          style: AllStyles.bigButton,
+        ),
       ),
     );
   }

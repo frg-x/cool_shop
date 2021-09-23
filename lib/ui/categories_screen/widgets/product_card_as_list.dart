@@ -1,4 +1,5 @@
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/models/product.dart';
 import 'package:cool_shop/ui/product_screen/product_screen.dart';
 import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:cool_shop/ui/widgets/favorite_button.dart';
@@ -9,26 +10,10 @@ import 'package:uuid/uuid.dart';
 class ProductCardAsList extends StatefulWidget {
   const ProductCardAsList({
     Key? key,
-    required this.id,
-    required this.title,
-    required this.imageUrl,
-    required this.onPress,
-    required this.price,
-    required this.discount,
-    required this.rating,
-    required this.ratingCount,
-    required this.collection,
+    required this.product,
   }) : super(key: key);
 
-  final int id;
-  final String imageUrl;
-  final String title;
-  final double price;
-  final double discount;
-  final int rating;
-  final int ratingCount;
-  final String collection;
-  final Function onPress;
+  final Product product;
 
   @override
   _ProductCardAsListState createState() => _ProductCardAsListState();
@@ -43,7 +28,9 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
     // final String discountText =
     //     (discount * 100).floor().toStringAsFixed(0);
     final String discountPrice =
-        (widget.price * (1 - widget.discount)).floor().toStringAsFixed(0);
+        (widget.product.price * (1 - widget.product.discount))
+            .floor()
+            .toStringAsFixed(0);
 
     return GestureDetector(
       onTap: () => Constants.globalNavigatorKey.currentState!.push(
@@ -51,7 +38,7 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
           pageBuilder: (context, Animation<double> animation,
               Animation<double> secondaryAnimation) {
             return ProductScreen(
-              id: widget.id,
+              product: widget.product,
               heroTag: uuid,
             );
           },
@@ -84,7 +71,7 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
                     child: Hero(
                       tag: uuid,
                       child: Image.network(
-                        widget.imageUrl,
+                        widget.product.imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -107,12 +94,12 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.title,
+                          widget.product.title,
                           style: AllStyles.dark16w600,
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          widget.collection,
+                          widget.product.collection,
                           style: AllStyles.gray11,
                         ),
                         const SizedBox(height: 9),
@@ -123,19 +110,19 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              RatingStars(count: widget.rating),
+                              RatingStars(count: widget.product.rating),
                               const SizedBox(width: 3),
-                              Text('(${widget.ratingCount})',
+                              Text('(${widget.product.ratingCount})',
                                   style: AllStyles.gray10),
                             ],
                           ),
                         ),
                         const SizedBox(height: 9),
-                        widget.discount > 0
+                        widget.product.discount > 0
                             ? Row(
                                 children: [
                                   Text(
-                                    '${widget.price.toStringAsFixed(0)}\$',
+                                    '${widget.product.price.toStringAsFixed(0)}\$',
                                     style: AllStyles.gray14w400.copyWith(
                                         decoration: TextDecoration.lineThrough),
                                   ),
@@ -147,7 +134,7 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
                                 ],
                               )
                             : Text(
-                                '${widget.price.toStringAsFixed(0)}\$',
+                                '${widget.product.price.toStringAsFixed(0)}\$',
                                 style: AllStyles.dark14w500,
                               ),
                       ],
@@ -167,13 +154,9 @@ class _ProductCardAsListState extends State<ProductCardAsList> {
           Positioned(
             bottom: 4,
             right: 0,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  isFav = !isFav;
-                });
-              },
-              child: FavoriteButton(isFav: isFav),
+            child: FavoriteButton(
+              isFav: isFav,
+              productId: widget.product.id,
             ),
           ),
         ],

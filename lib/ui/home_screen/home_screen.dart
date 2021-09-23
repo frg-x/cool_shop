@@ -107,21 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const SizedBox(width: 20.0),
                                 itemBuilder: (ctx, int index) {
                                   return HomeScreenProductCard(
-                                    id: productsList.elementAt(index).id,
-                                    imageUrl:
-                                        productsList.elementAt(index).imageUrl,
-                                    price: productsList.elementAt(index).price,
-                                    discount:
-                                        productsList.elementAt(index).discount,
-                                    rating:
-                                        productsList.elementAt(index).rating,
-                                    ratingCount: productsList
-                                        .elementAt(index)
-                                        .ratingCount,
-                                    title: productsList.elementAt(index).title,
-                                    collection: productsList
-                                        .elementAt(index)
-                                        .collection,
+                                    product: productsList.elementAt(index),
                                   );
                                 },
                               );
@@ -189,30 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const SizedBox(width: 20.0),
                                 itemBuilder: (ctx, int index) {
                                   return HomeScreenProductCard(
-                                    id: reversedProductsList
-                                        .elementAt(index)
-                                        .id,
-                                    imageUrl: reversedProductsList
-                                        .elementAt(index)
-                                        .imageUrl,
-                                    price: reversedProductsList
-                                        .elementAt(index)
-                                        .price,
-                                    discount: reversedProductsList
-                                        .elementAt(index)
-                                        .discount,
-                                    rating: reversedProductsList
-                                        .elementAt(index)
-                                        .rating,
-                                    ratingCount: reversedProductsList
-                                        .elementAt(index)
-                                        .ratingCount,
-                                    title: reversedProductsList
-                                        .elementAt(index)
-                                        .title,
-                                    collection: reversedProductsList
-                                        .elementAt(index)
-                                        .collection,
+                                    product:
+                                        reversedProductsList.elementAt(index),
                                   );
                                 },
                               );

@@ -7,19 +7,25 @@ part 'products_state.dart';
 class ProductsCubit extends Cubit<ProductsState> {
   final ShopRepository _shopRepository = ShopRepository();
 
-  List<Product> productsList = [];
   List<FilterSize> filterSizes = [];
 
   ProductsCubit() : super(const ProductsInitial()) {
     getProducts();
   }
 
+  // List<Product> get getProductsList {
+  //     List<Product> productsList = [];
+  //   if (state is ProductsLoaded){
+  //     productsList = state.products;
+  //   }
+  //     return productsList;
+  // }
+
   void getProducts() async {
     try {
       emit(const ProductsLoading());
       List<Product>? productsList = await _shopRepository.getProducts();
       if (productsList != null) {
-        this.productsList = productsList;
         emit(ProductsLoaded(productsList));
       }
     } catch (e) {

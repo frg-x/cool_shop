@@ -23,10 +23,10 @@ import 'product_bottom_navbar.dart';
 import '../widgets/custom_transparent_page_route.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key, required this.id, required this.heroTag})
+  const ProductScreen({Key? key, required this.product, required this.heroTag})
       : super(key: key);
 
-  final int id;
+  final Product product;
   final String heroTag;
 
   @override
@@ -39,13 +39,9 @@ class _ProductScreenState extends State<ProductScreen> {
     return Color(int.parse("0xFF$hexColor"));
   }
 
-  Product getProductById(BuildContext context, int id) {
-    final currentProduct = context
-        .read<ProductsCubit>()
-        .productsList
-        .firstWhere((element) => element.id == id);
+  void optionsToLists(Product product) {
     filterColors = [];
-    for (var element in currentProduct.colors) {
+    for (var element in product.colors) {
       final filterColor = FilterColor(
           id: int.parse(element['id']),
           title: element['title'],
@@ -54,17 +50,14 @@ class _ProductScreenState extends State<ProductScreen> {
       filterColors.add(filterColor);
     }
     filterSizes = [];
-    for (var element in currentProduct.sizes) {
+    for (var element in product.sizes) {
       final filterSize = FilterSize(
           id: int.parse(element['id']),
           title: element['title'],
           isSelected: false);
       filterSizes.add(filterSize);
     }
-    return currentProduct;
   }
-
-  late Product product;
 
   bool isFav = false;
   List<FilterSize> filterSizes = [];
@@ -75,18 +68,14 @@ class _ProductScreenState extends State<ProductScreen> {
   int selectedSizeIndex = -1;
 
   @override
-  void didChangeDependencies() {
-    product = getProductById(context, widget.id);
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    optionsToLists(widget.product);
+
     CartItem cartItem = CartItem(
-      id: product.id,
-      imageUrl: product.imageUrl,
-      title: product.title,
-      price: product.price,
+      id: widget.product.id,
+      imageUrl: widget.product.imageUrl,
+      title: widget.product.title,
+      price: widget.product.price,
       size: selectedSize,
       color: selectedColor,
       quantity: 1,
@@ -101,7 +90,7 @@ class _ProductScreenState extends State<ProductScreen> {
         bottomNavigationBar: ProductBottomNavBar(cartItem: cartItem),
         appBar: AppBar(
           title: Text(
-            product.title,
+            widget.product.title,
             style: AllStyles.dark18w600,
           ),
           backgroundColor: AllColors.white,
@@ -147,7 +136,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           pageBuilder: (context, Animation<double> animation,
                               Animation<double> secondaryAnimation) {
                             return BigImage(
-                              imageUrl: product.imageUrl,
+                              imageUrl: widget.product.imageUrl,
                               heroTag: widget.heroTag,
                             );
                           },
@@ -156,7 +145,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       child: Hero(
                         tag: widget.heroTag,
                         child: Image.network(
-                          product.imageUrl,
+                          widget.product.imageUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -254,13 +243,9 @@ class _ProductScreenState extends State<ProductScreen> {
                             .toList(),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isFav = !isFav;
-                        });
-                      },
-                      child: FavoriteButton(isFav: isFav),
+                    FavoriteButton(
+                      isFav: isFav,
+                      productId: widget.product.id,
                     )
                   ],
                 ),
@@ -275,11 +260,11 @@ class _ProductScreenState extends State<ProductScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          product.collection,
+                          widget.product.collection,
                           style: AllStyles.dark24w600,
                         ),
                         Text(
-                          '\$${product.price.toStringAsFixed(2)}',
+                          '\$${widget.product.price.toStringAsFixed(2)}',
                           style: AllStyles.dark24w600,
                         ),
                       ],
@@ -296,10 +281,10 @@ class _ProductScreenState extends State<ProductScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          RatingStars(count: product.rating),
+                          RatingStars(count: widget.product.rating),
                           const SizedBox(width: 3),
                           Text(
-                            '(${product.ratingCount})',
+                            '(${widget.product.ratingCount})',
                             style: AllStyles.gray10,
                           ),
                         ],
@@ -387,26 +372,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 const SizedBox(width: 20.0),
                             itemBuilder: (ctx, int index) {
                               return HomeScreenProductCard(
-                                id: reversedProductsList.elementAt(index).id,
-                                imageUrl: reversedProductsList
-                                    .elementAt(index)
-                                    .imageUrl,
-                                price:
-                                    reversedProductsList.elementAt(index).price,
-                                discount: reversedProductsList
-                                    .elementAt(index)
-                                    .discount,
-                                rating: reversedProductsList
-                                    .elementAt(index)
-                                    .rating,
-                                ratingCount: reversedProductsList
-                                    .elementAt(index)
-                                    .ratingCount,
-                                title:
-                                    reversedProductsList.elementAt(index).title,
-                                collection: reversedProductsList
-                                    .elementAt(index)
-                                    .collection,
+                                product: reversedProductsList.elementAt(index),
                               );
                             },
                           ),
@@ -543,7 +509,10 @@ class _ProductScreenState extends State<ProductScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: BigButton(
-                    text: 'ADD TO CART',
+                    child: const Text(
+                      'ADD TO CART',
+                      style: AllStyles.bigButton,
+                    ),
                     onPress: () => print('ADD TO CART'),
                   ),
                 )

@@ -103,11 +103,11 @@ class CartCubit extends Cubit<CartState> {
     emit(CartData(_items, sum));
   }
 
-  void _printOutCartContent() {
-    for (var element in _items) {
-      print(
-          '${element.id}, ${element.title}, ${element.price}*${element.quantity}=${element.price * element.quantity}, ${element.color}, ${element.size}');
-      print(sum);
-    }
-  }
+  // void _printOutCartContent() {
+  //   for (var element in _items) {
+  //     print(
+  //         '${element.id}, ${element.title}, ${element.price}*${element.quantity}=${element.price * element.quantity}, ${element.color}, ${element.size}');
+  //     print(sum);
+  //   }
+  // }
 }

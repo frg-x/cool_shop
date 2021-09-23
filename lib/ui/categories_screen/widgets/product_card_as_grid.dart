@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/models/product.dart';
 import 'package:cool_shop/ui/product_screen/product_screen.dart';
 import 'package:cool_shop/ui/widgets/custom_transparent_page_route.dart';
 import 'package:cool_shop/ui/widgets/discount_label.dart';
@@ -13,24 +14,10 @@ import 'package:uuid/uuid.dart';
 class ProductCardAsGrid extends StatefulWidget {
   const ProductCardAsGrid({
     Key? key,
-    required this.id,
-    required this.imageUrl,
-    required this.collection,
-    required this.title,
-    required this.price,
-    required this.discount,
-    required this.rating,
-    required this.ratingCount,
+    required this.product,
   }) : super(key: key);
 
-  final int id;
-  final String imageUrl;
-  final String collection;
-  final String title;
-  final double price;
-  final double discount;
-  final int rating;
-  final int ratingCount;
+  final Product product;
 
   @override
   State<ProductCardAsGrid> createState() => _ProductCardAsGridState();
@@ -43,16 +30,18 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
   @override
   Widget build(BuildContext context) {
     final String discountText =
-        (widget.discount * 100).floor().toStringAsFixed(0);
+        (widget.product.discount * 100).floor().toStringAsFixed(0);
     final String discountPrice =
-        (widget.price * (1 - widget.discount)).floor().toStringAsFixed(0);
+        (widget.product.price * (1 - widget.product.discount))
+            .floor()
+            .toStringAsFixed(0);
     return GestureDetector(
       onTap: () => Constants.globalNavigatorKey.currentState!.push(
         CustomTransparentPageRoute(
           pageBuilder: (context, Animation<double> animation,
               Animation<double> secondaryAnimation) {
             return ProductScreen(
-              id: widget.id,
+              product: widget.product,
               heroTag: uuid,
             );
           },
@@ -72,7 +61,7 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
                       child: Hero(
                         tag: uuid,
                         child: Image.network(
-                          widget.imageUrl,
+                          widget.product.imageUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -80,7 +69,7 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
                     width: 180,
                     height: 190,
                   ),
-                  widget.discount > 0
+                  widget.product.discount > 0
                       ? Positioned(
                           left: 9,
                           top: 8,
@@ -96,26 +85,27 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    RatingStars(count: widget.rating),
+                    RatingStars(count: widget.product.rating),
                     const SizedBox(width: 3),
-                    Text('(${widget.ratingCount})', style: AllStyles.gray10),
+                    Text('(${widget.product.ratingCount})',
+                        style: AllStyles.gray10),
                   ],
                 ),
               ),
               const SizedBox(height: 7),
-              Text(widget.collection, style: AllStyles.gray11),
+              Text(widget.product.collection, style: AllStyles.gray11),
               const SizedBox(height: 7),
               Text(
-                widget.title,
+                widget.product.title,
                 style: AllStyles.dark16w500,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 5),
-              widget.discount > 0
+              widget.product.discount > 0
                   ? Row(
                       children: [
                         Text(
-                          '${widget.price.toStringAsFixed(0)}\$',
+                          '${widget.product.price.toStringAsFixed(0)}\$',
                           style: AllStyles.gray14w400
                               .copyWith(decoration: TextDecoration.lineThrough),
                         ),
@@ -127,7 +117,7 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
                       ],
                     )
                   : Text(
-                      '${widget.price.toStringAsFixed(0)}\$',
+                      '${widget.product.price.toStringAsFixed(0)}\$',
                       style: AllStyles.dark14w500,
                     ),
             ],
@@ -135,13 +125,9 @@ class _ProductCardAsGridState extends State<ProductCardAsGrid> {
           Positioned(
             top: 164,
             right: 0,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  isFav = !isFav;
-                });
-              },
-              child: FavoriteButton(isFav: isFav),
+            child: FavoriteButton(
+              isFav: isFav,
+              productId: widget.product.id,
             ),
           ),
         ],

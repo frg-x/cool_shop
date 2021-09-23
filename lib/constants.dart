@@ -15,26 +15,29 @@ import 'package:cool_shop/ui/profile_screen/profile_screen.dart';
 
 class GlobalUrls {
   static const String baseUrl =
-      'https://915a-188-163-49-239.ngrok.io'; //'https://1b478a7e5554.ngrok.io';
+      'https://9e55-188-163-49-239.ngrok.io'; //'https://1b478a7e5554.ngrok.io';
   static const String loginEndpoint = '/api/Person/Login';
   static const String refreshTokenEndpoint = '/api/Person/RefreshToken';
   static const String createUserEndpoint = '/api/Person/CreateUser';
+  static const String verifyNewUser = '/api/Person/Verify';
   static const String sendEmailToResetPassword =
       '/api/Person/SendEmailToRecoverPassword';
+  static const String resetPassword = '/api/Person/ResetPassword';
   static const String getAllProducts = '/api/Product/GetAll';
-  static const String getPersonById = '/api/Person/GetPersonById';
-  static const String getProfile = 'api/Person/GetProfile';
+  static const String getFavoriteProducts = '/api/FavoritProduct/GetProducts';
+  static const String addToFavoriteProducts = '/api/FavoritProduct/Create';
 
-  //static const String recoverPasswordEndpoint = '/api/Person/ResetPassword';
+  static const String getPersonById = '/api/Person/GetPersonById';
+  static const String getProfile = '/api/Person/GetProfile';
+
   //static const String sendEmailToRecoverEndpoint = '/api/Person/SendEmailToRecoverPassword';
 }
 
 class Constants {
-  static const showRequestDebugging = false;
   static const requestTimeoutSeconds = 3;
   static final categoryNavigatorKey = GlobalKey<NavigatorState>();
   static final globalNavigatorKey = GlobalKey<NavigatorState>();
-  static final filterNavigatorKey = GlobalKey<NavigatorState>();
+  //static final filterNavigatorKey = GlobalKey<NavigatorState>();
 }
 
 class AllColors {
@@ -98,6 +101,12 @@ class AllStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
+  static const dark14w600 = TextStyle(
+    color: AllColors.dark,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  );
+
   static const gray14w500 = TextStyle(
     color: AllColors.gray,
     fontSize: 14,
@@ -228,12 +237,12 @@ enum TextFieldType {
   name,
   email,
   password,
+  code,
 }
 
 enum PageTypes {
   signIn,
   signUp,
-  forgotPassword,
 }
 
 // List<Product> mainScreenProducts = [
