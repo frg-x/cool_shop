@@ -10,16 +10,8 @@ class ProductsCubit extends Cubit<ProductsState> {
   List<FilterSize> filterSizes = [];
 
   ProductsCubit() : super(const ProductsInitial()) {
-    getProducts();
+    //getProducts();
   }
-
-  // List<Product> get getProductsList {
-  //     List<Product> productsList = [];
-  //   if (state is ProductsLoaded){
-  //     productsList = state.products;
-  //   }
-  //     return productsList;
-  // }
 
   void getProducts() async {
     try {

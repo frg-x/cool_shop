@@ -3,7 +3,6 @@ import 'package:cool_shop/cubit/login/login_cubit.dart';
 import 'package:cool_shop/ui/login_screens/login_screen.dart';
 import 'package:cool_shop/ui/login_screens/sign_up_confirmation_screen.dart';
 import 'package:cool_shop/ui/tabs_screen.dart';
-import 'package:cool_shop/ui/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

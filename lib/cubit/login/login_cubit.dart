@@ -178,7 +178,7 @@ class LoginCubit extends Cubit<LoginState> {
     data.verifyCode = '';
     try {
       Map? responseData = await _networkService.postRequest(
-        GlobalUrls.sendEmailToResetPassword,
+        GlobalUrls.sendEmailToRecoverPassword,
         jsonEncode({
           "email": data.email,
         }),
@@ -212,6 +212,44 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
+  void resendSignUpVerifyToken() async {
+    data.verifyCode = '';
+    try {
+      Map? responseData = await _networkService.postRequest(
+        GlobalUrls.resendVerifyToken,
+        jsonEncode({
+          "email": data.email,
+        }),
+      );
+      if (responseData != null) {
+        if (responseData['success']) {
+          emit(
+            LoginStatus(
+              data,
+              MessageType.success,
+              responseData['message'] ?? 'Success',
+              ShowOnScreen.verifyEmail,
+            ),
+          );
+        } else {
+          emit(LoginStatus(
+            data,
+            MessageType.error,
+            responseData['message'],
+            ShowOnScreen.verifyEmail,
+          ));
+        }
+      }
+    } on Exception catch (e) {
+      emit(LoginStatus(
+        data,
+        MessageType.error,
+        e.toString(),
+        ShowOnScreen.resetPassword,
+      ));
+    }
+  }
+
   void verifyEmailByCode(String newPassword) async {
     try {
       Map? responseData = await _networkService.postRequest(
@@ -225,7 +263,9 @@ class LoginCubit extends Cubit<LoginState> {
       if (responseData != null) {
         data.verifyCode = '';
         data.password = newPassword;
+        data.isEmailValid = true;
         data.isPasswordValid = true;
+        validateFields();
         if (responseData['success'] == true) {
           emit(
             LoginStatus(

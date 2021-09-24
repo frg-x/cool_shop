@@ -14,14 +14,14 @@ import 'ui/home_screen/home_screen.dart';
 import 'package:cool_shop/ui/profile_screen/profile_screen.dart';
 
 class GlobalUrls {
-  static const String baseUrl =
-      'https://9e55-188-163-49-239.ngrok.io'; //'https://1b478a7e5554.ngrok.io';
+  static const String baseUrl = 'https://9e55-188-163-49-239.ngrok.io';
   static const String loginEndpoint = '/api/Person/Login';
   static const String refreshTokenEndpoint = '/api/Person/RefreshToken';
   static const String createUserEndpoint = '/api/Person/CreateUser';
   static const String verifyNewUser = '/api/Person/Verify';
-  static const String sendEmailToResetPassword =
+  static const String sendEmailToRecoverPassword =
       '/api/Person/SendEmailToRecoverPassword';
+  static const String resendVerifyToken = '​/api​/Person​/ResendVerifyToken';
   static const String resetPassword = '/api/Person/ResetPassword';
   static const String getAllProducts = '/api/Product/GetAll';
   static const String getFavoriteProducts = '/api/FavoritProduct/GetProducts';
@@ -29,8 +29,6 @@ class GlobalUrls {
 
   static const String getPersonById = '/api/Person/GetPersonById';
   static const String getProfile = '/api/Person/GetProfile';
-
-  //static const String sendEmailToRecoverEndpoint = '/api/Person/SendEmailToRecoverPassword';
 }
 
 class Constants {

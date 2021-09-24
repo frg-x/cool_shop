@@ -18,7 +18,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      key: Constants.categoryNavigatorKey,
+      //key: Constants.categoryNavigatorKey,
       onGenerateRoute: (route) => MaterialPageRoute(
         settings: route,
         builder: (context) => Scaffold(

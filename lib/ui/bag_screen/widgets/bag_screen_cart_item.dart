@@ -161,26 +161,29 @@ class _BagScreenCartItemState extends State<BagScreenCartItem> {
                       //       'assets/icons/cart_item_more.svg'),
                       // ),
                       Container(
-                        width: 24,
-                        height: 24,
-                        color: Colors.green,
-                        margin: const EdgeInsets.all(9),
+                        width: 30,
+                        height: 30,
+                        //color: Colors.green,
+                        margin: const EdgeInsets.only(top: 5, right: 5),
                         child: Theme(
                           data: Theme.of(context).copyWith(
                             highlightColor: Colors.transparent,
                             splashColor: Colors.transparent,
                           ),
-                          child: PopupMenuButton(
-                            icon: const Icon(
-                              Icons.more_vert,
-                              color: Color(0xFFC7C7C7),
-                              size: 24,
+                          child: Transform.translate(
+                            offset: const Offset(-5, -5),
+                            child: PopupMenuButton(
+                              icon: const Icon(
+                                Icons.more_vert,
+                                color: Color(0xFFC7C7C7),
+                                size: 24,
+                              ),
+                              offset: const Offset(-28, -20),
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              itemBuilder: (context) => list,
                             ),
-                            offset: const Offset(-28, -20),
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            itemBuilder: (context) => list,
                           ),
                         ),
                       ),

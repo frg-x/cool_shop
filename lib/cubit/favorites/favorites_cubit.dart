@@ -11,7 +11,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   List<Product> _favProductsList = [];
 
   FavoritesCubit() : super(FavoritesInitial()) {
-    getFavoriteProducts();
+    //getFavoriteProducts();
   }
 
   List<Product> get getFavProductsList => _favProductsList;

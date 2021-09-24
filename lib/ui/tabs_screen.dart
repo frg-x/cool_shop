@@ -1,4 +1,7 @@
 import 'package:cool_shop/constants.dart';
+import 'package:cool_shop/cubit/cart/cart_cubit.dart';
+import 'package:cool_shop/cubit/favorites/favorites_cubit.dart';
+import 'package:cool_shop/cubit/products/products_cubit.dart';
 import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
 import 'package:cool_shop/ui/widgets/my_bottom_navbar.dart';
@@ -14,6 +17,13 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int activeScreenNumber = 0;
+
+  @override
+  void initState() {
+    context.read<ProductsCubit>().getProducts();
+    context.read<FavoritesCubit>().getFavoriteProducts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +79,11 @@ class _CustomFABState extends State<CustomFAB> {
             child: const Text('Sign Out'),
             onPressed: () => context.read<LoginCubit>().signOut(),
           ),
-          const SizedBox(height: 10),
-          ElevatedButton(
-            child: const Text('Read All keys'),
-            onPressed: () => context.read<LoginCubit>().readAllSettings(),
-          ),
+          // const SizedBox(height: 10),
+          // ElevatedButton(
+          //   child: const Text('Read All keys'),
+          //   onPressed: () => context.read<LoginCubit>().readAllSettings(),
+          // ),
           // SizedBox(height: 10),
           // ElevatedButton(
           //   child: Text('Clear accessToken'),
@@ -84,11 +94,11 @@ class _CustomFABState extends State<CustomFAB> {
           //   child: Text('Clear refreshToken'),
           //   onPressed: () => context.read<LoginCubit>().clearRefreshToken(),
           // ),
-          const SizedBox(height: 10),
-          ElevatedButton(
-            child: const Text('Get Request'),
-            onPressed: () => context.read<LoginCubit>().testGetRequest(),
-          ),
+          // const SizedBox(height: 10),
+          // ElevatedButton(
+          //   child: const Text('Get Request'),
+          //   onPressed: () => context.read<LoginCubit>().testGetRequest(),
+          // ),
         ],
       ),
     );

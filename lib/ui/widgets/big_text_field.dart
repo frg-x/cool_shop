@@ -74,6 +74,7 @@ class _BigTextFieldState extends State<BigTextField> {
           padding: const EdgeInsets.only(bottom: 4),
           child: TextFormField(
             controller: _controller,
+            enableInteractiveSelection: true,
             onChanged: (value) => widget.onChanged(value),
             onFieldSubmitted: (value) => widget.onChanged(value),
             keyboardType: _textInputType,

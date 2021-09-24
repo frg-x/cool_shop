@@ -90,24 +90,24 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               //const SizedBox(height: 18),
               Expanded(
                 child: ListView.separated(
-                    itemBuilder: (cxt, index) {
-                      return SubSubCatItem(
-                        title: subSubCategories[index].title,
-                        onPress: () =>
-                            Constants.categoryNavigatorKey.currentState!.push(
-                          MaterialPageRoute(
-                            builder: (ctx) => const SubSubCategoryScreen(),
-                            settings: RouteSettings(
-                              arguments: subSubCategories[index].title,
-                            ),
+                  itemBuilder: (cxt, index) {
+                    return SubCatItem(
+                      title: subSubCategories[index].title,
+                      onPress: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => const SubSubCategoryScreen(),
+                          settings: RouteSettings(
+                            arguments: subSubCategories[index].title,
                           ),
                         ),
-                      );
-                    },
-                    separatorBuilder: (ctx, _) {
-                      return const Divider();
-                    },
-                    itemCount: subSubCategories.length),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (ctx, _) {
+                    return const Divider();
+                  },
+                  itemCount: subSubCategories.length,
+                ),
               ),
             ],
           ),
@@ -117,8 +117,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   }
 }
 
-class SubSubCatItem extends StatelessWidget {
-  const SubSubCatItem({Key? key, required this.title, required this.onPress})
+class SubCatItem extends StatelessWidget {
+  const SubCatItem({Key? key, required this.title, required this.onPress})
       : super(key: key);
   final String title;
   final Function onPress;

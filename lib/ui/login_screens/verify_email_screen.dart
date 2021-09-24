@@ -22,6 +22,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AllColors.appBackgroundColor,
@@ -31,93 +32,98 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         ),
       ),
       backgroundColor: AllColors.appBackgroundColor,
-      body: Container(
-        //padding: const EdgeInsets.fromLTRB(14, 106, 14, 0),
-        padding: const EdgeInsets.fromLTRB(14, 0, 14, 0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Verify ',
-                        style: AllStyles.headlineNotActive,
-                      ),
-                      const Text(
-                        'Email',
-                        style: AllStyles.headlineActive,
-                      ),
-                    ],
+      body: SingleChildScrollView(
+        child: Container(
+          //padding: const EdgeInsets.fromLTRB(14, 106, 14, 0),
+          padding: const EdgeInsets.fromLTRB(14, 0, 14, 0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Verify ',
+                          style: AllStyles.headlineNotActive,
+                        ),
+                        const Text(
+                          'Email',
+                          style: AllStyles.headlineActive,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            //const SizedBox(height: 87),
-            Text(
-              'We just sent a verification code on your email. Please enter it below',
-              style: AllStyles.dark14w400.copyWith(height: 1.42),
-            ),
-            const SizedBox(height: 16),
-            BlocBuilder<LoginCubit, LoginState>(
-              builder: (context, state) {
-                //print('verify email screen state: $state');
-                if (state is LoginStatus) {
-                  code = state.data.verifyCode ?? '';
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BigTextField(
-                        text: code,
-                        type: TextFieldType.code,
-                        labelText: 'Code',
-                        errorText: '',
-                        isValid: true,
-                        onChanged: (value) {
-                          context.read<LoginCubit>().setVerifyCode(value);
-                          context.read<LoginCubit>().validateFields();
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Didn\'t receive email? ',
-                            style: AllStyles.dark14w400.copyWith(height: 1.42),
-                          ),
-                          const Text(
-                            'Resend ',
-                            style: AllStyles.dark14w600,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 55),
-                      BigButton(
-                        child: const Text(
-                          'CONTINUE',
-                          style: AllStyles.bigButton,
+                ],
+              ),
+              //const SizedBox(height: 87),
+              Text(
+                'We just sent a verification code on your email. Please enter it below',
+                style: AllStyles.dark14w400.copyWith(height: 1.42),
+              ),
+              const SizedBox(height: 16),
+              BlocBuilder<LoginCubit, LoginState>(
+                builder: (context, state) {
+                  print('verify email screen state: $state');
+                  if (state is LoginStatus) {
+                    code = state.data.verifyCode ?? '';
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BigTextField(
+                          text: code,
+                          type: TextFieldType.code,
+                          labelText: 'Code',
+                          errorText: '',
+                          isValid: true,
+                          onChanged: (value) {
+                            context.read<LoginCubit>().setVerifyCode(value);
+                            context.read<LoginCubit>().validateFields();
+                          },
                         ),
-                        onPress: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const NewPasswordScreen(),
+                        const SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Didn\'t receive email? ',
+                              style:
+                                  AllStyles.dark14w400.copyWith(height: 1.42),
+                            ),
+                            GestureDetector(
+                              onTap: () {},
+                              child: const Text(
+                                'Resend ',
+                                style: AllStyles.dark14w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 55),
+                        BigButton(
+                          child: const Text(
+                            'CONTINUE',
+                            style: AllStyles.bigButton,
+                          ),
+                          onPress: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const NewPasswordScreen(),
+                            ),
                           ),
                         ),
-                        //context.read<LoginCubit>().verifyEmailByCode(),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          ],
+                      ],
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

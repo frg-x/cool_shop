@@ -28,9 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (_, state) {
         if (state is LoginStatus && state.messageType == MessageType.error) {
-          print(state.message);
-          print(state.messageType);
-          print(state.showOnScreen);
+          // print(state.message);
+          // print(state.messageType);
+          // print(state.showOnScreen);
           showCustomSnackbar(
               context: context, text: state.message, duration: 3);
         }
@@ -62,76 +62,73 @@ class BodySwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(14, 90, 14, 0),
-      //! padding: const EdgeInsets.fromLTRB(14, 46, 14, 0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Spacer(flex: 1),
-                GestureDetector(
-                  onTap: () => context
-                      .read<LoginCubit>()
-                      .setLoginTab(PageTypes.signIn.index),
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: index == PageTypes.signIn.index
-                            ? const BorderSide(
-                                color: AllColors.primary,
-                                width: 2.0,
-                                style: BorderStyle.solid,
-                              )
-                            : BorderSide.none,
-                      ),
-                    ),
-                    child: Text(
-                      'Sign In',
-                      style: index == PageTypes.signIn.index
-                          ? AllStyles.headlineActive
-                          : AllStyles.headlineNotActive,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Spacer(flex: 1),
+              GestureDetector(
+                onTap: () => context
+                    .read<LoginCubit>()
+                    .setLoginTab(PageTypes.signIn.index),
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: index == PageTypes.signIn.index
+                          ? const BorderSide(
+                              color: AllColors.primary,
+                              width: 2.0,
+                              style: BorderStyle.solid,
+                            )
+                          : BorderSide.none,
                     ),
                   ),
-                ),
-                const Spacer(flex: 2),
-                GestureDetector(
-                  onTap: () => context
-                      .read<LoginCubit>()
-                      .setLoginTab(PageTypes.signUp.index),
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: index == PageTypes.signUp.index
-                            ? const BorderSide(
-                                color: AllColors.primary,
-                                width: 2.0,
-                                style: BorderStyle.solid,
-                              )
-                            : BorderSide.none,
-                      ),
-                    ),
-                    child: Text(
-                      'Sign Up',
-                      style: index == PageTypes.signUp.index
-                          ? AllStyles.headlineActive
-                          : AllStyles.headlineNotActive,
-                    ),
+                  child: Text(
+                    'Sign In',
+                    style: index == PageTypes.signIn.index
+                        ? AllStyles.headlineActive
+                        : AllStyles.headlineNotActive,
                   ),
                 ),
-                const Spacer(flex: 1),
-              ],
-            ),
-            //! old value const SizedBox(height: 73),
-            const SizedBox(height: 33),
-            body,
-            //! old value const SizedBox(height: 40),
-          ],
-        ),
+              ),
+              const Spacer(flex: 2),
+              GestureDetector(
+                onTap: () => context
+                    .read<LoginCubit>()
+                    .setLoginTab(PageTypes.signUp.index),
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: index == PageTypes.signUp.index
+                          ? const BorderSide(
+                              color: AllColors.primary,
+                              width: 2.0,
+                              style: BorderStyle.solid,
+                            )
+                          : BorderSide.none,
+                    ),
+                  ),
+                  child: Text(
+                    'Sign Up',
+                    style: index == PageTypes.signUp.index
+                        ? AllStyles.headlineActive
+                        : AllStyles.headlineNotActive,
+                  ),
+                ),
+              ),
+              const Spacer(flex: 1),
+            ],
+          ),
+          //! old value const SizedBox(height: 73),
+          const SizedBox(height: 33),
+          body,
+          //! old value const SizedBox(height: 40),
+        ],
       ),
     );
   }
