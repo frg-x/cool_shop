@@ -14,7 +14,7 @@ import 'ui/home_screen/home_screen.dart';
 import 'package:cool_shop/ui/profile_screen/profile_screen.dart';
 
 class GlobalUrls {
-  static const String baseUrl = 'https://9e55-188-163-49-239.ngrok.io';
+  static const String baseUrl = 'https://340b-188-163-50-49.ngrok.io';
   static const String loginEndpoint = '/api/Person/Login';
   static const String refreshTokenEndpoint = '/api/Person/RefreshToken';
   static const String createUserEndpoint = '/api/Person/CreateUser';

@@ -16,7 +16,7 @@ class TabSwitchingCubit extends Cubit<TabSwitchingState> {
     emit(TabsSwitch(activeScreenNumber));
   }
 
-  int get getActiveTabNumber => activeScreenNumber;
+  //int get getActiveTabNumber => activeScreenNumber;
 
   void setInitialTabNumber() {
     emit(TabsSwitch(initialTabNumber));

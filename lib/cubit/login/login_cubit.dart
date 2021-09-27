@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/login/models/data.dart';
+import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
 import 'package:cool_shop/main.dart';
 import 'package:cool_shop/utilities/network_service.dart';
 import 'package:cool_shop/utilities/secure_storage.dart';
@@ -96,6 +97,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   void signOut() async {
     clearUserInfo();
+    getIt<TabSwitchingCubit>().setActiveTabNumber(0);
     emit(LoginStatus(
         data, MessageType.error, 'You\'ve signed out', ShowOnScreen.byDefault));
   }

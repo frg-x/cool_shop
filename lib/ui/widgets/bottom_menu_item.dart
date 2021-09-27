@@ -1,5 +1,6 @@
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/tab_switching/tab_switching_cubit.dart';
+import 'package:cool_shop/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +28,7 @@ class _BottomMenuItemState extends State<BottomMenuItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context
-            .read<TabSwitchingCubit>()
-            .setActiveTabNumber(widget.screenNumber);
+        getIt<TabSwitchingCubit>().setActiveTabNumber(widget.screenNumber);
       },
       child: SizedBox(
         width: 52,

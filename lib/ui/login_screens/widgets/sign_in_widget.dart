@@ -3,6 +3,7 @@
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
 import 'package:cool_shop/ui/login_screens/reset_password_screen.dart';
+import 'package:cool_shop/ui/tabs_screen.dart';
 import 'package:cool_shop/ui/verify_auth_status_screen.dart';
 import 'package:cool_shop/ui/widgets/big_button.dart';
 import 'package:cool_shop/ui/widgets/big_text_field.dart';
@@ -28,16 +29,7 @@ class _SignInWidgetState extends State<SignInWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
-      listener: (context, state) {
-        if (state is LoginStatus && state.messageType == MessageType.success) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const VerifyAuthStatusScreen(),
-            ),
-          );
-        }
-      },
+    return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         if (state is LoginStatus) {
           email = state.data.email;

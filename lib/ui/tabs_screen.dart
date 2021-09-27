@@ -35,7 +35,7 @@ class _TabsScreenState extends State<TabsScreen> {
           bottomNavigationBar:
               MyBottomNavigationBar(activeScreen: activeScreenNumber),
           body: screensList[activeScreenNumber],
-          floatingActionButton: const CustomFAB(),
+          //floatingActionButton: const CustomFAB(),
         );
       },
     );

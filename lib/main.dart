@@ -32,6 +32,7 @@ void main() {
 void registerDependencies() {
   //getIt.registerFactory<LoginCubit>(() => LoginCubit({}));
   getIt.registerLazySingleton<LoginCubit>(() => LoginCubit());
+  getIt.registerLazySingleton<TabSwitchingCubit>(() => TabSwitchingCubit());
   getIt.registerLazySingleton<NetworkService>(() => NetworkService());
 }
 
@@ -42,8 +43,8 @@ class CoolShop extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => TabSwitchingCubit()),
         //BlocProvider(create: (context) => getIt<LoginCubit>()),
+        BlocProvider.value(value: getIt<TabSwitchingCubit>()),
         BlocProvider.value(value: getIt<LoginCubit>()),
         BlocProvider(create: (context) => ProductsCubit()),
         BlocProvider(create: (context) => CartCubit()),
