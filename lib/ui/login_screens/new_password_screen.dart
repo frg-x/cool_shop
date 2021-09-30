@@ -138,9 +138,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       style: AllStyles.bigButton,
                     ),
                     onPress: verifyPasswords()
-                        ? () => context
-                            .read<LoginCubit>()
-                            .verifyEmailByCode(password)
+                        ? () =>
+                            context.read<LoginCubit>().saveNewPassword(password)
                         : null,
                   ),
                 ],

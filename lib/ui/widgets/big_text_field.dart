@@ -108,10 +108,13 @@ class _BigTextFieldState extends State<BigTextField> {
                           color: AllColors.success,
                           size: 28,
                         )
-                      : const Icon(
-                          Icons.clear,
-                          color: AllColors.error,
-                          size: 28,
+                      : GestureDetector(
+                          onTap: () => widget.onChanged(''),
+                          child: const Icon(
+                            Icons.clear,
+                            color: AllColors.error,
+                            size: 28,
+                          ),
                         )),
               isDense: true,
               contentPadding: const EdgeInsets.fromLTRB(20, 38, 24, 18),

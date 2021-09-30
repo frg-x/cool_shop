@@ -2,9 +2,11 @@
 
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
+import 'package:cool_shop/main.dart';
 import 'package:cool_shop/ui/login_screens/new_password_screen.dart';
 import 'package:cool_shop/ui/widgets/big_button.dart';
 import 'package:cool_shop/ui/widgets/big_text_field.dart';
+import 'package:cool_shop/ui/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +68,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               const SizedBox(height: 16),
               BlocBuilder<LoginCubit, LoginState>(
                 builder: (context, state) {
-                  print('verify email screen state: $state');
                   if (state is LoginStatus) {
                     code = state.data.verifyCode ?? '';
                     return Column(
@@ -78,9 +79,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                           type: TextFieldType.code,
                           labelText: 'Code',
                           errorText: '',
-                          isValid: true,
+                          isValid: context.read<LoginCubit>().data.isCodeValid,
                           onChanged: (value) {
-                            context.read<LoginCubit>().setVerifyCode(value);
+                            context.read<LoginCubit>().validateCode(value);
                             context.read<LoginCubit>().validateFields();
                           },
                         ),
@@ -95,7 +96,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                                   AllStyles.dark14w400.copyWith(height: 1.42),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () => showCustomSnackbar(
+                                  context: context,
+                                  text: 'Function was not implemented',
+                                  duration: 3),
                               child: const Text(
                                 'Resend ',
                                 style: AllStyles.dark14w600,
@@ -109,11 +113,14 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             'CONTINUE',
                             style: AllStyles.bigButton,
                           ),
-                          onPress: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const NewPasswordScreen(),
-                            ),
-                          ),
+                          onPress: getIt<LoginCubit>().data.isCodeValid
+                              ? () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const NewPasswordScreen(),
+                                    ),
+                                  )
+                              : null,
                         ),
                       ],
                     );

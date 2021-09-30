@@ -2,7 +2,7 @@
 
 import 'package:cool_shop/constants.dart';
 import 'package:cool_shop/cubit/login/login_cubit.dart';
-import 'package:cool_shop/ui/tabs_screen.dart';
+import 'package:cool_shop/main.dart';
 import 'package:cool_shop/ui/verify_auth_status_screen.dart';
 import 'package:cool_shop/ui/widgets/big_button.dart';
 import 'package:cool_shop/ui/widgets/big_text_field.dart';
@@ -20,10 +20,9 @@ class SignUpConfirmationScreen extends StatefulWidget {
 }
 
 class _SignUpConfirmationScreenState extends State<SignUpConfirmationScreen> {
-  String code = '';
-
   @override
   Widget build(BuildContext context) {
+    context.read<LoginCubit>().validateCode('');
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -63,7 +62,7 @@ class _SignUpConfirmationScreenState extends State<SignUpConfirmationScreen> {
                 style: AllStyles.dark14w400.copyWith(height: 1.42),
               ),
               const SizedBox(height: 16),
-              BlocListener<LoginCubit, LoginState>(
+              BlocConsumer<LoginCubit, LoginState>(
                 listener: (context, state) {
                   if (state is LoginStatus &&
                       state.messageType == MessageType.error &&
@@ -81,57 +80,75 @@ class _SignUpConfirmationScreenState extends State<SignUpConfirmationScreen> {
                     );
                   }
                 },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigTextField(
-                      text: code,
-                      type: TextFieldType.code,
-                      labelText: 'Code',
-                      errorText: '',
-                      isValid: true,
-                      onChanged: (value) =>
-                          context.read<LoginCubit>().setVerifyCode(value),
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
+                builder: (context, state) {
+                  if (state is LoginStatus) {
+                    return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Didn\'t receive email? ',
-                          style: AllStyles.dark14w400.copyWith(height: 1.42),
+                        BigTextField(
+                          text: getIt<LoginCubit>().getVerifyCode!,
+                          type: TextFieldType.code,
+                          labelText: 'Code',
+                          errorText: '',
+                          isValid: state.data.isCodeValid,
+                          onChanged: (value) {
+                            context.read<LoginCubit>().validateCode(value);
+                          },
                         ),
-                        GestureDetector(
-                          onTap: () => context
-                              .read<LoginCubit>()
-                              .resendSignUpVerifyToken(),
+                        const SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Didn\'t receive email? ',
+                              style:
+                                  AllStyles.dark14w400.copyWith(height: 1.42),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<LoginCubit>()
+                                    .resendSignUpVerifyToken();
+                                showCustomSnackbar(
+                                  context: context,
+                                  text:
+                                      'We just sent a verification code on your email. Please enter it below',
+                                  duration: 3,
+                                );
+                              },
+                              child: const Text(
+                                'Resend ',
+                                style: AllStyles.dark14w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 55),
+                        BigButton(
                           child: const Text(
-                            'Resend ',
-                            style: AllStyles.dark14w600,
+                            'CONTINUE',
+                            style: AllStyles.bigButton,
                           ),
+                          onPress: getIt<LoginCubit>().data.isCodeValid
+                              ? () => getIt<LoginCubit>().verifyNewUser()
+                              : null,
+                        ),
+                        const SizedBox(height: 24),
+                        BigButton(
+                          child: const Text(
+                            'SIGN OUT',
+                            style: AllStyles.bigButton,
+                          ),
+                          onPress: () => context.read<LoginCubit>().signOut(),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 55),
-                    BigButton(
-                      child: const Text(
-                        'CONTINUE',
-                        style: AllStyles.bigButton,
-                      ),
-                      onPress: () => context.read<LoginCubit>().verifyNewUser(),
-                    ),
-                    const SizedBox(height: 24),
-                    BigButton(
-                      child: const Text(
-                        'SIGN OUT',
-                        style: AllStyles.bigButton,
-                      ),
-                      onPress: () => context.read<LoginCubit>().signOut(),
-                    ),
-                  ],
-                ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
               ),
             ],
           ),

@@ -115,27 +115,6 @@ class NetworkService {
     );
   }
 
-  // Future<void> getNewAccessToken() async {
-  //   try {
-  //     Response? response = await _dio.post(
-  //       GlobalUrls.refreshTokenEndpoint,
-  //       data: jsonEncode({'refreshToken': checkedRefreshToken}),
-  //     );
-  //     if (response.statusCode == 200) {
-  //       checkedAccessToken = response.data['accessToken'];
-  //       checkedRefreshToken = response.data['refreshToken'];
-  //     } else {
-  //       throw Exception(response.statusMessage);
-  //     }
-  //   } on DioError catch (ex) {
-  //     if (ex.type == DioErrorType.connectTimeout) {
-  //       throw Exception("Connection Timeout Exception");
-  //     } else {
-  //       throw Exception('${ex.error}\n${ex.response!.data}');
-  //     }
-  //   }
-  // }
-
   Future<Map?> login(String email, String password) async {
     try {
       Response? response = await _dio.post(

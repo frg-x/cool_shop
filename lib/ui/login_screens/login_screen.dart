@@ -34,6 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
           showCustomSnackbar(
               context: context, text: state.message, duration: 3);
         }
+        if (state is LoginStatus && state.messageType == MessageType.success) {
+          // print(state.message);
+          // print(state.messageType);
+          // print(state.showOnScreen);
+          showCustomSnackbar(
+              context: context, text: state.message, duration: 2);
+        }
       },
       builder: (context, state) {
         int currentPageIndex = context.read<LoginCubit>().data.currentLoginTab;

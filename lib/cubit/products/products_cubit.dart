@@ -1,4 +1,3 @@
-import 'package:cool_shop/ui/categories_screen/filters_screen/models/filter_size.dart';
 import 'package:cool_shop/data/shop_repository.dart';
 import 'package:cool_shop/models/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,11 +6,7 @@ part 'products_state.dart';
 class ProductsCubit extends Cubit<ProductsState> {
   final ShopRepository _shopRepository = ShopRepository();
 
-  List<FilterSize> filterSizes = [];
-
-  ProductsCubit() : super(const ProductsInitial()) {
-    //getProducts();
-  }
+  ProductsCubit() : super(const ProductsInitial());
 
   void getProducts() async {
     try {
@@ -24,7 +19,4 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(ProductsError(e.toString()));
     }
   }
-
-  //List<FilterSize> getProductSizes(int productId) =>
-
 }

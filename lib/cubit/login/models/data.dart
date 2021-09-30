@@ -1,20 +1,21 @@
 class Data {
   Data({
-    required this.userId,
-    required this.userName,
-    required this.email,
-    required this.password,
-    required this.verifyCode,
-    required this.isNameValid,
-    required this.isEmailValid,
-    required this.isPasswordValid,
-    required this.verifiedOne,
-    required this.verifiedTwo,
-    required this.verifiedThree,
-    required this.isCodeFilled,
-    required this.isLogged,
-    required this.isVerified,
-    required this.currentLoginTab,
+    this.userId = '',
+    this.userName = '',
+    this.email = '',
+    this.password = '',
+    this.verifyCode = '',
+    this.isNameValid = false,
+    this.isEmailValid = false,
+    this.isPasswordValid = false,
+    this.isCodeValid = false,
+    this.verifiedOne = false,
+    this.verifiedTwo = false,
+    this.verifiedThree = false,
+    this.isLogged = false,
+    this.isVerified = false,
+    this.currentLoginTab = 0,
+    this.message = '',
   });
 
   String userId;
@@ -27,17 +28,18 @@ class Data {
   bool isNameValid;
   bool isEmailValid;
   bool isPasswordValid;
+  bool isCodeValid;
 
   bool verifiedOne;
   bool verifiedTwo;
   bool verifiedThree;
 
-  bool isCodeFilled;
-
   bool? isLogged;
   bool? isVerified;
 
   int currentLoginTab;
+
+  String message;
 
   void clear() {
     userId = '';
@@ -54,8 +56,6 @@ class Data {
     verifiedOne = false;
     verifiedTwo = false;
     verifiedThree = false;
-
-    isCodeFilled = false;
 
     isLogged = false;
     isVerified = false;
